@@ -1,0 +1,1091 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guia de Estudo React - Revisão de 1 Hora</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --surface: #ffffff;
+      --surface-2: #eef4f8;
+      --text: #20242c;
+      --muted: #5d6675;
+      --line: #d9e0e8;
+      --blue: #2563eb;
+      --green: #15803d;
+      --red: #b42318;
+      --amber: #b45309;
+      --ink: #111827;
+      --code-bg: #151923;
+      --code-text: #eef2ff;
+      --shadow: 0 10px 30px rgba(33, 46, 69, 0.08);
+      font-family: Inter, "Segoe UI", system-ui, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    header {
+      color: white;
+      background:
+        linear-gradient(rgba(14, 23, 38, 0.72), rgba(14, 23, 38, 0.72)),
+        url("aula03/src/assets/hero.png") center / cover;
+      min-height: 48vh;
+      display: flex;
+      align-items: end;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .hero-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 56px 0 34px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 12px;
+      color: #cfe0ff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    h1 {
+      max-width: 860px;
+      margin: 0;
+      font-size: clamp(2.25rem, 6vw, 5rem);
+      line-height: 0.96;
+      letter-spacing: 0;
+    }
+
+    .hero-text {
+      max-width: 780px;
+      margin: 18px 0 0;
+      color: #edf4ff;
+      font-size: 1.1rem;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(247, 248, 251, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px 0;
+    }
+
+    nav a {
+      flex: 0 0 auto;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.93rem;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 8px;
+      padding: 8px 12px;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 64px;
+    }
+
+    section {
+      margin: 28px 0;
+      padding-top: 6px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      color: var(--ink);
+      font-size: clamp(1.55rem, 3vw, 2.2rem);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      color: var(--ink);
+      font-size: 1.15rem;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    ul,
+    ol {
+      margin: 10px 0 0;
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 6px 0;
+    }
+
+    code {
+      background: #eef1f6;
+      color: #172033;
+      border: 1px solid #dde3eb;
+      border-radius: 5px;
+      padding: 1px 5px;
+      font-family: Consolas, "Cascadia Code", monospace;
+      font-size: 0.92em;
+    }
+
+    pre {
+      margin: 12px 0 0;
+      padding: 16px;
+      overflow-x: auto;
+      color: var(--code-text);
+      background: var(--code-bg);
+      border-radius: 8px;
+      border: 1px solid #2b3140;
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    pre code {
+      display: block;
+      color: inherit;
+      background: transparent;
+      border: 0;
+      padding: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      color: var(--ink);
+      background: #f0f5fb;
+      font-size: 0.92rem;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    details {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px 14px;
+      box-shadow: var(--shadow);
+    }
+
+    details + details {
+      margin-top: 10px;
+    }
+
+    summary {
+      cursor: pointer;
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+
+    .panel {
+      grid-column: span 12;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .half {
+      grid-column: span 6;
+    }
+
+    .third {
+      grid-column: span 4;
+    }
+
+    .two-third {
+      grid-column: span 8;
+    }
+
+    .note {
+      border-left: 5px solid var(--blue);
+      background: #eef5ff;
+    }
+
+    .warning {
+      border-left: 5px solid var(--amber);
+      background: #fff7ed;
+    }
+
+    .danger {
+      border-left: 5px solid var(--red);
+      background: #fff1f1;
+    }
+
+    .success {
+      border-left: 5px solid var(--green);
+      background: #f0fdf4;
+    }
+
+    .study-layout {
+      display: grid;
+      grid-template-columns: minmax(260px, 360px) 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .timer-box {
+      position: sticky;
+      top: 68px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .timer-display {
+      display: block;
+      margin: 8px 0 14px;
+      color: var(--ink);
+      font-size: 2.4rem;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    button {
+      cursor: pointer;
+      border: 1px solid #1d4ed8;
+      border-radius: 8px;
+      color: white;
+      background: var(--blue);
+      padding: 9px 12px;
+      font-weight: 800;
+      font: inherit;
+    }
+
+    button.secondary {
+      color: var(--ink);
+      background: white;
+      border-color: var(--line);
+    }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0 0;
+    }
+
+    .checklist label {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 8px;
+      align-items: start;
+      cursor: pointer;
+    }
+
+    .checklist input {
+      margin-top: 4px;
+      inline-size: 16px;
+      block-size: 16px;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #f6fafc;
+      padding: 4px 10px;
+      color: var(--ink);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .mini-title {
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 900;
+      letter-spacing: 0.07em;
+      margin: 0 0 8px;
+      text-transform: uppercase;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 10px;
+    }
+
+    .time-row {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 12px;
+      padding: 12px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .time {
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+    .file-name {
+      display: inline-block;
+      margin-bottom: 6px;
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+    .kbd {
+      display: inline-flex;
+      min-width: 28px;
+      justify-content: center;
+      border: 1px solid #c7d0dd;
+      border-bottom-width: 2px;
+      border-radius: 5px;
+      background: white;
+      padding: 1px 6px;
+      font-family: Consolas, monospace;
+      font-size: 0.9em;
+      font-weight: 700;
+    }
+
+    .print-tip {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 880px) {
+      header {
+        min-height: 42vh;
+      }
+
+      .study-layout,
+      .grid {
+        display: block;
+      }
+
+      .panel,
+      .timer-box {
+        margin-bottom: 14px;
+      }
+
+      .timer-box {
+        position: static;
+      }
+
+      .time-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      nav,
+      .timer-box,
+      button {
+        display: none;
+      }
+
+      body {
+        background: white;
+      }
+
+      header {
+        min-height: auto;
+        color: var(--ink);
+        background: white;
+      }
+
+      .hero-text,
+      .eyebrow {
+        color: var(--ink);
+      }
+
+      main,
+      .hero-inner {
+        width: 100%;
+      }
+
+      .panel,
+      details,
+      table {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hero-inner">
+      <p class="eyebrow">React + Vite + JavaScript</p>
+      <h1>Guia de revisão para prova em 1 hora</h1>
+      <p class="hero-text">
+        Resumo organizado a partir dos projetos <strong>aula03</strong>,
+        <strong>calculadora</strong> e <strong>todolist</strong>. Foque nos
+        conceitos, reconheça os padrões de código e treine explicar cada linha.
+      </p>
+    </div>
+  </header>
+
+  <nav aria-label="Navegação do guia">
+    <div class="nav-inner">
+      <a href="#roteiro">Roteiro</a>
+      <a href="#mapa">Mapa dos arquivos</a>
+      <a href="#conceitos">Conceitos</a>
+      <a href="#componentes">Componentes</a>
+      <a href="#estado-eventos">Estado e eventos</a>
+      <a href="#listas-formularios">Listas e formulários</a>
+      <a href="#css-vite">CSS e Vite</a>
+      <a href="#erros">Atenção</a>
+      <a href="#treino">Treino</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="roteiro" class="study-layout">
+      <aside class="timer-box" aria-label="Temporizador de estudos">
+        <p class="mini-title">Temporizador</p>
+        <strong class="timer-display" id="timer">60:00</strong>
+        <div class="button-row">
+          <button id="startBtn" type="button">Iniciar</button>
+          <button id="pauseBtn" type="button" class="secondary">Pausar</button>
+          <button id="resetBtn" type="button" class="secondary">Reiniciar</button>
+        </div>
+        <p class="print-tip">
+          Para prova, tente responder sem consultar primeiro. Depois confira no guia.
+        </p>
+      </aside>
+
+      <div>
+        <h2>Roteiro de 60 minutos</h2>
+        <div class="timeline">
+          <div class="time-row">
+            <div class="time">0-10 min</div>
+            <div><strong>Estrutura do projeto.</strong> Entenda Vite, `index.html`, `main.jsx`, `App.jsx`, imports e exports.</div>
+          </div>
+          <div class="time-row">
+            <div class="time">10-25 min</div>
+            <div><strong>Componentes e props.</strong> Releia o exemplo `Car` e `Combustao`; explique como `modelo` e `tipomotor` entram no JSX.</div>
+          </div>
+          <div class="time-row">
+            <div class="time">25-40 min</div>
+            <div><strong>useState e eventos.</strong> Revise calculadora e mudança de motor; pratique `onClick` e `onChange`.</div>
+          </div>
+          <div class="time-row">
+            <div class="time">40-52 min</div>
+            <div><strong>Listas e formulários.</strong> Foque em `map`, `filter`, `key`, input controlado, `trim` e tecla Enter.</div>
+          </div>
+          <div class="time-row">
+            <div class="time">52-60 min</div>
+            <div><strong>Simulado rápido.</strong> Responda as perguntas do final e decore os padrões de código.</div>
+          </div>
+        </div>
+
+        <div class="panel success" style="margin-top: 16px;">
+          <h3>Checklist mínimo antes da prova</h3>
+          <ul class="checklist" id="checklist">
+            <li><label><input type="checkbox"> Sei explicar o que é um componente React.</label></li>
+            <li><label><input type="checkbox"> Sei passar dados de pai para filho usando props.</label></li>
+            <li><label><input type="checkbox"> Sei criar estado com `const [valor, setValor] = useState(inicial)`.</label></li>
+            <li><label><input type="checkbox"> Sei capturar eventos com `onClick`, `onChange` e `onKeyDown`.</label></li>
+            <li><label><input type="checkbox"> Sei renderizar listas com `map` e remover itens com `filter`.</label></li>
+            <li><label><input type="checkbox"> Sei diferenciar `value`, `placeholder` e `e.target.value`.</label></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="mapa">
+      <h2>Mapa dos arquivos</h2>
+      <div class="grid">
+        <article class="panel third">
+          <span class="file-name">aula03</span>
+          <p>Mostra componentes separados em arquivos, props e mudança de estado.</p>
+          <ul>
+            <li>`App.jsx` importa e usa o componente `Car` três vezes.</li>
+            <li>`Veiculo.jsx` define `Car` e `Combustao`.</li>
+            <li>Usa `useState` para trocar motor de combustão para elétrico.</li>
+          </ul>
+        </article>
+
+        <article class="panel third">
+          <span class="file-name">calculadora</span>
+          <p>Mostra inputs numéricos, conversão de texto para número e cálculo com estado.</p>
+          <ul>
+            <li>`numero1`, `numero2` e `resultado` ficam no estado.</li>
+            <li>`onChange` lê o valor digitado.</li>
+            <li>`Number(...)` evita concatenação de strings.</li>
+          </ul>
+        </article>
+
+        <article class="panel third">
+          <span class="file-name">todolist</span>
+          <p>Mostra CRUD simples: adicionar, listar e remover tarefas.</p>
+          <ul>
+            <li>`tasks` é um array no estado.</li>
+            <li>`input` é um campo controlado.</li>
+            <li>`map` renderiza e `filter` remove.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="conceitos">
+      <h2>Conceitos essenciais</h2>
+      <div class="grid">
+        <article class="panel half">
+          <h3>React</h3>
+          <p>
+            React é uma biblioteca JavaScript para criar interfaces. A tela é dividida
+            em <strong>componentes</strong>, que retornam JSX.
+          </p>
+          <pre><code>function App() {
+  return &lt;h1&gt;Olá, React&lt;/h1&gt;;
+}</code></pre>
+        </article>
+
+        <article class="panel half">
+          <h3>Vite</h3>
+          <p>
+            Vite é a ferramenta que cria e roda o projeto durante o desenvolvimento.
+            O comando mais comum é `npm run dev`.
+          </p>
+          <pre><code>{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  }
+}</code></pre>
+        </article>
+
+        <article class="panel half">
+          <h3>JSX</h3>
+          <p>
+            JSX parece HTML, mas é JavaScript. Por isso, expressões entram entre chaves:
+            `{variavel}`, `{funcao()}`, `{condicao ? a : b}`.
+          </p>
+          <pre><code>&lt;h1&gt;Resultado: {resultado}&lt;/h1&gt;
+&lt;button onClick={somar}&gt;Calcular&lt;/button&gt;</code></pre>
+        </article>
+
+        <article class="panel half">
+          <h3>Renderização inicial</h3>
+          <p>
+            O `index.html` tem uma div com `id="root"`. O `main.jsx` pega essa div
+            e manda o React renderizar o componente principal.
+          </p>
+          <pre><code>createRoot(document.getElementById('root')).render(
+  &lt;StrictMode&gt;
+    &lt;App /&gt;
+  &lt;/StrictMode&gt;
+);</code></pre>
+        </article>
+      </div>
+    </section>
+
+    <section id="componentes">
+      <h2>Componentes, props, import e export</h2>
+      <div class="grid">
+        <article class="panel two-third">
+          <h3>Componente é uma função que retorna JSX</h3>
+          <p>
+            No React, componentes normalmente começam com letra maiúscula. O arquivo
+            `Veiculo.jsx` exporta `Car`, e o `App.jsx` importa esse componente.
+          </p>
+          <pre><code>import Car from './Veiculo.jsx';
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Car modelo="Fusca" /&gt;
+      &lt;Car modelo="Civic" /&gt;
+      &lt;Car modelo="Mustang" /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+        </article>
+
+        <article class="panel third note">
+          <h3>Ideia que cai muito</h3>
+          <p>
+            `App` é componente pai. `Car` é filho. Quando escrevemos
+            `&lt;Car modelo="Fusca" /&gt;`, o valor `"Fusca"` chega no filho dentro de `props.modelo`.
+          </p>
+        </article>
+
+        <article class="panel half">
+          <h3>Props</h3>
+          <p>
+            Props são dados recebidos pelo componente. Elas vêm do componente pai
+            e são usadas para personalizar o componente filho.
+          </p>
+          <pre><code>function Car(props) {
+  return &lt;h1&gt;Meu carro é {props.modelo}&lt;/h1&gt;;
+}</code></pre>
+        </article>
+
+        <article class="panel half">
+          <h3>Componente dentro de componente</h3>
+          <p>
+            `Combustao` recebe `tipomotor` e é usado dentro de `Car`. Isso mostra
+            composição: montar uma interface juntando peças menores.
+          </p>
+          <pre><code>function Combustao(props) {
+  return &lt;h1&gt;{props.tipomotor}&lt;/h1&gt;;
+}
+
+function Car(props) {
+  return &lt;Combustao tipomotor="ELÉTRICO" /&gt;;
+}</code></pre>
+        </article>
+      </div>
+    </section>
+
+    <section id="estado-eventos">
+      <h2>Estado e eventos</h2>
+      <div class="grid">
+        <article class="panel half">
+          <h3>`useState`</h3>
+          <p>
+            Estado é uma informação que o componente guarda e que, quando muda,
+            faz a tela atualizar. `useState` devolve duas coisas: o valor atual
+            e a função para mudar esse valor.
+          </p>
+          <pre><code>const [motor, setMotor] = useState("COMBUSTÃO");
+
+// motor: valor atual
+// setMotor: função que altera o valor</code></pre>
+        </article>
+
+        <article class="panel half">
+          <h3>`onClick`</h3>
+          <p>
+            Evento de clique. No exemplo do carro, o botão chama uma função que
+            troca o estado de `"COMBUSTÃO"` para `"ELÉTRICO"`.
+          </p>
+          <pre><code>&lt;button onClick={() =&gt; setMotor("ELÉTRICO")}&gt;
+  Mudar para Elétrico
+&lt;/button&gt;</code></pre>
+        </article>
+
+        <article class="panel two-third">
+          <h3>Calculadora: três estados</h3>
+          <p>
+            A calculadora tem um estado para cada número e outro para o resultado.
+            O cálculo só aparece corretamente porque os inputs são convertidos com `Number`.
+          </p>
+          <pre><code>const [numero1, setNumero1] = useState(0);
+const [numero2, setNumero2] = useState(0);
+const [resultado, setResultado] = useState(0);
+
+function somar() {
+  setResultado(numero1 + numero2);
+}</code></pre>
+        </article>
+
+        <article class="panel third warning">
+          <h3>Atenção na prova</h3>
+          <p>
+            Valor de input vem como texto. Sem `Number`, `"2" + "3"` vira `"23"`,
+            não `5`.
+          </p>
+          <pre><code>onChange={(e) =&gt; {
+  setNumero1(Number(e.target.value));
+}}</code></pre>
+        </article>
+      </div>
+    </section>
+
+    <section id="listas-formularios">
+      <h2>Listas, formulários e arrays</h2>
+      <div class="grid">
+        <article class="panel half">
+          <h3>Input controlado</h3>
+          <p>
+            No `todolist`, o input é controlado porque o valor exibido vem do estado
+            e toda digitação atualiza esse estado.
+          </p>
+          <pre><code>const [input, setInput] = useState('');
+
+&lt;input
+  type="text"
+  value={input}
+  onChange={e =&gt; setInput(e.target.value)}
+/&gt;</code></pre>
+        </article>
+
+        <article class="panel half">
+          <h3>Adicionar item sem alterar o array original</h3>
+          <p>
+            React prefere atualização imutável: cria-se um novo array com spread
+            `...ts` e adiciona-se a nova tarefa no final.
+          </p>
+          <pre><code>setTasks(ts =&gt; [
+  ...ts,
+  { id: Date.now(), title: trimmed }
+]);</code></pre>
+        </article>
+
+        <article class="panel half">
+          <h3>`map` para renderizar lista</h3>
+          <p>
+            `map` transforma cada tarefa em um elemento `li`. O `key` ajuda o React
+            a identificar cada item.
+          </p>
+          <pre><code>{tasks.map(t =&gt; (
+  &lt;li key={t.id}&gt;
+    {t.title}
+  &lt;/li&gt;
+))}</code></pre>
+        </article>
+
+        <article class="panel half">
+          <h3>`filter` para remover</h3>
+          <p>
+            `filter` cria um novo array mantendo apenas os itens cujo `id` é diferente
+            do item removido.
+          </p>
+          <pre><code>const remove = (id) =&gt; {
+  setTasks(ts =&gt; ts.filter(t =&gt; t.id !== id));
+};</code></pre>
+        </article>
+
+        <article class="panel half">
+          <h3>Renderização condicional</h3>
+          <p>
+            O operador ternário escolhe o que aparece na tela: uma mensagem se não
+            houver tarefas, ou a lista se houver.
+          </p>
+          <pre><code>{tasks.length === 0
+  ? &lt;p&gt;Nenhuma tarefa adicionada.&lt;/p&gt;
+  : &lt;ul&gt;...&lt;/ul&gt;
+}</code></pre>
+        </article>
+
+        <article class="panel half">
+          <h3>Evento de teclado</h3>
+          <p>
+            `onKeyDown` recebe o evento do teclado. Se a tecla for Enter, a função
+            `add` é chamada.
+          </p>
+          <pre><code>const onKey = (e) =&gt; {
+  if (e.key === 'Enter') add();
+};</code></pre>
+        </article>
+      </div>
+    </section>
+
+    <section id="css-vite">
+      <h2>CSS, estrutura e comandos</h2>
+      <div class="grid">
+        <article class="panel half">
+          <h3>Importação de CSS</h3>
+          <p>
+            O CSS pode ser importado direto no JavaScript. `main.jsx` importa
+            `index.css`; `App.jsx` importa `App.css`.
+          </p>
+          <pre><code>import './index.css';
+import './App.css';</code></pre>
+        </article>
+
+        <article class="panel half">
+          <h3>Variáveis CSS</h3>
+          <p>
+            No `index.css`, `:root` define variáveis reutilizáveis, como cores,
+            fonte e sombra.
+          </p>
+          <pre><code>:root {
+  --text: #6b6375;
+  --bg: #fff;
+  --accent: #aa3bff;
+}</code></pre>
+        </article>
+
+        <article class="panel half">
+          <h3>Responsividade</h3>
+          <p>
+            `@media` aplica estilos diferentes conforme o tamanho da tela ou
+            preferência do usuário.
+          </p>
+          <pre><code>@media (max-width: 1024px) {
+  h1 {
+    font-size: 36px;
+  }
+}</code></pre>
+        </article>
+
+        <article class="panel half">
+          <h3>Comandos do projeto</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Comando</th>
+                <th>Para que serve</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>npm run dev</code></td>
+                <td>Roda o projeto localmente em modo desenvolvimento.</td>
+              </tr>
+              <tr>
+                <td><code>npm run build</code></td>
+                <td>Gera a versão final otimizada.</td>
+              </tr>
+              <tr>
+                <td><code>npm run lint</code></td>
+                <td>Procura problemas de padrão e possíveis erros no código.</td>
+              </tr>
+              <tr>
+                <td><code>npm run preview</code></td>
+                <td>Visualiza a versão gerada pelo build.</td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+      </div>
+    </section>
+
+    <section id="erros">
+      <h2>Pontos de atenção nos arquivos</h2>
+      <div class="grid">
+        <article class="panel warning">
+          <h3>Caracteres quebrados</h3>
+          <p>
+            Em `Veiculo.jsx`, aparecem textos como `COMBUSTÃƒO` e `carrÃ£o`.
+            Isso é problema de codificação. O correto seria `COMBUSTÃO` e `carrão`.
+          </p>
+        </article>
+
+        <article class="panel warning">
+          <h3>Imports não usados</h3>
+          <p>
+            Alguns arquivos importam `reactLogo`, `viteLogo`, `heroImg` ou `useState`
+            sem usar. Isso não é o foco da lógica, mas pode aparecer no `lint`.
+          </p>
+        </article>
+
+        <article class="panel warning">
+          <h3>Código sobrando</h3>
+          <p>
+            Em `Veiculo.jsx`, há um `0` depois do `return`. Ele não ajuda em nada
+            e deveria ser removido em um código limpo.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="cola">
+      <h2>Cola rápida de sintaxe</h2>
+      <div class="grid">
+        <article class="panel third">
+          <h3>Estado</h3>
+          <pre><code>const [valor, setValor] = useState(inicial);</code></pre>
+        </article>
+        <article class="panel third">
+          <h3>Evento de clique</h3>
+          <pre><code>&lt;button onClick={funcao}&gt;OK&lt;/button&gt;</code></pre>
+        </article>
+        <article class="panel third">
+          <h3>Input</h3>
+          <pre><code>onChange={e =&gt; setValor(e.target.value)}</code></pre>
+        </article>
+        <article class="panel third">
+          <h3>Lista</h3>
+          <pre><code>{itens.map(item =&gt; (
+  &lt;li key={item.id}&gt;{item.nome}&lt;/li&gt;
+))}</code></pre>
+        </article>
+        <article class="panel third">
+          <h3>Remover</h3>
+          <pre><code>setItens(xs =&gt; xs.filter(x =&gt; x.id !== id));</code></pre>
+        </article>
+        <article class="panel third">
+          <h3>Condicional</h3>
+          <pre><code>{ok ? &lt;p&gt;Sim&lt;/p&gt; : &lt;p&gt;Não&lt;/p&gt;}</code></pre>
+        </article>
+      </div>
+    </section>
+
+    <section id="treino">
+      <h2>Treino para a prova</h2>
+      <details>
+        <summary>1. O que é um componente React?</summary>
+        <p>É uma função, normalmente com nome iniciado por letra maiúscula, que retorna JSX para formar uma parte da interface.</p>
+      </details>
+
+      <details>
+        <summary>2. Para que servem props?</summary>
+        <p>Props servem para passar dados de um componente pai para um componente filho. Exemplo: `&lt;Car modelo="Fusca" /&gt;` envia `modelo` para `props.modelo`.</p>
+      </details>
+
+      <details>
+        <summary>3. O que `useState` retorna?</summary>
+        <p>Retorna um par: o valor atual do estado e uma função para alterar esse valor.</p>
+      </details>
+
+      <details>
+        <summary>4. Por que usar `Number(e.target.value)` na calculadora?</summary>
+        <p>Porque o valor de um input chega como texto. `Number` converte para número e permite soma matemática.</p>
+      </details>
+
+      <details>
+        <summary>5. Qual a diferença entre `map` e `filter` no todolist?</summary>
+        <p>`map` transforma cada tarefa em JSX para mostrar na tela. `filter` cria um novo array removendo ou mantendo itens de acordo com uma condição.</p>
+      </details>
+
+      <details>
+        <summary>6. Por que cada item da lista tem `key`?</summary>
+        <p>Para o React identificar cada item da lista de forma estável e atualizar a tela corretamente.</p>
+      </details>
+
+      <details>
+        <summary>7. Como o React entra no HTML?</summary>
+        <p>O `index.html` tem `&lt;div id="root"&gt;&lt;/div&gt;`. O `main.jsx` usa `createRoot(document.getElementById('root'))` e renderiza `&lt;App /&gt;`.</p>
+      </details>
+
+      <details>
+        <summary>8. Explique o fluxo do todolist em uma frase.</summary>
+        <p>O usuário digita no input, o estado `input` muda, `add` cria uma tarefa em `tasks`, `map` exibe a lista e `remove` usa `filter` para apagar pelo `id`.</p>
+      </details>
+
+      <div class="panel note" style="margin-top: 16px;">
+        <h3>Última revisão de 2 minutos</h3>
+        <p>
+          React monta telas com componentes. Props passam dados. Estado guarda dados
+          que mudam. Eventos disparam funções. Inputs usam `e.target.value`.
+          Arrays aparecem na tela com `map`; remoção usa `filter`; adição usa spread.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const timerEl = document.querySelector("#timer");
+    const startBtn = document.querySelector("#startBtn");
+    const pauseBtn = document.querySelector("#pauseBtn");
+    const resetBtn = document.querySelector("#resetBtn");
+    const checklist = document.querySelector("#checklist");
+
+    let remaining = 60 * 60;
+    let intervalId = null;
+
+    function renderTimer() {
+      const minutes = String(Math.floor(remaining / 60)).padStart(2, "0");
+      const seconds = String(remaining % 60).padStart(2, "0");
+      timerEl.textContent = `${minutes}:${seconds}`;
+    }
+
+    function startTimer() {
+      if (intervalId) return;
+      intervalId = setInterval(() => {
+        remaining = Math.max(0, remaining - 1);
+        renderTimer();
+        if (remaining === 0) {
+          clearInterval(intervalId);
+          intervalId = null;
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      remaining = 60 * 60;
+      renderTimer();
+    }
+
+    function saveChecklist() {
+      const states = [...checklist.querySelectorAll("input")].map(input => input.checked);
+      localStorage.setItem("reactStudyChecklist", JSON.stringify(states));
+    }
+
+    function loadChecklist() {
+      const saved = JSON.parse(localStorage.getItem("reactStudyChecklist") || "[]");
+      [...checklist.querySelectorAll("input")].forEach((input, index) => {
+        input.checked = Boolean(saved[index]);
+      });
+    }
+
+    startBtn.addEventListener("click", startTimer);
+    pauseBtn.addEventListener("click", pauseTimer);
+    resetBtn.addEventListener("click", resetTimer);
+    checklist.addEventListener("change", saveChecklist);
+    loadChecklist();
+    renderTimer();
+  </script>
+</body>
+</html>
