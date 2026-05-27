@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Guia de Estudo React - Revisão de 1 Hora</title>
+  <title>Aula de React - Revisão de 1 Hora</title>
   <style>
     :root {
       --bg: #f7f8fb;
@@ -183,6 +183,23 @@
       padding: 0;
     }
 
+    .explain {
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+
+    .explain::before {
+      content: "O que faz:";
+      display: block;
+      margin: 0 0 4px -20px;
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .explain li {
+      margin: 4px 0;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -265,190 +282,22 @@
       background: #fff7ed;
     }
 
-    .danger {
-      border-left: 5px solid var(--red);
-      background: #fff1f1;
-    }
-
-    .success {
-      border-left: 5px solid var(--green);
-      background: #f0fdf4;
-    }
-
-    .study-layout {
-      display: grid;
-      grid-template-columns: minmax(260px, 360px) 1fr;
-      gap: 18px;
-      align-items: start;
-    }
-
-    .timer-box {
-      position: sticky;
-      top: 68px;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .timer-display {
-      display: block;
-      margin: 8px 0 14px;
-      color: var(--ink);
-      font-size: 2.4rem;
-      font-weight: 900;
-      font-variant-numeric: tabular-nums;
-      line-height: 1;
-    }
-
-    .button-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    button {
-      cursor: pointer;
-      border: 1px solid #1d4ed8;
-      border-radius: 8px;
-      color: white;
-      background: var(--blue);
-      padding: 9px 12px;
-      font-weight: 800;
-      font: inherit;
-    }
-
-    button.secondary {
-      color: var(--ink);
-      background: white;
-      border-color: var(--line);
-    }
-
-    .checklist {
-      list-style: none;
-      padding: 0;
-      margin: 10px 0 0;
-    }
-
-    .checklist label {
-      display: grid;
-      grid-template-columns: 22px 1fr;
-      gap: 8px;
-      align-items: start;
-      cursor: pointer;
-    }
-
-    .checklist input {
-      margin-top: 4px;
-      inline-size: 16px;
-      block-size: 16px;
-    }
-
-    .tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      min-height: 30px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #f6fafc;
-      padding: 4px 10px;
-      color: var(--ink);
-      font-size: 0.9rem;
-      font-weight: 700;
-    }
-
-    .mini-title {
-      color: var(--muted);
-      font-size: 0.86rem;
-      font-weight: 900;
-      letter-spacing: 0.07em;
-      margin: 0 0 8px;
-      text-transform: uppercase;
-    }
-
-    .timeline {
-      display: grid;
-      gap: 10px;
-    }
-
-    .time-row {
-      display: grid;
-      grid-template-columns: 92px 1fr;
-      gap: 12px;
-      padding: 12px;
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-    }
-
-    .time {
-      color: var(--blue);
-      font-weight: 900;
-    }
-
-    .file-name {
-      display: inline-block;
-      margin-bottom: 6px;
-      color: var(--blue);
-      font-weight: 900;
-    }
-
-    .kbd {
-      display: inline-flex;
-      min-width: 28px;
-      justify-content: center;
-      border: 1px solid #c7d0dd;
-      border-bottom-width: 2px;
-      border-radius: 5px;
-      background: white;
-      padding: 1px 6px;
-      font-family: Consolas, monospace;
-      font-size: 0.9em;
-      font-weight: 700;
-    }
-
-    .print-tip {
-      margin-top: 12px;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
     @media (max-width: 880px) {
       header {
         min-height: 42vh;
       }
 
-      .study-layout,
       .grid {
         display: block;
       }
 
-      .panel,
-      .timer-box {
+      .panel {
         margin-bottom: 14px;
-      }
-
-      .timer-box {
-        position: static;
-      }
-
-      .time-row {
-        grid-template-columns: 1fr;
       }
     }
 
     @media print {
-      nav,
-      .timer-box,
-      button {
+      nav {
         display: none;
       }
 
@@ -485,113 +334,59 @@
   <header>
     <div class="hero-inner">
       <p class="eyebrow">React + Vite + JavaScript</p>
-      <h1>Guia de revisão para prova em 1 hora</h1>
+      <h1>Aula objetiva de React para prova</h1>
       <p class="hero-text">
-        Resumo organizado a partir dos projetos <strong>aula03</strong>,
-        <strong>calculadora</strong> e <strong>todolist</strong>. Foque nos
-        conceitos, reconheça os padrões de código e treine explicar cada linha.
+        Estude os fundamentos que aparecem nos exemplos: componentes, props,
+        estado, eventos, inputs, listas, renderização condicional, CSS e Vite.
+        A ideia aqui é aprender a matéria, não decorar nomes de exemplos.
       </p>
     </div>
   </header>
 
   <nav aria-label="Navegação do guia">
     <div class="nav-inner">
-      <a href="#roteiro">Roteiro</a>
-      <a href="#mapa">Mapa dos arquivos</a>
+      <a href="#mapa">Aula rápida</a>
       <a href="#conceitos">Conceitos</a>
       <a href="#componentes">Componentes</a>
       <a href="#estado-eventos">Estado e eventos</a>
       <a href="#listas-formularios">Listas e formulários</a>
       <a href="#css-vite">CSS e Vite</a>
-      <a href="#erros">Atenção</a>
+      <a href="#erros">Erros comuns</a>
       <a href="#treino">Treino</a>
     </div>
   </nav>
 
   <main>
-    <section id="roteiro" class="study-layout">
-      <aside class="timer-box" aria-label="Temporizador de estudos">
-        <p class="mini-title">Temporizador</p>
-        <strong class="timer-display" id="timer">60:00</strong>
-        <div class="button-row">
-          <button id="startBtn" type="button">Iniciar</button>
-          <button id="pauseBtn" type="button" class="secondary">Pausar</button>
-          <button id="resetBtn" type="button" class="secondary">Reiniciar</button>
-        </div>
-        <p class="print-tip">
-          Para prova, tente responder sem consultar primeiro. Depois confira no guia.
-        </p>
-      </aside>
-
-      <div>
-        <h2>Roteiro de 60 minutos</h2>
-        <div class="timeline">
-          <div class="time-row">
-            <div class="time">0-10 min</div>
-            <div><strong>Estrutura do projeto.</strong> Entenda Vite, `index.html`, `main.jsx`, `App.jsx`, imports e exports.</div>
-          </div>
-          <div class="time-row">
-            <div class="time">10-25 min</div>
-            <div><strong>Componentes e props.</strong> Releia o exemplo `Car` e `Combustao`; explique como `modelo` e `tipomotor` entram no JSX.</div>
-          </div>
-          <div class="time-row">
-            <div class="time">25-40 min</div>
-            <div><strong>useState e eventos.</strong> Revise calculadora e mudança de motor; pratique `onClick` e `onChange`.</div>
-          </div>
-          <div class="time-row">
-            <div class="time">40-52 min</div>
-            <div><strong>Listas e formulários.</strong> Foque em `map`, `filter`, `key`, input controlado, `trim` e tecla Enter.</div>
-          </div>
-          <div class="time-row">
-            <div class="time">52-60 min</div>
-            <div><strong>Simulado rápido.</strong> Responda as perguntas do final e decore os padrões de código.</div>
-          </div>
-        </div>
-
-        <div class="panel success" style="margin-top: 16px;">
-          <h3>Checklist mínimo antes da prova</h3>
-          <ul class="checklist" id="checklist">
-            <li><label><input type="checkbox"> Sei explicar o que é um componente React.</label></li>
-            <li><label><input type="checkbox"> Sei passar dados de pai para filho usando props.</label></li>
-            <li><label><input type="checkbox"> Sei criar estado com `const [valor, setValor] = useState(inicial)`.</label></li>
-            <li><label><input type="checkbox"> Sei capturar eventos com `onClick`, `onChange` e `onKeyDown`.</label></li>
-            <li><label><input type="checkbox"> Sei renderizar listas com `map` e remover itens com `filter`.</label></li>
-            <li><label><input type="checkbox"> Sei diferenciar `value`, `placeholder` e `e.target.value`.</label></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
     <section id="mapa">
-      <h2>Mapa dos arquivos</h2>
+      <h2>Aula rápida: o que você precisa dominar</h2>
       <div class="grid">
         <article class="panel third">
-          <span class="file-name">aula03</span>
-          <p>Mostra componentes separados em arquivos, props e mudança de estado.</p>
+          <h3>1. Componentes montam a tela</h3>
+          <p>Um componente é uma função que retorna JSX. Ele representa uma parte da interface.</p>
           <ul>
-            <li>`App.jsx` importa e usa o componente `Car` três vezes.</li>
-            <li>`Veiculo.jsx` define `Car` e `Combustao`.</li>
-            <li>Usa `useState` para trocar motor de combustão para elétrico.</li>
+            <li>Começa com letra maiúscula: `App`, `Car`, `Combustao`.</li>
+            <li>Pode ser reutilizado várias vezes.</li>
+            <li>Pode chamar outros componentes dentro dele.</li>
           </ul>
         </article>
 
         <article class="panel third">
-          <span class="file-name">calculadora</span>
-          <p>Mostra inputs numéricos, conversão de texto para número e cálculo com estado.</p>
+          <h3>2. Estado guarda o que muda</h3>
+          <p>Quando um valor precisa mudar na tela, ele deve ficar em estado com `useState`.</p>
           <ul>
-            <li>`numero1`, `numero2` e `resultado` ficam no estado.</li>
-            <li>`onChange` lê o valor digitado.</li>
-            <li>`Number(...)` evita concatenação de strings.</li>
+            <li>Número digitado em input.</li>
+            <li>Resultado de uma conta.</li>
+            <li>Lista de tarefas adicionadas pelo usuário.</li>
           </ul>
         </article>
 
         <article class="panel third">
-          <span class="file-name">todolist</span>
-          <p>Mostra CRUD simples: adicionar, listar e remover tarefas.</p>
+          <h3>3. Eventos executam ações</h3>
+          <p>Eventos ligam a ação do usuário a uma função JavaScript.</p>
           <ul>
-            <li>`tasks` é um array no estado.</li>
-            <li>`input` é um campo controlado.</li>
-            <li>`map` renderiza e `filter` remove.</li>
+            <li>`onClick` para botão.</li>
+            <li>`onChange` para digitação.</li>
+            <li>`onKeyDown` para detectar Enter.</li>
           </ul>
         </article>
       </div>
@@ -609,6 +404,11 @@
           <pre><code>function App() {
   return &lt;h1&gt;Olá, React&lt;/h1&gt;;
 }</code></pre>
+          <ul class="explain">
+            <li>`function App()` cria um componente chamado `App`.</li>
+            <li>`return` diz o que esse componente vai mostrar na tela.</li>
+            <li>`&lt;h1&gt;Olá, React&lt;/h1&gt;` mostra um título grande no navegador.</li>
+          </ul>
         </article>
 
         <article class="panel half">
@@ -625,6 +425,11 @@
     "preview": "vite preview"
   }
 }</code></pre>
+          <ul class="explain">
+            <li>`dev` inicia o projeto para programar e testar no navegador.</li>
+            <li>`build` gera a versão final do site.</li>
+            <li>`lint` procura erros e problemas de padrão no código.</li>
+          </ul>
         </article>
 
         <article class="panel half">
@@ -635,6 +440,13 @@
           </p>
           <pre><code>&lt;h1&gt;Resultado: {resultado}&lt;/h1&gt;
 &lt;button onClick={somar}&gt;Calcular&lt;/button&gt;</code></pre>
+          <ul class="explain">
+            <li>`&lt;h1&gt;` cria um título na tela.</li>
+            <li>`Resultado:` é texto fixo.</li>
+            <li>`{resultado}` mostra o valor da variável ou estado chamado `resultado`.</li>
+            <li>`&lt;button&gt;Calcular&lt;/button&gt;` cria um botão com o texto “Calcular”.</li>
+            <li>`onClick={somar}` significa: quando clicar no botão, execute a função `somar`.</li>
+          </ul>
         </article>
 
         <article class="panel half">
@@ -648,6 +460,11 @@
     &lt;App /&gt;
   &lt;/StrictMode&gt;
 );</code></pre>
+          <ul class="explain">
+            <li>`document.getElementById('root')` pega a div principal do HTML.</li>
+            <li>`createRoot(...)` entrega essa div para o React controlar.</li>
+            <li>`render(&lt;App /&gt;)` manda o React colocar o componente `App` na tela.</li>
+          </ul>
         </article>
       </div>
     </section>
@@ -658,10 +475,10 @@
         <article class="panel two-third">
           <h3>Componente é uma função que retorna JSX</h3>
           <p>
-            No React, componentes normalmente começam com letra maiúscula. O arquivo
-            `Veiculo.jsx` exporta `Car`, e o `App.jsx` importa esse componente.
+            No React, componentes normalmente começam com letra maiúscula.
+            Um componente pode ser importado e usado como se fosse uma tag HTML.
           </p>
-          <pre><code>import Car from './Veiculo.jsx';
+          <pre><code>import Car from './Car.jsx';
 
 function App() {
   return (
@@ -672,6 +489,11 @@ function App() {
     &lt;/div&gt;
   );
 }</code></pre>
+          <ul class="explain">
+            <li>`import Car from './Car.jsx'` traz o componente `Car` de outro arquivo.</li>
+            <li>`&lt;Car modelo="Fusca" /&gt;` usa o componente `Car` e envia a prop `modelo` com valor `"Fusca"`.</li>
+            <li>O mesmo componente é reutilizado três vezes, mudando só o valor da prop.</li>
+          </ul>
         </article>
 
         <article class="panel third note">
@@ -691,6 +513,11 @@ function App() {
           <pre><code>function Car(props) {
   return &lt;h1&gt;Meu carro é {props.modelo}&lt;/h1&gt;;
 }</code></pre>
+          <ul class="explain">
+            <li>`props` é o objeto com os dados recebidos pelo componente.</li>
+            <li>`props.modelo` pega o valor enviado em `modelo="..."`.</li>
+            <li>Se receber `modelo="Civic"`, a tela mostra `Meu carro é Civic`.</li>
+          </ul>
         </article>
 
         <article class="panel half">
@@ -706,6 +533,11 @@ function App() {
 function Car(props) {
   return &lt;Combustao tipomotor="ELÉTRICO" /&gt;;
 }</code></pre>
+          <ul class="explain">
+            <li>`Combustao` é um componente menor.</li>
+            <li>`tipomotor="ELÉTRICO"` envia uma prop para esse componente.</li>
+            <li>`{props.tipomotor}` mostra o valor recebido dentro do `h1`.</li>
+          </ul>
         </article>
       </div>
     </section>
@@ -724,24 +556,35 @@ function Car(props) {
 
 // motor: valor atual
 // setMotor: função que altera o valor</code></pre>
+          <ul class="explain">
+            <li>`motor` começa valendo `"COMBUSTÃO"`.</li>
+            <li>`setMotor` é a função usada para trocar esse valor.</li>
+            <li>Quando `setMotor` é chamada, o React atualiza a tela automaticamente.</li>
+          </ul>
         </article>
 
         <article class="panel half">
           <h3>`onClick`</h3>
           <p>
-            Evento de clique. No exemplo do carro, o botão chama uma função que
+            Evento de clique. Nesse padrão, o botão chama uma função que
             troca o estado de `"COMBUSTÃO"` para `"ELÉTRICO"`.
           </p>
           <pre><code>&lt;button onClick={() =&gt; setMotor("ELÉTRICO")}&gt;
   Mudar para Elétrico
 &lt;/button&gt;</code></pre>
+          <ul class="explain">
+            <li>`onClick` espera uma função para executar no clique.</li>
+            <li>`() =&gt; ...` cria uma função curta, chamada apenas quando o botão for clicado.</li>
+            <li>`setMotor("ELÉTRICO")` muda o estado `motor` para `"ELÉTRICO"`.</li>
+          </ul>
         </article>
 
         <article class="panel two-third">
-          <h3>Calculadora: três estados</h3>
+          <h3>Soma: três estados</h3>
           <p>
-            A calculadora tem um estado para cada número e outro para o resultado.
-            O cálculo só aparece corretamente porque os inputs são convertidos com `Number`.
+            Em uma soma com inputs, use um estado para cada número e outro para
+            o resultado. O cálculo só fica correto quando o texto digitado é
+            convertido com `Number`.
           </p>
           <pre><code>const [numero1, setNumero1] = useState(0);
 const [numero2, setNumero2] = useState(0);
@@ -750,6 +593,12 @@ const [resultado, setResultado] = useState(0);
 function somar() {
   setResultado(numero1 + numero2);
 }</code></pre>
+          <ul class="explain">
+            <li>`numero1` guarda o primeiro número digitado.</li>
+            <li>`numero2` guarda o segundo número digitado.</li>
+            <li>`resultado` guarda a resposta da soma.</li>
+            <li>`somar()` calcula `numero1 + numero2` e salva em `resultado`.</li>
+          </ul>
         </article>
 
         <article class="panel third warning">
@@ -761,6 +610,12 @@ function somar() {
           <pre><code>onChange={(e) =&gt; {
   setNumero1(Number(e.target.value));
 }}</code></pre>
+          <ul class="explain">
+            <li>`onChange` roda quando o usuário digita ou altera o input.</li>
+            <li>`e` é o evento da digitação.</li>
+            <li>`e.target.value` é o valor atual escrito no input.</li>
+            <li>`Number(...)` transforma esse texto em número.</li>
+          </ul>
         </article>
       </div>
     </section>
@@ -771,8 +626,8 @@ function somar() {
         <article class="panel half">
           <h3>Input controlado</h3>
           <p>
-            No `todolist`, o input é controlado porque o valor exibido vem do estado
-            e toda digitação atualiza esse estado.
+            Um input controlado recebe o valor do estado e atualiza esse estado
+            a cada digitação. Assim, React sabe exatamente o que está escrito.
           </p>
           <pre><code>const [input, setInput] = useState('');
 
@@ -781,6 +636,12 @@ function somar() {
   value={input}
   onChange={e =&gt; setInput(e.target.value)}
 /&gt;</code></pre>
+          <ul class="explain">
+            <li>`input` é o estado que guarda o texto digitado.</li>
+            <li>`value={input}` faz o campo mostrar o valor salvo no estado.</li>
+            <li>`onChange` atualiza o estado toda vez que o usuário digita.</li>
+            <li>`placeholder` seria apenas uma dica visual; `value` é o valor real do campo.</li>
+          </ul>
         </article>
 
         <article class="panel half">
@@ -793,6 +654,12 @@ function somar() {
   ...ts,
   { id: Date.now(), title: trimmed }
 ]);</code></pre>
+          <ul class="explain">
+            <li>`ts` representa a lista atual de tarefas.</li>
+            <li>`...ts` copia todas as tarefas que já existiam.</li>
+            <li>`{ id: Date.now(), title: trimmed }` cria a nova tarefa.</li>
+            <li>`setTasks(...)` salva a nova lista no estado.</li>
+          </ul>
         </article>
 
         <article class="panel half">
@@ -806,6 +673,12 @@ function somar() {
     {t.title}
   &lt;/li&gt;
 ))}</code></pre>
+          <ul class="explain">
+            <li>`tasks.map(...)` percorre todas as tarefas.</li>
+            <li>Para cada tarefa `t`, o código cria um `&lt;li&gt;`.</li>
+            <li>`key={t.id}` dá uma identificação única para aquele item.</li>
+            <li>`{t.title}` mostra o texto da tarefa na tela.</li>
+          </ul>
         </article>
 
         <article class="panel half">
@@ -817,6 +690,12 @@ function somar() {
           <pre><code>const remove = (id) =&gt; {
   setTasks(ts =&gt; ts.filter(t =&gt; t.id !== id));
 };</code></pre>
+          <ul class="explain">
+            <li>`remove` recebe o `id` da tarefa que deve sair.</li>
+            <li>`filter` cria uma nova lista.</li>
+            <li>`t.id !== id` mantém apenas as tarefas com id diferente do removido.</li>
+            <li>`setTasks` atualiza a tela com a lista filtrada.</li>
+          </ul>
         </article>
 
         <article class="panel half">
@@ -829,6 +708,12 @@ function somar() {
   ? &lt;p&gt;Nenhuma tarefa adicionada.&lt;/p&gt;
   : &lt;ul&gt;...&lt;/ul&gt;
 }</code></pre>
+          <ul class="explain">
+            <li>`tasks.length === 0` verifica se a lista está vazia.</li>
+            <li>Depois do `?` vem o que aparece se for verdadeiro.</li>
+            <li>Depois do `:` vem o que aparece se for falso.</li>
+            <li>Ou seja: sem tarefas mostra mensagem; com tarefas mostra a lista.</li>
+          </ul>
         </article>
 
         <article class="panel half">
@@ -840,6 +725,11 @@ function somar() {
           <pre><code>const onKey = (e) =&gt; {
   if (e.key === 'Enter') add();
 };</code></pre>
+          <ul class="explain">
+            <li>`onKey` recebe o evento do teclado.</li>
+            <li>`e.key` informa qual tecla foi apertada.</li>
+            <li>Se a tecla for `Enter`, a função `add()` é executada.</li>
+          </ul>
         </article>
       </div>
     </section>
@@ -855,6 +745,11 @@ function somar() {
           </p>
           <pre><code>import './index.css';
 import './App.css';</code></pre>
+          <ul class="explain">
+            <li>`import './index.css'` carrega estilos gerais da aplicação.</li>
+            <li>`import './App.css'` carrega estilos usados pelo componente principal.</li>
+            <li>Sem esse import, o CSS pode existir no projeto, mas não será aplicado.</li>
+          </ul>
         </article>
 
         <article class="panel half">
@@ -868,6 +763,11 @@ import './App.css';</code></pre>
   --bg: #fff;
   --accent: #aa3bff;
 }</code></pre>
+          <ul class="explain">
+            <li>`:root` representa o nível principal do CSS.</li>
+            <li>`--text`, `--bg` e `--accent` são variáveis CSS.</li>
+            <li>Depois dá para reutilizar com `color: var(--text)`.</li>
+          </ul>
         </article>
 
         <article class="panel half">
@@ -881,6 +781,11 @@ import './App.css';</code></pre>
     font-size: 36px;
   }
 }</code></pre>
+          <ul class="explain">
+            <li>`@media` cria uma regra para um tamanho específico de tela.</li>
+            <li>`max-width: 1024px` significa: aplique isso em telas até 1024px.</li>
+            <li>Nesse caso, o `h1` fica menor em telas menores.</li>
+          </ul>
         </article>
 
         <article class="panel half">
@@ -916,29 +821,29 @@ import './App.css';</code></pre>
     </section>
 
     <section id="erros">
-      <h2>Pontos de atenção nos arquivos</h2>
+      <h2>Erros comuns em prova</h2>
       <div class="grid">
         <article class="panel warning">
-          <h3>Caracteres quebrados</h3>
+          <h3>Somar textos sem converter</h3>
           <p>
-            Em `Veiculo.jsx`, aparecem textos como `COMBUSTÃƒO` e `carrÃ£o`.
-            Isso é problema de codificação. O correto seria `COMBUSTÃO` e `carrão`.
+            O valor de input vem como string. Se fizer `"2" + "3"`, o resultado
+            será `"23"`. Para soma matemática, use `Number(e.target.value)`.
           </p>
         </article>
 
         <article class="panel warning">
-          <h3>Imports não usados</h3>
+          <h3>Alterar array direto</h3>
           <p>
-            Alguns arquivos importam `reactLogo`, `viteLogo`, `heroImg` ou `useState`
-            sem usar. Isso não é o foco da lógica, mas pode aparecer no `lint`.
+            Evite modificar o array original. Crie um novo array com spread,
+            `map` ou `filter`, e passe esse novo valor para a função `set`.
           </p>
         </article>
 
         <article class="panel warning">
-          <h3>Código sobrando</h3>
+          <h3>Esquecer `key` em lista</h3>
           <p>
-            Em `Veiculo.jsx`, há um `0` depois do `return`. Ele não ajuda em nada
-            e deveria ser removido em um código limpo.
+            Ao renderizar uma lista com `map`, cada item precisa de uma `key`
+            única para o React atualizar a tela corretamente.
           </p>
         </article>
       </div>
@@ -950,28 +855,34 @@ import './App.css';</code></pre>
         <article class="panel third">
           <h3>Estado</h3>
           <pre><code>const [valor, setValor] = useState(inicial);</code></pre>
+          <p>Cria um valor que muda na tela e uma função para alterar esse valor.</p>
         </article>
         <article class="panel third">
           <h3>Evento de clique</h3>
           <pre><code>&lt;button onClick={funcao}&gt;OK&lt;/button&gt;</code></pre>
+          <p>Executa `funcao` quando o usuário clica no botão.</p>
         </article>
         <article class="panel third">
           <h3>Input</h3>
           <pre><code>onChange={e =&gt; setValor(e.target.value)}</code></pre>
+          <p>Pega o que foi digitado e salva no estado.</p>
         </article>
         <article class="panel third">
           <h3>Lista</h3>
           <pre><code>{itens.map(item =&gt; (
   &lt;li key={item.id}&gt;{item.nome}&lt;/li&gt;
 ))}</code></pre>
+          <p>Transforma cada item do array em um elemento visível na tela.</p>
         </article>
         <article class="panel third">
           <h3>Remover</h3>
           <pre><code>setItens(xs =&gt; xs.filter(x =&gt; x.id !== id));</code></pre>
+          <p>Cria uma nova lista sem o item que tem o `id` removido.</p>
         </article>
         <article class="panel third">
           <h3>Condicional</h3>
           <pre><code>{ok ? &lt;p&gt;Sim&lt;/p&gt; : &lt;p&gt;Não&lt;/p&gt;}</code></pre>
+          <p>Mostra uma coisa se `ok` for verdadeiro e outra se for falso.</p>
         </article>
       </div>
     </section>
@@ -994,12 +905,12 @@ import './App.css';</code></pre>
       </details>
 
       <details>
-        <summary>4. Por que usar `Number(e.target.value)` na calculadora?</summary>
+        <summary>4. Por que usar `Number(e.target.value)` em uma soma com input?</summary>
         <p>Porque o valor de um input chega como texto. `Number` converte para número e permite soma matemática.</p>
       </details>
 
       <details>
-        <summary>5. Qual a diferença entre `map` e `filter` no todolist?</summary>
+        <summary>5. Qual a diferença entre `map` e `filter` em uma lista?</summary>
         <p>`map` transforma cada tarefa em JSX para mostrar na tela. `filter` cria um novo array removendo ou mantendo itens de acordo com uma condição.</p>
       </details>
 
@@ -1014,7 +925,7 @@ import './App.css';</code></pre>
       </details>
 
       <details>
-        <summary>8. Explique o fluxo do todolist em uma frase.</summary>
+        <summary>8. Explique o fluxo de uma lista de tarefas em uma frase.</summary>
         <p>O usuário digita no input, o estado `input` muda, `add` cria uma tarefa em `tasks`, `map` exibe a lista e `remove` usa `filter` para apagar pelo `id`.</p>
       </details>
 
@@ -1029,63 +940,5 @@ import './App.css';</code></pre>
     </section>
   </main>
 
-  <script>
-    const timerEl = document.querySelector("#timer");
-    const startBtn = document.querySelector("#startBtn");
-    const pauseBtn = document.querySelector("#pauseBtn");
-    const resetBtn = document.querySelector("#resetBtn");
-    const checklist = document.querySelector("#checklist");
-
-    let remaining = 60 * 60;
-    let intervalId = null;
-
-    function renderTimer() {
-      const minutes = String(Math.floor(remaining / 60)).padStart(2, "0");
-      const seconds = String(remaining % 60).padStart(2, "0");
-      timerEl.textContent = `${minutes}:${seconds}`;
-    }
-
-    function startTimer() {
-      if (intervalId) return;
-      intervalId = setInterval(() => {
-        remaining = Math.max(0, remaining - 1);
-        renderTimer();
-        if (remaining === 0) {
-          clearInterval(intervalId);
-          intervalId = null;
-        }
-      }, 1000);
-    }
-
-    function pauseTimer() {
-      clearInterval(intervalId);
-      intervalId = null;
-    }
-
-    function resetTimer() {
-      pauseTimer();
-      remaining = 60 * 60;
-      renderTimer();
-    }
-
-    function saveChecklist() {
-      const states = [...checklist.querySelectorAll("input")].map(input => input.checked);
-      localStorage.setItem("reactStudyChecklist", JSON.stringify(states));
-    }
-
-    function loadChecklist() {
-      const saved = JSON.parse(localStorage.getItem("reactStudyChecklist") || "[]");
-      [...checklist.querySelectorAll("input")].forEach((input, index) => {
-        input.checked = Boolean(saved[index]);
-      });
-    }
-
-    startBtn.addEventListener("click", startTimer);
-    pauseBtn.addEventListener("click", pauseTimer);
-    resetBtn.addEventListener("click", resetTimer);
-    checklist.addEventListener("change", saveChecklist);
-    loadChecklist();
-    renderTimer();
-  </script>
 </body>
 </html>
