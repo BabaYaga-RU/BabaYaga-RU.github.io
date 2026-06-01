@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estrutura de Dados – Apostila Completa</title>
+<style>
+:root{--c1:#1a3a5c;--c2:#2a6496;--acc:#e67e22;--bg:#f9f9f9;--code:#2d2d2d}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:#222;line-height:1.7}
+header{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;padding:2rem 2rem 1.5rem;text-align:center}
+header h1{font-size:2rem;margin-bottom:.4rem}
+header p{opacity:.85;font-size:.95rem}
+nav{background:var(--c1);padding:.6rem 2rem;display:flex;flex-wrap:wrap;gap:.5rem}
+nav a{color:#fff;text-decoration:none;font-size:.85rem;padding:.25rem .7rem;border-radius:4px;background:rgba(255,255,255,.1)}
+nav a:hover{background:var(--acc)}
+.container{max-width:960px;margin:0 auto;padding:2rem 1.5rem}
+h2{color:var(--c1);border-left:4px solid var(--acc);padding-left:.8rem;margin:2rem 0 1rem;font-size:1.4rem}
+h3{color:var(--c2);margin:1.5rem 0 .6rem;font-size:1.1rem}
+h4{color:#444;margin:1rem 0 .4rem;font-size:1rem}
+p{margin-bottom:.8rem}
+ul,ol{margin:.5rem 0 1rem 1.5rem}
+li{margin-bottom:.3rem}
+pre{background:var(--code);color:#f8f8f2;padding:1.2rem;border-radius:8px;overflow-x:auto;font-size:.85rem;margin:1rem 0}
+code{font-family:'Consolas','Courier New',monospace}
+.card{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:1.5rem;margin:1rem 0}
+.tip{background:#fff8e1;border-left:4px solid #ffc107;padding:.8rem 1rem;border-radius:4px;margin:1rem 0}
+.warn{background:#ffebee;border-left:4px solid #ef5350;padding:.8rem 1rem;border-radius:4px;margin:1rem 0}
+.info{background:#e3f2fd;border-left:4px solid var(--c2);padding:.8rem 1rem;border-radius:4px;margin:1rem 0}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem}
+th{background:var(--c1);color:#fff;padding:.6rem 1rem;text-align:left}
+td{padding:.5rem 1rem;border-bottom:1px solid #e0e0e0}
+tr:hover td{background:#f5f5f5}
+.toc{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:1.2rem 1.5rem;margin-bottom:2rem}
+.toc h3{color:var(--c1);margin-bottom:.6rem}
+.toc ul{margin:0;list-style:none;padding:0}
+.toc li{padding:.2rem 0}
+.toc a{color:var(--c2);text-decoration:none}
+.toc a:hover{color:var(--acc)}
+details.slides{margin:1.5rem 0;border:1px solid #ddd;border-radius:8px;background:#fff}
+details.slides summary{cursor:pointer;padding:.9rem 1.2rem;font-weight:600;color:var(--c1);list-style:none;display:flex;align-items:center;gap:.5rem;font-size:.95rem}
+details.slides summary::-webkit-details-marker{display:none}
+details.slides[open] summary{border-bottom:1px solid #ddd;background:#f5f7fa;border-radius:8px 8px 0 0}
+.slide-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;padding:1rem}
+.slide-grid img{width:100%;border-radius:6px;border:1px solid #e0e0e0;box-shadow:0 2px 6px rgba(0,0,0,.1);transition:transform .2s}
+.slide-grid img:hover{transform:scale(1.02);box-shadow:0 4px 12px rgba(0,0,0,.18)}
+.badge{display:inline-block;background:var(--acc);color:#fff;font-size:.75rem;padding:.15rem .5rem;border-radius:4px;margin-left:.5rem;vertical-align:middle}
+@media(max-width:768px){
+  header{padding:1.2rem 1rem}
+  header h1{font-size:1.4rem}
+  nav{padding:.5rem .8rem;gap:.4rem}
+  nav a{font-size:.78rem;padding:.2rem .5rem}
+  .container{padding:1rem .8rem}
+  h2{font-size:1.2rem}
+  h3{font-size:1rem}
+  pre{font-size:.78rem;padding:.8rem}
+  table{font-size:.78rem}
+  td,th{padding:.4rem .5rem}
+  .card{padding:1rem .8rem}
+  .slide-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .slide-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Estrutura de Dados</h1>
+  <p>Apostila completa com slides do professor · Aulas 01–04</p>
+</header>
+<nav>
+  <a href="index.html">← Início</a>
+  <a href="#aula1">Aula 1 – Introdução</a>
+  <a href="#aula2">Aula 2 – Vetores &amp; Listas</a>
+  <a href="#aula3">Aula 3 – Pilhas &amp; Filas</a>
+  <a href="#aula4">Aula 4 – Árvores</a>
+</nav>
+<div class="container">
+<div class="toc">
+  <h3>Índice</h3>
+  <ul>
+    <li><a href="#aula1">1. Introdução – Por que estudar estruturas de dados?</a></li>
+    <li><a href="#aula1-jvm">1.1 JVM e Memória</a></li>
+    <li><a href="#aula2">2. Vetores e Listas Ligadas</a></li>
+    <li><a href="#aula2-vetores">2.1 Vetores (Arrays)</a></li>
+    <li><a href="#aula2-listas">2.2 Listas Ligadas</a></li>
+    <li><a href="#aula3">3. Pilhas e Filas</a></li>
+    <li><a href="#aula3-pilhas">3.1 Pilhas (Stack)</a></li>
+    <li><a href="#aula3-filas">3.2 Filas (Queue)</a></li>
+    <li><a href="#aula4">4. Árvores</a></li>
+    <li><a href="#aula4-bin">4.1 Árvore Binária de Busca</a></li>
+    <li><a href="#aula4-avl">4.2 Árvore AVL</a></li>
+  </ul>
+</div>
+
+<!-- ═══════════════════════ AULA 1 ═══════════════════════ -->
+<h2 id="aula1">Aula 1 – Introdução às Estruturas de Dados</h2>
+<div class="card">
+<p>Uma <strong>estrutura de dados</strong> é uma forma organizada de armazenar e gerenciar dados na memória para que possam ser usados de maneira eficiente. A escolha da estrutura certa impacta diretamente no desempenho do algoritmo.</p>
+<ul>
+  <li><strong>Estruturas lineares:</strong> vetores, listas, pilhas, filas</li>
+  <li><strong>Estruturas não-lineares:</strong> árvores, grafos, tabelas hash</li>
+  <li><strong>Complexidade de tempo:</strong> notação Big-O mede o crescimento do tempo em função do tamanho <em>n</em> da entrada</li>
+</ul>
+</div>
+
+<h3 id="aula1-jvm">1.1 JVM e Gerenciamento de Memória (Java)</h3>
+<div class="card">
+<p>A <strong>Java Virtual Machine (JVM)</strong> divide a memória em áreas distintas:</p>
+<table>
+<tr><th>Área</th><th>O que armazena</th></tr>
+<tr><td>Stack (Pilha de chamadas)</td><td>Variáveis locais, parâmetros, referências de objetos, frames de métodos</td></tr>
+<tr><td>Heap</td><td>Objetos criados com <code>new</code>, arrays; gerenciado pelo Garbage Collector</td></tr>
+<tr><td>Metaspace</td><td>Metadados de classes, métodos, campos (substituiu PermGen no Java 8+)</td></tr>
+<tr><td>Registradores de PC</td><td>Endereço da instrução atual por thread</td></tr>
+<tr><td>Native Method Stack</td><td>Chamadas a métodos nativos (C/C++)</td></tr>
+</table>
+<div class="tip"><strong>Stack vs Heap:</strong> Variáveis primitivas (<code>int</code>, <code>double</code>) ficam na stack; objetos (<code>String</code>, arrays, instâncias de classe) ficam no Heap. A stack é LIFO e de acesso rápido. O Heap é maior mas mais lento (GC overhead).</div>
+</div>
+
+<h3>1.2 Complexidade de Algoritmos (Big-O)</h3>
+<div class="card">
+<table>
+<tr><th>Notação</th><th>Nome</th><th>Exemplo</th></tr>
+<tr><td>O(1)</td><td>Constante</td><td>Acesso a array por índice</td></tr>
+<tr><td>O(log n)</td><td>Logarítmica</td><td>Busca binária</td></tr>
+<tr><td>O(n)</td><td>Linear</td><td>Busca linear em lista</td></tr>
+<tr><td>O(n log n)</td><td>Quasi-linear</td><td>Merge Sort, Heap Sort</td></tr>
+<tr><td>O(n²)</td><td>Quadrática</td><td>Bubble Sort, Selection Sort</td></tr>
+<tr><td>O(2ⁿ)</td><td>Exponencial</td><td>Força bruta para subconjuntos</td></tr>
+</table>
+</div>
+
+<details class="slides">
+  <summary>📑 Slides do Professor – Aula 01 (21 slides)</summary>
+  <div class="slide-grid">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p001.png" alt="Slide 1" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p002.png" alt="Slide 2" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p003.png" alt="Slide 3" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p004.png" alt="Slide 4" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p005.png" alt="Slide 5" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p006.png" alt="Slide 6" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p007.png" alt="Slide 7" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p008.png" alt="Slide 8" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p009.png" alt="Slide 9" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p010.png" alt="Slide 10" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p011.png" alt="Slide 11" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p012.png" alt="Slide 12" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p013.png" alt="Slide 13" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p014.png" alt="Slide 14" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p015.png" alt="Slide 15" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p016.png" alt="Slide 16" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p017.png" alt="Slide 17" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p018.png" alt="Slide 18" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p019.png" alt="Slide 19" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p020.png" alt="Slide 20" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-01-estruturas-de-dados__p021.png" alt="Slide 21" loading="lazy">
+  </div>
+</details>
+
+<!-- ═══════════════════════ AULA 2 ═══════════════════════ -->
+<h2 id="aula2">Aula 2 – Vetores e Listas Ligadas</h2>
+
+<h3 id="aula2-vetores">2.1 Vetores (Arrays)</h3>
+<div class="card">
+<p>Um <strong>vetor</strong> é uma coleção de elementos do mesmo tipo armazenados em posições de memória <em>contíguas</em>. O acesso é O(1) pelo índice.</p>
+<pre><code>// Java – array estático
+int[] numeros = new int[5];
+numeros[0] = 10;
+numeros[4] = 50;
+
+// Java – ArrayList (array dinâmico)
+import java.util.ArrayList;
+ArrayList&lt;Integer&gt; lista = new ArrayList&lt;&gt;();
+lista.add(10);
+lista.add(20);
+lista.remove(0);      // remove por índice
+System.out.println(lista.get(0)); // 20</code></pre>
+<table>
+<tr><th>Operação</th><th>Array estático</th><th>ArrayList</th></tr>
+<tr><td>Acesso por índice</td><td>O(1)</td><td>O(1)</td></tr>
+<tr><td>Inserção no final</td><td>O(1) amortizado</td><td>O(1) amortizado</td></tr>
+<tr><td>Inserção no meio</td><td>O(n)</td><td>O(n)</td></tr>
+<tr><td>Remoção no meio</td><td>O(n)</td><td>O(n)</td></tr>
+<tr><td>Busca linear</td><td>O(n)</td><td>O(n)</td></tr>
+</table>
+<div class="tip"><strong>Quando usar vetor:</strong> Quando você precisa de acesso aleatório rápido e o tamanho é relativamente fixo. Prefira <code>ArrayList</code> em Java para flexibilidade.</div>
+</div>
+
+<h3 id="aula2-listas">2.2 Listas Ligadas (Linked Lists)</h3>
+<div class="card">
+<p>Uma <strong>lista ligada</strong> é composta por <em>nós</em>, cada um contendo um valor e um ponteiro para o próximo nó. Não requer memória contígua.</p>
+<pre><code>// Java – implementação de nó
+class No {
+    int valor;
+    No proximo;
+    No(int v) { valor = v; proximo = null; }
+}
+
+class ListaLigada {
+    No cabeca;
+    
+    void inserirInicio(int v) {
+        No novo = new No(v);
+        novo.proximo = cabeca;
+        cabeca = novo;
+    }
+    
+    void inserirFim(int v) {
+        No novo = new No(v);
+        if (cabeca == null) { cabeca = novo; return; }
+        No atual = cabeca;
+        while (atual.proximo != null) atual = atual.proximo;
+        atual.proximo = novo;
+    }
+    
+    void imprimir() {
+        No atual = cabeca;
+        while (atual != null) {
+            System.out.print(atual.valor + " -> ");
+            atual = atual.proximo;
+        }
+        System.out.println("null");
+    }
+}</code></pre>
+<table>
+<tr><th>Operação</th><th>Lista Simples</th><th>Lista Dupla</th></tr>
+<tr><td>Acesso por índice</td><td>O(n)</td><td>O(n)</td></tr>
+<tr><td>Inserção no início</td><td>O(1)</td><td>O(1)</td></tr>
+<tr><td>Inserção no fim</td><td>O(n) / O(1)*</td><td>O(1)</td></tr>
+<tr><td>Remoção por valor</td><td>O(n)</td><td>O(n)</td></tr>
+</table>
+<small>* O(1) se mantiver ponteiro para o fim</small>
+<div class="warn"><strong>Cuidado:</strong> Listas ligadas têm overhead de memória (armazenam ponteiro além do valor) e cache-miss mais frequente que arrays (memória não contígua).</div>
+</div>
+
+<details class="slides">
+  <summary>📑 Slides do Professor – Aula 02 (25 slides)</summary>
+  <div class="slide-grid">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p001.png" alt="Slide 1" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p002.png" alt="Slide 2" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p003.png" alt="Slide 3" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p004.png" alt="Slide 4" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p005.png" alt="Slide 5" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p006.png" alt="Slide 6" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p007.png" alt="Slide 7" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p008.png" alt="Slide 8" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p009.png" alt="Slide 9" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p010.png" alt="Slide 10" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p011.png" alt="Slide 11" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p012.png" alt="Slide 12" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p013.png" alt="Slide 13" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p014.png" alt="Slide 14" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p015.png" alt="Slide 15" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p016.png" alt="Slide 16" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p017.png" alt="Slide 17" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p018.png" alt="Slide 18" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p019.png" alt="Slide 19" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p020.png" alt="Slide 20" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p021.png" alt="Slide 21" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p022.png" alt="Slide 22" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p023.png" alt="Slide 23" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p024.png" alt="Slide 24" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-02-estruturas-de-dados__p025.png" alt="Slide 25" loading="lazy">
+  </div>
+</details>
+
+<!-- ═══════════════════════ AULA 3 ═══════════════════════ -->
+<h2 id="aula3">Aula 3 – Pilhas e Filas</h2>
+
+<h3 id="aula3-pilhas">3.1 Pilhas (Stack) – LIFO</h3>
+<div class="card">
+<p>Uma <strong>pilha</strong> segue o princípio <em>Last In, First Out</em>: o último elemento inserido é o primeiro a ser removido. Analogia: pilha de pratos.</p>
+<pre><code>import java.util.Stack;
+
+Stack&lt;Integer&gt; pilha = new Stack&lt;&gt;();
+pilha.push(10);   // empilha
+pilha.push(20);
+pilha.push(30);
+
+System.out.println(pilha.peek());  // 30 (topo, sem remover)
+System.out.println(pilha.pop());   // 30 (remove)
+System.out.println(pilha.isEmpty()); // false
+System.out.println(pilha.size());    // 2</code></pre>
+
+<h4>Implementação com Array:</h4>
+<pre><code>class Pilha {
+    int[] dados;
+    int topo = -1;
+    Pilha(int capacidade) { dados = new int[capacidade]; }
+    
+    void push(int v) {
+        if (topo == dados.length - 1) throw new RuntimeException("Pilha cheia!");
+        dados[++topo] = v;
+    }
+    void pop() {
+        if (topo == -1) throw new RuntimeException("Pilha vazia!");
+        return dados[topo--];
+    }
+    int peek() { return dados[topo]; }
+    boolean isEmpty() { return topo == -1; }
+}</code></pre>
+<div class="info"><strong>Usos práticos de pilhas:</strong> histórico de navegação (voltar/avançar), undo/redo em editores, avaliação de expressões matemáticas (notação polonesa reversa), chamadas de funções recursivas na JVM, parsing de HTML/XML.</div>
+</div>
+
+<h3 id="aula3-filas">3.2 Filas (Queue) – FIFO</h3>
+<div class="card">
+<p>Uma <strong>fila</strong> segue o princípio <em>First In, First Out</em>: o primeiro elemento inserido é o primeiro a ser removido. Analogia: fila de banco.</p>
+<pre><code>import java.util.LinkedList;
+import java.util.Queue;
+
+Queue&lt;String&gt; fila = new LinkedList&lt;&gt;();
+fila.offer("Alice");   // enfileira (preferível a add)
+fila.offer("Bob");
+fila.offer("Carlos");
+
+System.out.println(fila.peek());   // "Alice" (frente, sem remover)
+System.out.println(fila.poll());   // "Alice" (remove)
+System.out.println(fila.size());   // 2</code></pre>
+
+<h4>Fila Circular com Array:</h4>
+<pre><code>class FilaCircular {
+    int[] dados;
+    int inicio = 0, fim = 0, tamanho = 0;
+    FilaCircular(int cap) { dados = new int[cap]; }
+    
+    void enqueue(int v) {
+        if (tamanho == dados.length) throw new RuntimeException("Fila cheia!");
+        dados[fim] = v;
+        fim = (fim + 1) % dados.length;
+        tamanho++;
+    }
+    int dequeue() {
+        if (tamanho == 0) throw new RuntimeException("Fila vazia!");
+        int v = dados[inicio];
+        inicio = (inicio + 1) % dados.length;
+        tamanho--;
+        return v;
+    }
+}</code></pre>
+<div class="info"><strong>Usos práticos de filas:</strong> sistemas de impressão, escalonamento de processos no SO, BFS (busca em largura em grafos), buffers de comunicação, processamento de tarefas em background.</div>
+</div>
+
+<details class="slides">
+  <summary>📑 Slides do Professor – Aula 03 (13 slides)</summary>
+  <div class="slide-grid">
+      <img src="imgs/estrutura-de-dados__aula-03-estruturas-de-dados__p001.png" alt="Slide 1" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-03-estruturas-de-dados__p002.png" alt="Slide 2" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-03-estruturas-de-dados__p003.png" alt="Slide 3" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-03-estruturas-de-dados__p004.png" alt="Slide 4" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-03-estruturas-de-dados__p005.png" alt="Slide 5" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-03-estruturas-de-dados__p006.png" alt="Slide 6" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-03-estruturas-de-dados__p007.png" alt="Slide 7" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-03-estruturas-de-dados__p008.png" alt="Slide 8" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-03-estruturas-de-dados__p009.png" alt="Slide 9" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-03-estruturas-de-dados__p010.png" alt="Slide 10" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-03-estruturas-de-dados__p011.png" alt="Slide 11" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-03-estruturas-de-dados__p012.png" alt="Slide 12" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-03-estruturas-de-dados__p013.png" alt="Slide 13" loading="lazy">
+  </div>
+</details>
+
+<!-- ═══════════════════════ AULA 4 ═══════════════════════ -->
+<h2 id="aula4">Aula 4 – Árvores</h2>
+<div class="card">
+<p>Uma <strong>árvore</strong> é uma estrutura hierárquica não-linear composta por nós conectados por arestas, sem ciclos.</p>
+<ul>
+  <li><strong>Raiz:</strong> nó sem pai (único)</li>
+  <li><strong>Folha:</strong> nó sem filhos</li>
+  <li><strong>Altura:</strong> maior profundidade da raiz até uma folha</li>
+  <li><strong>Grau:</strong> número de filhos de um nó</li>
+</ul>
+</div>
+
+<h3 id="aula4-bin">4.1 Árvore Binária de Busca (BST)</h3>
+<div class="card">
+<p>Propriedade fundamental: para cada nó, todos os valores na <strong>subárvore esquerda</strong> são menores, e na <strong>direita</strong> são maiores.</p>
+<pre><code>class No {
+    int valor;
+    No esq, dir;
+    No(int v) { valor = v; }
+}
+
+class BST {
+    No raiz;
+    
+    No inserir(No no, int v) {
+        if (no == null) return new No(v);
+        if (v &lt; no.valor) no.esq = inserir(no.esq, v);
+        else if (v &gt; no.valor) no.dir = inserir(no.dir, v);
+        return no;
+    }
+    
+    // Em-ordem: visita esq → raiz → dir (resultado ordenado!)
+    void emOrdem(No no) {
+        if (no == null) return;
+        emOrdem(no.esq);
+        System.out.print(no.valor + " ");
+        emOrdem(no.dir);
+    }
+    
+    boolean buscar(No no, int v) {
+        if (no == null) return false;
+        if (v == no.valor) return true;
+        return v &lt; no.valor ? buscar(no.esq, v) : buscar(no.dir, v);
+    }
+}</code></pre>
+<table>
+<tr><th>Operação</th><th>BST (médio)</th><th>BST (pior)</th></tr>
+<tr><td>Busca</td><td>O(log n)</td><td>O(n) — árvore degenerada</td></tr>
+<tr><td>Inserção</td><td>O(log n)</td><td>O(n)</td></tr>
+<tr><td>Remoção</td><td>O(log n)</td><td>O(n)</td></tr>
+</table>
+</div>
+
+<h3 id="aula4-avl">4.2 Árvore AVL (Auto-balanceada)</h3>
+<div class="card">
+<p>A <strong>Árvore AVL</strong> mantém o balanceamento automático: a diferença de altura entre subárvores esq e dir de qualquer nó é no máximo 1 (fator de balanceamento ∈ {-1, 0, 1}).</p>
+<pre><code>class NoAVL {
+    int valor, altura;
+    NoAVL esq, dir;
+    NoAVL(int v) { valor = v; altura = 1; }
+}
+
+// Fator de balanceamento
+int fb(NoAVL n) {
+    if (n == null) return 0;
+    return altura(n.esq) - altura(n.dir);
+}
+
+// Rotação simples à direita
+NoAVL rotDir(NoAVL y) {
+    NoAVL x = y.esq;
+    NoAVL T2 = x.dir;
+    x.dir = y;
+    y.esq = T2;
+    y.altura = Math.max(altura(y.esq), altura(y.dir)) + 1;
+    x.altura = Math.max(altura(x.esq), altura(x.dir)) + 1;
+    return x;
+}</code></pre>
+<div class="tip"><strong>Rotações AVL:</strong> Quando o fator de balanceamento sai de [-1,1], aplica-se uma das 4 rotações: rotação direita (LL), rotação esquerda (RR), rotação dupla esquerda-direita (LR), rotação dupla direita-esquerda (RL).</div>
+<table>
+<tr><th>Operação</th><th>AVL (garantido)</th></tr>
+<tr><td>Busca</td><td>O(log n)</td></tr>
+<tr><td>Inserção</td><td>O(log n)</td></tr>
+<tr><td>Remoção</td><td>O(log n)</td></tr>
+</table>
+</div>
+
+<details class="slides">
+  <summary>📑 Slides do Professor – Aula 04 (22 slides)</summary>
+  <div class="slide-grid">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p001.png" alt="Slide 1" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p002.png" alt="Slide 2" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p003.png" alt="Slide 3" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p004.png" alt="Slide 4" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p005.png" alt="Slide 5" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p006.png" alt="Slide 6" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p007.png" alt="Slide 7" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p008.png" alt="Slide 8" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p009.png" alt="Slide 9" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p010.png" alt="Slide 10" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p011.png" alt="Slide 11" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p012.png" alt="Slide 12" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p013.png" alt="Slide 13" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p014.png" alt="Slide 14" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p015.png" alt="Slide 15" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p016.png" alt="Slide 16" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p017.png" alt="Slide 17" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p018.png" alt="Slide 18" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p019.png" alt="Slide 19" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p020.png" alt="Slide 20" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p021.png" alt="Slide 21" loading="lazy">
+      <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p022.png" alt="Slide 22" loading="lazy">
+  </div>
+</details>
+
+</div><!-- .container -->
+</body>
+</html>

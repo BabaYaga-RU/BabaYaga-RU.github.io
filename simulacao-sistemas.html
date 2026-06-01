@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulação de Sistemas Computacionais – Apostila Completa</title>
+<style>
+:root{--c1:#1a3a5c;--c2:#2a6496;--acc:#e67e22;--bg:#f9f9f9;--code:#2d2d2d}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:#222;line-height:1.7}
+header{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;padding:2rem 2rem 1.5rem;text-align:center}
+header h1{font-size:2rem;margin-bottom:.4rem}
+header p{opacity:.85;font-size:.95rem}
+nav{background:var(--c1);padding:.6rem 2rem;display:flex;flex-wrap:wrap;gap:.5rem}
+nav a{color:#fff;text-decoration:none;font-size:.85rem;padding:.25rem .7rem;border-radius:4px;background:rgba(255,255,255,.1)}
+nav a:hover{background:var(--acc)}
+.container{max-width:960px;margin:0 auto;padding:2rem 1.5rem}
+h2{color:var(--c1);border-left:4px solid var(--acc);padding-left:.8rem;margin:2rem 0 1rem;font-size:1.4rem}
+h3{color:var(--c2);margin:1.5rem 0 .6rem;font-size:1.1rem}
+h4{color:#444;margin:1rem 0 .4rem;font-size:1rem}
+p{margin-bottom:.8rem}
+ul,ol{margin:.5rem 0 1rem 1.5rem}
+li{margin-bottom:.3rem}
+pre{background:var(--code);color:#f8f8f2;padding:1.2rem;border-radius:8px;overflow-x:auto;font-size:.85rem;margin:1rem 0}
+code{font-family:'Consolas','Courier New',monospace}
+.card{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:1.5rem;margin:1rem 0}
+.tip{background:#fff8e1;border-left:4px solid #ffc107;padding:.8rem 1rem;border-radius:4px;margin:1rem 0}
+.warn{background:#ffebee;border-left:4px solid #ef5350;padding:.8rem 1rem;border-radius:4px;margin:1rem 0}
+.info{background:#e3f2fd;border-left:4px solid var(--c2);padding:.8rem 1rem;border-radius:4px;margin:1rem 0}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem}
+th{background:var(--c1);color:#fff;padding:.6rem 1rem;text-align:left}
+td{padding:.5rem 1rem;border-bottom:1px solid #e0e0e0}
+tr:hover td{background:#f5f5f5}
+.toc{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:1.2rem 1.5rem;margin-bottom:2rem}
+.toc h3{color:var(--c1);margin-bottom:.6rem}
+.toc ul{margin:0;list-style:none;padding:0}
+.toc li{padding:.2rem 0}
+.toc a{color:var(--c2);text-decoration:none}
+.toc a:hover{color:var(--acc)}
+details.slides{margin:1.5rem 0;border:1px solid #ddd;border-radius:8px;background:#fff}
+details.slides summary{cursor:pointer;padding:.9rem 1.2rem;font-weight:600;color:var(--c1);list-style:none;display:flex;align-items:center;gap:.5rem;font-size:.95rem}
+details.slides summary::-webkit-details-marker{display:none}
+details.slides[open] summary{border-bottom:1px solid #ddd;background:#f5f7fa;border-radius:8px 8px 0 0}
+.slide-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;padding:1rem}
+.slide-grid img{width:100%;border-radius:6px;border:1px solid #e0e0e0;box-shadow:0 2px 6px rgba(0,0,0,.1);transition:transform .2s}
+.slide-grid img:hover{transform:scale(1.02);box-shadow:0 4px 12px rgba(0,0,0,.18)}
+@media(max-width:768px){
+  header{padding:1.2rem 1rem}
+  header h1{font-size:1.4rem}
+  nav{padding:.5rem .8rem;gap:.4rem}
+  nav a{font-size:.78rem;padding:.2rem .5rem}
+  .container{padding:1rem .8rem}
+  h2{font-size:1.2rem}
+  h3{font-size:1rem}
+  pre{font-size:.78rem;padding:.8rem}
+  table{font-size:.78rem}
+  td,th{padding:.4rem .5rem}
+  .card{padding:1rem .8rem}
+  .slide-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .slide-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Simulação de Sistemas Computacionais</h1>
+  <p>Apostila completa com slides do professor · 42 slides · Estatística · Simulação · Teoria das Filas</p>
+</header>
+<nav>
+  <a href="index.html">← Início</a>
+  <a href="#estat">Estatística Aplicada</a>
+  <a href="#simul">Simulação de Sistemas</a>
+  <a href="#filas">Teoria das Filas</a>
+</nav>
+<div class="container">
+<div class="toc">
+  <h3>Índice</h3>
+  <ul>
+    <li><a href="#estat">1. Estatística Aplicada</a></li>
+    <li><a href="#estat-desc">1.1 Estatística Descritiva</a></li>
+    <li><a href="#estat-prob">1.2 Distribuições de Probabilidade</a></li>
+    <li><a href="#estat-inf">1.3 Inferência Estatística</a></li>
+    <li><a href="#simul">2. Simulação de Sistemas</a></li>
+    <li><a href="#simul-intro">2.1 Conceitos e Tipos de Simulação</a></li>
+    <li><a href="#simul-montecarlo">2.2 Método de Monte Carlo</a></li>
+    <li><a href="#simul-eventos">2.3 Simulação por Eventos Discretos</a></li>
+    <li><a href="#filas">3. Teoria das Filas</a></li>
+    <li><a href="#filas-mm1">3.1 Modelo M/M/1</a></li>
+    <li><a href="#filas-mmc">3.2 Modelo M/M/c</a></li>
+    <li><a href="#filas-python">3.3 Simulação em Python</a></li>
+  </ul>
+</div>
+
+<!-- ══════════════════════════ ESTATÍSTICA ══════════════════════════ -->
+<h2 id="estat">1. Estatística Aplicada</h2>
+
+<h3 id="estat-desc">1.1 Estatística Descritiva</h3>
+<div class="card">
+<p><strong>Medidas de tendência central:</strong></p>
+<table>
+<tr><th>Medida</th><th>Fórmula</th><th>Uso</th></tr>
+<tr><td>Média (μ)</td><td>Σx<sub>i</sub> / n</td><td>Dados sem outliers</td></tr>
+<tr><td>Mediana</td><td>Valor central ordenado</td><td>Robusta a outliers</td></tr>
+<tr><td>Moda</td><td>Valor mais frequente</td><td>Dados categóricos</td></tr>
+</table>
+<p><strong>Medidas de dispersão:</strong></p>
+<table>
+<tr><th>Medida</th><th>Fórmula</th><th>Interpretação</th></tr>
+<tr><td>Variância (σ²)</td><td>Σ(x<sub>i</sub>−μ)² / n</td><td>Espalhamento quadrático</td></tr>
+<tr><td>Desvio Padrão (σ)</td><td>√variância</td><td>Espalhamento na mesma unidade</td></tr>
+<tr><td>Coef. de Variação</td><td>σ/μ × 100%</td><td>Dispersão relativa</td></tr>
+<tr><td>IQR</td><td>Q3 − Q1</td><td>Faixa dos 50% centrais</td></tr>
+</table>
+<pre><code>import statistics
+dados = [12, 15, 14, 10, 18, 22, 11, 13, 17, 16]
+
+print(f"Média:          {statistics.mean(dados):.2f}")
+print(f"Mediana:        {statistics.median(dados):.2f}")
+print(f"Desvio Padrão:  {statistics.stdev(dados):.2f}")
+print(f"Variância:      {statistics.variance(dados):.2f}")</code></pre>
+</div>
+
+<h3 id="estat-prob">1.2 Distribuições de Probabilidade</h3>
+<div class="card">
+<table>
+<tr><th>Distribuição</th><th>Parâmetros</th><th>Uso em Simulação</th></tr>
+<tr><td>Normal N(μ,σ²)</td><td>Média μ, desvio σ</td><td>Tempos de serviço, medições</td></tr>
+<tr><td>Exponencial Exp(λ)</td><td>Taxa λ</td><td>Tempo entre chegadas (Poisson)</td></tr>
+<tr><td>Poisson Po(λ)</td><td>Taxa λ</td><td>Número de eventos por intervalo</td></tr>
+<tr><td>Uniforme U(a,b)</td><td>Limites a, b</td><td>Geração de números aleatórios</td></tr>
+<tr><td>Erlang Ek(λ,k)</td><td>Taxa λ, fases k</td><td>Soma de exponenciais</td></tr>
+<tr><td>Binomial B(n,p)</td><td>Tentativas n, prob p</td><td>Eventos de sucesso/falha</td></tr>
+</table>
+<pre><code>import numpy as np
+import scipy.stats as stats
+
+# Distribuição Normal
+mu, sigma = 10, 2
+amostra_normal = np.random.normal(mu, sigma, 1000)
+
+# Distribuição Exponencial (tempo entre chegadas)
+taxa = 3  # 3 chegadas por minuto em média
+amostra_exp = np.random.exponential(1/taxa, 1000)
+
+# Teste de aderência (Kolmogorov-Smirnov)
+d, p = stats.kstest(amostra_exp, 'expon', args=(0, 1/taxa))
+print(f"KS: D={d:.4f}, p-valor={p:.4f}")
+print("Boa aderência" if p > 0.05 else "Distribuição rejeitada")</code></pre>
+</div>
+
+<h3 id="estat-inf">1.3 Inferência Estatística e Intervalos de Confiança</h3>
+<div class="card">
+<p>Um <strong>intervalo de confiança (IC)</strong> de 95% para a média é:</p>
+<p style="text-align:center;font-size:1.1rem;margin:1rem 0">IC = x̄ ± z<sub>α/2</sub> · (σ/√n)</p>
+<p>Para amostras pequenas (n &lt; 30) ou σ desconhecida, usa-se distribuição t de Student.</p>
+<pre><code>import numpy as np
+import scipy.stats as stats
+
+amostra = [23.5, 24.1, 22.8, 25.3, 23.9, 24.7, 22.1, 25.8]
+n = len(amostra)
+media = np.mean(amostra)
+sem = stats.sem(amostra)  # erro padrão da média
+
+# IC 95% com t de Student
+ic = stats.t.interval(0.95, df=n-1, loc=media, scale=sem)
+print(f"Média: {media:.2f}")
+print(f"IC 95%: [{ic[0]:.2f}, {ic[1]:.2f}]")
+
+# Teste t de uma amostra (H0: média == 24)
+t_stat, p_val = stats.ttest_1samp(amostra, 24)
+print(f"t={t_stat:.3f}, p={p_val:.4f}")</code></pre>
+</div>
+
+<details class="slides">
+  <summary>📑 Slides do Professor – Estatística Aplicada (26 slides)</summary>
+  <div class="slide-grid">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p001.png" alt="Slide 1" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p002.png" alt="Slide 2" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p003.png" alt="Slide 3" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p004.png" alt="Slide 4" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p005.png" alt="Slide 5" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p006.png" alt="Slide 6" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p007.png" alt="Slide 7" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p008.png" alt="Slide 8" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p009.png" alt="Slide 9" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p010.png" alt="Slide 10" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p011.png" alt="Slide 11" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p012.png" alt="Slide 12" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p013.png" alt="Slide 13" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p014.png" alt="Slide 14" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p015.png" alt="Slide 15" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p016.png" alt="Slide 16" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p017.png" alt="Slide 17" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p018.png" alt="Slide 18" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p019.png" alt="Slide 19" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p020.png" alt="Slide 20" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p021.png" alt="Slide 21" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p022.png" alt="Slide 22" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p023.png" alt="Slide 23" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p024.png" alt="Slide 24" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p025.png" alt="Slide 25" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p026.png" alt="Slide 26" loading="lazy">
+  </div>
+</details>
+
+<!-- ══════════════════════════ SIMULAÇÃO ══════════════════════════ -->
+<h2 id="simul">2. Simulação de Sistemas Computacionais</h2>
+
+<h3 id="simul-intro">2.1 Conceitos Fundamentais</h3>
+<div class="card">
+<p>A <strong>simulação</strong> é a imitação computacional do comportamento de um sistema real ao longo do tempo, usada quando o sistema real é muito caro, perigoso ou complexo para experimentar diretamente.</p>
+<table>
+<tr><th>Tipo de Simulação</th><th>Característica</th><th>Exemplo</th></tr>
+<tr><td>Estocástica</td><td>Envolve variáveis aleatórias</td><td>Chegada de clientes</td></tr>
+<tr><td>Determinística</td><td>Sem aleatoriedade</td><td>Cálculo de trajetórias</td></tr>
+<tr><td>Contínua</td><td>Estado muda continuamente</td><td>Dinâmica de fluidos</td></tr>
+<tr><td>Discreta (DES)</td><td>Estado muda em eventos pontuais</td><td>Filas de atendimento</td></tr>
+<tr><td>Estática</td><td>Sem eixo de tempo</td><td>Monte Carlo para integrais</td></tr>
+<tr><td>Dinâmica</td><td>Com evolução temporal</td><td>DES, dinâmica de sistemas</td></tr>
+</table>
+<div class="tip"><strong>Etapas de um estudo de simulação:</strong> (1) Formulação do problema → (2) Coleta de dados → (3) Construção do modelo → (4) Verificação e validação → (5) Experimentos → (6) Análise dos resultados → (7) Implementação</div>
+</div>
+
+<h3 id="simul-montecarlo">2.2 Método de Monte Carlo</h3>
+<div class="card">
+<p>Técnica baseada em <strong>amostragem aleatória</strong> para obter soluções numéricas de problemas determinísticos ou estocásticos.</p>
+<pre><code>import numpy as np
+
+# Estimativa de π via Monte Carlo
+def estimar_pi(n_pontos):
+    x = np.random.uniform(-1, 1, n_pontos)
+    y = np.random.uniform(-1, 1, n_pontos)
+    dentro = np.sum(x**2 + y**2 <= 1)
+    return 4 * dentro / n_pontos
+
+for n in [1000, 10000, 100000, 1000000]:
+    pi_est = estimar_pi(n)
+    print(f"n={n:>8}: π ≈ {pi_est:.6f} (erro={abs(pi_est - np.pi):.6f})")
+
+# Integração Monte Carlo: ∫₀¹ e^(-x²) dx
+def integrar_mc(f, a, b, n=100000):
+    x = np.random.uniform(a, b, n)
+    return (b - a) * np.mean(f(x))
+
+resultado = integrar_mc(lambda x: np.exp(-x**2), 0, 1)
+print(f"∫₀¹ e^(-x²) dx ≈ {resultado:.6f}")</code></pre>
+</div>
+
+<h3 id="simul-eventos">2.3 Simulação por Eventos Discretos (DES)</h3>
+<div class="card">
+<p>O tempo avança de evento em evento (não continuamente). A <strong>lista de eventos futuros (FEL)</strong> mantém os próximos eventos ordenados por tempo.</p>
+<pre><code>import heapq
+import numpy as np
+
+class SimuladorFila:
+    def __init__(self, taxa_chegada, taxa_servico, n_servidores=1):
+        self.la = taxa_chegada    # λ (chegadas/unidade de tempo)
+        self.mu = taxa_servico    # μ (atendimentos/unidade de tempo)
+        self.c = n_servidores
+        self.fila = []            # lista de espera
+        self.servidores = 0       # servidores ocupados
+        self.eventos = []         # heap de (tempo, tipo)
+        self.tempo = 0
+        self.estatisticas = {
+            'total_chegadas': 0, 'total_servicos': 0,
+            'soma_espera': 0, 'soma_sistema': 0
+        }
+    
+    def agendar(self, tempo, tipo, dados=None):
+        heapq.heappush(self.eventos, (tempo, tipo, dados))
+    
+    def proximo_evento(self):
+        return heapq.heappop(self.eventos)
+    
+    def chegada(self, tempo_chegada):
+        self.estatisticas['total_chegadas'] += 1
+        if self.servidores < self.c:
+            self.servidores += 1
+            tempo_servico = np.random.exponential(1/self.mu)
+            self.agendar(self.tempo + tempo_servico, 'saida', self.tempo)
+            self.estatisticas['soma_espera'] += 0
+        else:
+            self.fila.append(self.tempo)
+        
+        # próxima chegada
+        inter_chegada = np.random.exponential(1/self.la)
+        self.agendar(self.tempo + inter_chegada, 'chegada', None)
+    
+    def saida(self, tempo_entrada_servico):
+        self.estatisticas['total_servicos'] += 1
+        self.estatisticas['soma_sistema'] += (self.tempo - tempo_entrada_servico)
+        if self.fila:
+            t_entrada = self.fila.pop(0)
+            espera = self.tempo - t_entrada
+            self.estatisticas['soma_espera'] += espera
+            tempo_servico = np.random.exponential(1/self.mu)
+            self.agendar(self.tempo + tempo_servico, 'saida', self.tempo)
+        else:
+            self.servidores -= 1
+    
+    def simular(self, duracao):
+        self.agendar(np.random.exponential(1/self.la), 'chegada', None)
+        while self.eventos:
+            tempo, tipo, dados = self.proximo_evento()
+            if tempo > duracao:
+                break
+            self.tempo = tempo
+            if tipo == 'chegada':
+                self.chegada(dados)
+            elif tipo == 'saida':
+                self.saida(dados)
+        return self.estatisticas</code></pre>
+</div>
+
+<details class="slides">
+  <summary>📑 Slides do Professor – Simulação de Sistemas (7 slides)</summary>
+  <div class="slide-grid">
+      <img src="imgs/simulacao-sistemas__ssc-rf-simula-o-de-sistemas-computacionais__p001.png" alt="Slide 1" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-simula-o-de-sistemas-computacionais__p002.png" alt="Slide 2" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-simula-o-de-sistemas-computacionais__p003.png" alt="Slide 3" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-simula-o-de-sistemas-computacionais__p004.png" alt="Slide 4" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-simula-o-de-sistemas-computacionais__p005.png" alt="Slide 5" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-simula-o-de-sistemas-computacionais__p006.png" alt="Slide 6" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-simula-o-de-sistemas-computacionais__p007.png" alt="Slide 7" loading="lazy">
+  </div>
+</details>
+
+<!-- ══════════════════════════ FILAS ══════════════════════════ -->
+<h2 id="filas">3. Teoria das Filas</h2>
+<div class="card">
+<p>A <strong>Notação de Kendall</strong> descreve sistemas de filas: <strong>A/S/c/K/N/D</strong></p>
+<ul>
+  <li><strong>A:</strong> distribuição das chegadas (M=exponencial/Markoviana, D=determinística, G=geral)</li>
+  <li><strong>S:</strong> distribuição do serviço</li>
+  <li><strong>c:</strong> número de servidores</li>
+  <li><strong>K:</strong> capacidade do sistema (padrão: ∞)</li>
+  <li><strong>N:</strong> tamanho da população (padrão: ∞)</li>
+  <li><strong>D:</strong> disciplina da fila (FCFS, LCFS, SIRO, prioridade)</li>
+</ul>
+</div>
+
+<h3 id="filas-mm1">3.1 Modelo M/M/1</h3>
+<div class="card">
+<p>Chegadas e serviços exponenciais, 1 servidor, capacidade infinita.</p>
+<table>
+<tr><th>Métrica</th><th>Fórmula</th><th>Significado</th></tr>
+<tr><td>ρ (utilização)</td><td>λ/μ — deve ser &lt; 1</td><td>Fração do tempo que o servidor está ocupado</td></tr>
+<tr><td>L<sub>s</sub></td><td>ρ/(1−ρ)</td><td>Número médio de clientes no sistema</td></tr>
+<tr><td>L<sub>q</sub></td><td>ρ²/(1−ρ)</td><td>Número médio na fila (aguardando)</td></tr>
+<tr><td>W<sub>s</sub></td><td>1/(μ−λ)</td><td>Tempo médio no sistema</td></tr>
+<tr><td>W<sub>q</sub></td><td>λ/(μ(μ−λ))</td><td>Tempo médio de espera na fila</td></tr>
+</table>
+<pre><code>def metricas_mm1(lam, mu):
+    """
+    lam: taxa de chegada (clientes/hora)
+    mu:  taxa de serviço (clientes/hora)
+    """
+    assert lam < mu, "Sistema instável: λ deve ser < μ"
+    rho = lam / mu
+    Ls = rho / (1 - rho)
+    Lq = rho**2 / (1 - rho)
+    Ws = 1 / (mu - lam)
+    Wq = lam / (mu * (mu - lam))
+    
+    print(f"ρ (utilização):     {rho:.1%}")
+    print(f"Ls (no sistema):    {Ls:.3f} clientes")
+    print(f"Lq (na fila):       {Lq:.3f} clientes")
+    print(f"Ws (tempo sistema): {Ws*60:.1f} minutos")
+    print(f"Wq (tempo espera):  {Wq*60:.1f} minutos")
+
+# Exemplo: padaria com 20 chegadas/hora, atende 30/hora
+metricas_mm1(20, 30)</code></pre>
+</div>
+
+<h3 id="filas-mmc">3.2 Modelo M/M/c</h3>
+<div class="card">
+<p>Chegadas e serviços exponenciais, <strong>c servidores</strong> em paralelo.</p>
+<pre><code>import math
+
+def metricas_mmc(lam, mu, c):
+    rho = lam / (c * mu)  # utilização por servidor
+    assert rho < 1, "Sistema instável"
+    
+    r = lam / mu  # intensidade de tráfego total
+    
+    # Probabilidade de sistema vazio (P0)
+    soma = sum((r**n) / math.factorial(n) for n in range(c))
+    soma += (r**c) / (math.factorial(c) * (1 - rho))
+    P0 = 1 / soma
+    
+    # Probabilidade de esperar (Erlang C)
+    Pc = (r**c / (math.factorial(c) * (1 - rho))) * P0
+    
+    Lq = Pc * rho / (1 - rho)
+    Wq = Lq / lam
+    Ws = Wq + 1/mu
+    Ls = lam * Ws
+    
+    print(f"Servidores: {c}, ρ/servidor: {rho:.1%}")
+    print(f"P(esperar): {Pc:.1%}")
+    print(f"Lq: {Lq:.3f} | Ls: {Ls:.3f}")
+    print(f"Wq: {Wq*60:.2f} min | Ws: {Ws*60:.2f} min")
+
+metricas_mmc(lam=30, mu=20, c=2)  # 30 chegadas/h, cada servidor atende 20/h</code></pre>
+<div class="tip"><strong>Lei de Little:</strong> L = λ · W (válida para qualquer sistema de filas em equilíbrio). Conecta o número médio de clientes (L), a taxa de chegada (λ) e o tempo médio no sistema (W).</div>
+</div>
+
+<h3 id="filas-python">3.3 Simulação Completa em Python com SimPy</h3>
+<div class="card">
+<pre><code>import simpy
+import numpy as np
+import statistics
+
+TAXA_CHEGADA  = 3.0   # clientes por minuto
+TAXA_SERVICO  = 4.0   # atendimentos por minuto
+N_SERVIDORES  = 1
+DURACAO_SIM   = 480   # 8 horas (minutos)
+
+tempos_espera = []
+
+def cliente(env, nome, servidor):
+    chegada = env.now
+    with servidor.request() as req:
+        yield req
+        espera = env.now - chegada
+        tempos_espera.append(espera)
+        tempo_servico = np.random.exponential(1/TAXA_SERVICO)
+        yield env.timeout(tempo_servico)
+
+def gerador_clientes(env, servidor):
+    i = 0
+    while True:
+        yield env.timeout(np.random.exponential(1/TAXA_CHEGADA))
+        i += 1
+        env.process(cliente(env, f"C{i}", servidor))
+
+# Executar simulação
+np.random.seed(42)
+env = simpy.Environment()
+servidor = simpy.Resource(env, capacity=N_SERVIDORES)
+env.process(gerador_clientes(env, servidor))
+env.run(until=DURACAO_SIM)
+
+print(f"Clientes atendidos:  {len(tempos_espera)}")
+print(f"Espera média:        {statistics.mean(tempos_espera):.3f} min")
+print(f"Espera mediana:      {statistics.median(tempos_espera):.3f} min")
+print(f"Espera máxima:       {max(tempos_espera):.3f} min")
+
+# Comparar com M/M/1 teórico
+rho = TAXA_CHEGADA / TAXA_SERVICO
+Wq_teorico = TAXA_CHEGADA / (TAXA_SERVICO * (TAXA_SERVICO - TAXA_CHEGADA))
+print(f"Wq teórico M/M/1:    {Wq_teorico:.3f} min")</code></pre>
+</div>
+
+<details class="slides">
+  <summary>📑 Slides do Professor – Teoria das Filas (9 slides)</summary>
+  <div class="slide-grid">
+      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p001.png" alt="Slide 1" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p002.png" alt="Slide 2" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p003.png" alt="Slide 3" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p004.png" alt="Slide 4" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p005.png" alt="Slide 5" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p006.png" alt="Slide 6" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p007.png" alt="Slide 7" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p008.png" alt="Slide 8" loading="lazy">
+      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p009.png" alt="Slide 9" loading="lazy">
+  </div>
+</details>
+
+</div><!-- .container -->
+</body>
+</html>

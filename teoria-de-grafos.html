@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teoria de Grafos – Apostila Completa</title>
+<style>
+:root{--c1:#1a3a5c;--c2:#2a6496;--acc:#e67e22;--bg:#f9f9f9;--code:#2d2d2d}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:#222;line-height:1.7}
+header{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;padding:2rem 2rem 1.5rem;text-align:center}
+header h1{font-size:2rem;margin-bottom:.4rem}
+header p{opacity:.85;font-size:.95rem}
+nav{background:var(--c1);padding:.6rem 2rem;display:flex;flex-wrap:wrap;gap:.5rem}
+nav a{color:#fff;text-decoration:none;font-size:.85rem;padding:.25rem .7rem;border-radius:4px;background:rgba(255,255,255,.1)}
+nav a:hover{background:var(--acc)}
+.container{max-width:960px;margin:0 auto;padding:2rem 1.5rem}
+h2{color:var(--c1);border-left:4px solid var(--acc);padding-left:.8rem;margin:2rem 0 1rem;font-size:1.4rem}
+h3{color:var(--c2);margin:1.5rem 0 .6rem;font-size:1.1rem}
+h4{color:#444;margin:1rem 0 .4rem;font-size:1rem}
+p{margin-bottom:.8rem}
+ul,ol{margin:.5rem 0 1rem 1.5rem}
+li{margin-bottom:.3rem}
+pre{background:var(--code);color:#f8f8f2;padding:1.2rem;border-radius:8px;overflow-x:auto;font-size:.85rem;margin:1rem 0}
+code{font-family:'Consolas','Courier New',monospace}
+.card{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:1.5rem;margin:1rem 0}
+.tip{background:#fff8e1;border-left:4px solid #ffc107;padding:.8rem 1rem;border-radius:4px;margin:1rem 0}
+.warn{background:#ffebee;border-left:4px solid #ef5350;padding:.8rem 1rem;border-radius:4px;margin:1rem 0}
+.info{background:#e3f2fd;border-left:4px solid var(--c2);padding:.8rem 1rem;border-radius:4px;margin:1rem 0}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem}
+th{background:var(--c1);color:#fff;padding:.6rem 1rem;text-align:left}
+td{padding:.5rem 1rem;border-bottom:1px solid #e0e0e0}
+tr:hover td{background:#f5f5f5}
+.toc{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:1.2rem 1.5rem;margin-bottom:2rem}
+.toc h3{color:var(--c1);margin-bottom:.6rem}
+.toc ul{margin:0;list-style:none;padding:0}
+.toc li{padding:.2rem 0}
+.toc a{color:var(--c2);text-decoration:none}
+.toc a:hover{color:var(--acc)}
+details.slides{margin:1.5rem 0;border:1px solid #ddd;border-radius:8px;background:#fff}
+details.slides summary{cursor:pointer;padding:.9rem 1.2rem;font-weight:600;color:var(--c1);list-style:none;display:flex;align-items:center;gap:.5rem;font-size:.95rem}
+details.slides summary::-webkit-details-marker{display:none}
+details.slides[open] summary{border-bottom:1px solid #ddd;background:#f5f7fa;border-radius:8px 8px 0 0}
+.slide-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;padding:1rem}
+.slide-grid img{width:100%;border-radius:6px;border:1px solid #e0e0e0;box-shadow:0 2px 6px rgba(0,0,0,.1);transition:transform .2s}
+.slide-grid img:hover{transform:scale(1.02);box-shadow:0 4px 12px rgba(0,0,0,.18)}
+@media(max-width:768px){
+  header{padding:1.2rem 1rem}
+  header h1{font-size:1.4rem}
+  nav{padding:.5rem .8rem;gap:.4rem}
+  nav a{font-size:.78rem;padding:.2rem .5rem}
+  .container{padding:1rem .8rem}
+  h2{font-size:1.2rem}
+  h3{font-size:1rem}
+  pre{font-size:.78rem;padding:.8rem}
+  table{font-size:.78rem}
+  td,th{padding:.4rem .5rem}
+  .card{padding:1rem .8rem}
+  .slide-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .slide-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Teoria de Grafos</h1>
+  <p>Apostila completa com slides do professor · Aulas 01–06 · 145 slides</p>
+</header>
+<nav>
+  <a href="index.html">← Início</a>
+  <a href="#aula1">Aula 1 – Introdução</a>
+  <a href="#aula2">Aula 2 – Representação</a>
+  <a href="#aula3">Aula 3 – Percurso</a>
+  <a href="#aula4">Aula 4 – Caminhos</a>
+  <a href="#aula5">Aula 5 – Árvores Geradoras</a>
+  <a href="#aula6">Aula 6 – Aplicações</a>
+</nav>
+<div class="container">
+<div class="toc">
+  <h3>Índice</h3>
+  <ul>
+    <li><a href="#aula1">1. Introdução – Conceitos Fundamentais</a></li>
+    <li><a href="#aula1-tipos">1.1 Tipos de Grafos</a></li>
+    <li><a href="#aula1-hist">1.2 Breve Histórico (Königsberg)</a></li>
+    <li><a href="#aula2">2. Representação Computacional</a></li>
+    <li><a href="#aula2-mat">2.1 Matriz de Adjacência</a></li>
+    <li><a href="#aula2-lista">2.2 Lista de Adjacência</a></li>
+    <li><a href="#aula3">3. Algoritmos de Percurso</a></li>
+    <li><a href="#aula3-bfs">3.1 BFS – Busca em Largura</a></li>
+    <li><a href="#aula3-dfs">3.2 DFS – Busca em Profundidade</a></li>
+    <li><a href="#aula4">4. Caminhos e Ciclos</a></li>
+    <li><a href="#aula4-dijkstra">4.1 Algoritmo de Dijkstra</a></li>
+    <li><a href="#aula4-euler">4.2 Caminhos de Euler e Hamilton</a></li>
+    <li><a href="#aula5">5. Árvores Geradoras Mínimas</a></li>
+    <li><a href="#aula5-kruskal">5.1 Algoritmo de Kruskal</a></li>
+    <li><a href="#aula5-prim">5.2 Algoritmo de Prim</a></li>
+    <li><a href="#aula6">6. Aplicações e Coloração</a></li>
+  </ul>
+</div>
+
+<!-- ═══════════════════ AULA 1 ═══════════════════ -->
+<h2 id="aula1">Aula 1 – Introdução à Teoria de Grafos</h2>
+<div class="card">
+<p>Um <strong>grafo G = (V, E)</strong> é uma estrutura matemática composta por um conjunto de <strong>vértices</strong> (V) e um conjunto de <strong>arestas</strong> (E) que conectam pares de vértices.</p>
+<ul>
+  <li><strong>Vértice (nó):</strong> entidade do problema (cidade, pessoa, processo)</li>
+  <li><strong>Aresta:</strong> relacionamento entre dois vértices (estrada, amizade, dependência)</li>
+  <li><strong>Grau de um vértice:</strong> número de arestas incidentes nele</li>
+</ul>
+<div class="tip"><strong>Aplicações reais:</strong> redes de computadores, rotas de GPS (menor caminho), redes sociais (análise de influência), compiladores (grafo de dependências), bioinformática (redes proteicas).</div>
+</div>
+
+<h3 id="aula1-hist">1.1 Problema das Pontes de Königsberg (1736)</h3>
+<div class="card">
+<p>Euler resolveu o problema histórico: <em>"É possível percorrer todas as 7 pontes de Königsberg exatamente uma vez e voltar ao ponto de partida?"</em></p>
+<p>Euler provou que <strong>não</strong>, modelando as margens como vértices e as pontes como arestas. Sua conclusão: um percurso euleriano (que passa por todas as arestas exatamente uma vez) só existe se o grafo tiver exatamente 0 ou 2 vértices com grau ímpar.</p>
+<div class="info">Este problema deu origem à Teoria de Grafos. O grafo resultante tinha 4 vértices e 7 arestas, com todos os vértices de grau ímpar (3 ou 5), impossibilitando o circuito.</div>
+</div>
+
+<h3 id="aula1-tipos">1.2 Tipos de Grafos</h3>
+<div class="card">
+<table>
+<tr><th>Tipo</th><th>Característica</th><th>Exemplo</th></tr>
+<tr><td>Simples</td><td>Sem laços, sem arestas múltiplas</td><td>Rede de amizades</td></tr>
+<tr><td>Dígrafo (dirigido)</td><td>Arestas têm direção</td><td>Páginas Web (links)</td></tr>
+<tr><td>Ponderado</td><td>Arestas têm peso/custo</td><td>Mapa rodoviário com distâncias</td></tr>
+<tr><td>Bipartido</td><td>Vértices em 2 conjuntos disjuntos</td><td>Alunos ↔ Disciplinas</td></tr>
+<tr><td>Completo K<sub>n</sub></td><td>Todo par de vértices conectado</td><td>Torneio round-robin</td></tr>
+<tr><td>Árvore</td><td>Grafo conexo sem ciclos</td><td>Hierarquia de arquivos</td></tr>
+<tr><td>Planar</td><td>Pode ser desenhado sem cruzamento de arestas</td><td>Mapas geográficos</td></tr>
+</table>
+<div class="tip"><strong>Teorema de Euler para grafos planares:</strong> V − E + F = 2, onde V = vértices, E = arestas, F = faces (incluindo a face infinita externa).</div>
+</div>
+
+<details class="slides">
+  <summary>📑 Slides do Professor – Aula 01 – Introdução (44 slides)</summary>
+  <div class="slide-grid">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p001.png" alt="Slide 1" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p002.png" alt="Slide 2" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p003.png" alt="Slide 3" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p004.png" alt="Slide 4" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p005.png" alt="Slide 5" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p006.png" alt="Slide 6" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p007.png" alt="Slide 7" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p008.png" alt="Slide 8" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p009.png" alt="Slide 9" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p010.png" alt="Slide 10" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p011.png" alt="Slide 11" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p012.png" alt="Slide 12" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p013.png" alt="Slide 13" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p014.png" alt="Slide 14" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p015.png" alt="Slide 15" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p016.png" alt="Slide 16" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p017.png" alt="Slide 17" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p018.png" alt="Slide 18" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p019.png" alt="Slide 19" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p020.png" alt="Slide 20" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p021.png" alt="Slide 21" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p022.png" alt="Slide 22" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p023.png" alt="Slide 23" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p024.png" alt="Slide 24" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p025.png" alt="Slide 25" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p026.png" alt="Slide 26" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p027.png" alt="Slide 27" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p028.png" alt="Slide 28" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p029.png" alt="Slide 29" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p030.png" alt="Slide 30" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p031.png" alt="Slide 31" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p032.png" alt="Slide 32" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p033.png" alt="Slide 33" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p034.png" alt="Slide 34" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p035.png" alt="Slide 35" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p036.png" alt="Slide 36" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p037.png" alt="Slide 37" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p038.png" alt="Slide 38" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p039.png" alt="Slide 39" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p040.png" alt="Slide 40" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p041.png" alt="Slide 41" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p042.png" alt="Slide 42" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p043.png" alt="Slide 43" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p044.png" alt="Slide 44" loading="lazy">
+  </div>
+</details>
+
+<!-- ═══════════════════ AULA 2 ═══════════════════ -->
+<h2 id="aula2">Aula 2 – Representação Computacional de Grafos</h2>
+
+<h3 id="aula2-mat">2.1 Matriz de Adjacência</h3>
+<div class="card">
+<p>Uma matriz n×n onde <code>A[i][j] = 1</code> (ou peso) se existe aresta entre i e j, 0 caso contrário.</p>
+<pre><code>// Java – Grafo com Matriz de Adjacência
+class GrafoMatriz {
+    int[][] adj;
+    int n;
+    
+    GrafoMatriz(int n) {
+        this.n = n;
+        adj = new int[n][n];
+    }
+    
+    void addAresta(int u, int v) {    // grafo não-dirigido
+        adj[u][v] = 1;
+        adj[v][u] = 1;
+    }
+    
+    void addArestaPeso(int u, int v, int w) {
+        adj[u][v] = w;
+        adj[v][u] = w;
+    }
+    
+    boolean existeAresta(int u, int v) {
+        return adj[u][v] != 0;
+    }
+    
+    void imprimir() {
+        for (int[] linha : adj) {
+            for (int val : linha) System.out.printf("%3d", val);
+            System.out.println();
+        }
+    }
+}</code></pre>
+<table>
+<tr><th>Aspecto</th><th>Matriz de Adjacência</th></tr>
+<tr><td>Espaço</td><td>O(V²) — ruim para grafos esparsos</td></tr>
+<tr><td>Verificar aresta</td><td>O(1)</td></tr>
+<tr><td>Listar vizinhos</td><td>O(V)</td></tr>
+<tr><td>Ideal para</td><td>Grafos densos (muitas arestas)</td></tr>
+</table>
+</div>
+
+<h3 id="aula2-lista">2.2 Lista de Adjacência</h3>
+<div class="card">
+<p>Cada vértice possui uma lista de seus vizinhos. Mais eficiente para grafos esparsos.</p>
+<pre><code>import java.util.*;
+
+class GrafoLista {
+    int n;
+    List&lt;List&lt;Integer&gt;&gt; adj;
+    
+    GrafoLista(int n) {
+        this.n = n;
+        adj = new ArrayList&lt;&gt;();
+        for (int i = 0; i &lt; n; i++) adj.add(new ArrayList&lt;&gt;());
+    }
+    
+    void addAresta(int u, int v) {
+        adj.get(u).add(v);
+        adj.get(v).add(u);   // remover para dígrafo
+    }
+    
+    List&lt;Integer&gt; vizinhos(int u) {
+        return adj.get(u);
+    }
+}
+
+// Versão com pesos (aresta como objeto)
+class Aresta {
+    int destino, peso;
+    Aresta(int d, int p) { destino = d; peso = p; }
+}</code></pre>
+<table>
+<tr><th>Aspecto</th><th>Lista de Adjacência</th></tr>
+<tr><td>Espaço</td><td>O(V + E) — eficiente para grafos esparsos</td></tr>
+<tr><td>Verificar aresta</td><td>O(grau do vértice)</td></tr>
+<tr><td>Listar vizinhos</td><td>O(grau do vértice)</td></tr>
+<tr><td>Ideal para</td><td>Grafos esparsos (poucas arestas)</td></tr>
+</table>
+</div>
+
+<details class="slides">
+  <summary>📑 Slides do Professor – Aula 02 – Representação (24 slides)</summary>
+  <div class="slide-grid">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p001.png" alt="Slide 1" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p002.png" alt="Slide 2" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p003.png" alt="Slide 3" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p004.png" alt="Slide 4" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p005.png" alt="Slide 5" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p006.png" alt="Slide 6" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p007.png" alt="Slide 7" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p008.png" alt="Slide 8" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p009.png" alt="Slide 9" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p010.png" alt="Slide 10" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p011.png" alt="Slide 11" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p012.png" alt="Slide 12" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p013.png" alt="Slide 13" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p014.png" alt="Slide 14" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p015.png" alt="Slide 15" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p016.png" alt="Slide 16" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p017.png" alt="Slide 17" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p018.png" alt="Slide 18" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p019.png" alt="Slide 19" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p020.png" alt="Slide 20" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p021.png" alt="Slide 21" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p022.png" alt="Slide 22" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p023.png" alt="Slide 23" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p024.png" alt="Slide 24" loading="lazy">
+  </div>
+</details>
+
+<!-- ═══════════════════ AULA 3 ═══════════════════ -->
+<h2 id="aula3">Aula 3 – Algoritmos de Percurso</h2>
+
+<h3 id="aula3-bfs">3.1 BFS – Busca em Largura (Breadth-First Search)</h3>
+<div class="card">
+<p>Visita os vértices camada por camada, explorando todos os vizinhos antes de ir mais fundo. Usa uma <strong>fila</strong>.</p>
+<pre><code>void bfs(GrafoLista g, int inicio) {
+    boolean[] visitado = new boolean[g.n];
+    Queue&lt;Integer&gt; fila = new LinkedList&lt;&gt;();
+    
+    visitado[inicio] = true;
+    fila.offer(inicio);
+    
+    while (!fila.isEmpty()) {
+        int v = fila.poll();
+        System.out.print(v + " ");
+        
+        for (int vizinho : g.vizinhos(v)) {
+            if (!visitado[vizinho]) {
+                visitado[vizinho] = true;
+                fila.offer(vizinho);
+            }
+        }
+    }
+}</code></pre>
+<div class="info"><strong>Usos do BFS:</strong> menor caminho em grafos não-ponderados, verificar se grafo é bipartido, nível de separação em redes sociais, algoritmos de roteamento em redes.</div>
+<table>
+<tr><th>Complexidade</th><th>Valor</th></tr>
+<tr><td>Tempo</td><td>O(V + E)</td></tr>
+<tr><td>Espaço</td><td>O(V) — tamanho da fila</td></tr>
+</table>
+</div>
+
+<h3 id="aula3-dfs">3.2 DFS – Busca em Profundidade (Depth-First Search)</h3>
+<div class="card">
+<p>Explora o mais fundo possível antes de voltar. Pode ser implementada com <strong>pilha</strong> ou recursão.</p>
+<pre><code>// DFS recursiva
+void dfs(GrafoLista g, int v, boolean[] visitado) {
+    visitado[v] = true;
+    System.out.print(v + " ");
+    
+    for (int vizinho : g.vizinhos(v)) {
+        if (!visitado[vizinho]) {
+            dfs(g, vizinho, visitado);
+        }
+    }
+}
+
+// Chamada
+boolean[] vis = new boolean[g.n];
+dfs(g, 0, vis);  // inicia no vértice 0
+
+// DFS iterativa com pilha
+void dfsIterativa(GrafoLista g, int inicio) {
+    boolean[] visitado = new boolean[g.n];
+    Stack&lt;Integer&gt; pilha = new Stack&lt;&gt;();
+    pilha.push(inicio);
+    
+    while (!pilha.isEmpty()) {
+        int v = pilha.pop();
+        if (visitado[v]) continue;
+        visitado[v] = true;
+        System.out.print(v + " ");
+        for (int viz : g.vizinhos(v))
+            if (!visitado[viz]) pilha.push(viz);
+    }
+}</code></pre>
+<div class="info"><strong>Usos do DFS:</strong> detecção de ciclos, ordenação topológica, componentes fortemente conexos (algoritmo de Tarjan/Kosaraju), labirintos, resolução de puzzles.</div>
+</div>
+
+<details class="slides">
+  <summary>📑 Slides do Professor – Aula 03 – Percurso BFS/DFS (25 slides)</summary>
+  <div class="slide-grid">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p001.png" alt="Slide 1" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p002.png" alt="Slide 2" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p003.png" alt="Slide 3" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p004.png" alt="Slide 4" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p005.png" alt="Slide 5" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p006.png" alt="Slide 6" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p007.png" alt="Slide 7" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p008.png" alt="Slide 8" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p009.png" alt="Slide 9" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p010.png" alt="Slide 10" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p011.png" alt="Slide 11" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p012.png" alt="Slide 12" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p013.png" alt="Slide 13" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p014.png" alt="Slide 14" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p015.png" alt="Slide 15" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p016.png" alt="Slide 16" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p017.png" alt="Slide 17" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p018.png" alt="Slide 18" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p019.png" alt="Slide 19" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p020.png" alt="Slide 20" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p021.png" alt="Slide 21" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p022.png" alt="Slide 22" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p023.png" alt="Slide 23" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p024.png" alt="Slide 24" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p025.png" alt="Slide 25" loading="lazy">
+  </div>
+</details>
+
+<!-- ═══════════════════ AULA 4 ═══════════════════ -->
+<h2 id="aula4">Aula 4 – Caminhos Mínimos e Ciclos</h2>
+
+<h3 id="aula4-dijkstra">4.1 Algoritmo de Dijkstra</h3>
+<div class="card">
+<p>Encontra o <strong>menor caminho</strong> de um vértice fonte a todos os outros em grafos com pesos <em>não-negativos</em>.</p>
+<pre><code>import java.util.*;
+
+void dijkstra(int[][] grafo, int src, int n) {
+    int[] dist = new int[n];
+    boolean[] visitado = new boolean[n];
+    Arrays.fill(dist, Integer.MAX_VALUE);
+    dist[src] = 0;
+    
+    // PriorityQueue: {distancia, vertice}
+    PriorityQueue&lt;int[]&gt; pq = new PriorityQueue&lt;&gt;(Comparator.comparingInt(a -&gt; a[0]));
+    pq.offer(new int[]{0, src});
+    
+    while (!pq.isEmpty()) {
+        int[] curr = pq.poll();
+        int d = curr[0], u = curr[1];
+        if (visitado[u]) continue;
+        visitado[u] = true;
+        
+        for (int v = 0; v &lt; n; v++) {
+            if (grafo[u][v] != 0 && dist[u] + grafo[u][v] &lt; dist[v]) {
+                dist[v] = dist[u] + grafo[u][v];
+                pq.offer(new int[]{dist[v], v});
+            }
+        }
+    }
+    // dist[] contém as menores distâncias de src a cada vértice
+}</code></pre>
+<table>
+<tr><th>Complexidade</th><th>Com array</th><th>Com fila de prioridade</th></tr>
+<tr><td>Tempo</td><td>O(V²)</td><td>O((V+E) log V)</td></tr>
+<tr><td>Espaço</td><td>O(V)</td><td>O(V+E)</td></tr>
+</table>
+<div class="warn"><strong>Limitação:</strong> Dijkstra não funciona com pesos negativos. Para isso, use o algoritmo de Bellman-Ford O(VE).</div>
+</div>
+
+<h3 id="aula4-euler">4.2 Caminhos de Euler e Hamilton</h3>
+<div class="card">
+<table>
+<tr><th>Conceito</th><th>Definição</th><th>Condição de Existência</th></tr>
+<tr><td>Trilha de Euler</td><td>Passa por cada <strong>aresta</strong> exatamente uma vez</td><td>Exatamente 0 ou 2 vértices com grau ímpar</td></tr>
+<tr><td>Circuito de Euler</td><td>Trilha de Euler que retorna à origem</td><td>Todos os vértices têm grau par</td></tr>
+<tr><td>Caminho Hamiltoniano</td><td>Passa por cada <strong>vértice</strong> exatamente uma vez</td><td>Problema NP-completo — sem condição simples</td></tr>
+<tr><td>Ciclo Hamiltoniano</td><td>Caminho hamiltoniano que retorna à origem</td><td>NP-completo (base do TSP)</td></tr>
+</table>
+</div>
+
+<details class="slides">
+  <summary>📑 Slides do Professor – Aula 04 – Caminhos (14 slides)</summary>
+  <div class="slide-grid">
+      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p001.png" alt="Slide 1" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p002.png" alt="Slide 2" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p003.png" alt="Slide 3" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p004.png" alt="Slide 4" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p005.png" alt="Slide 5" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p006.png" alt="Slide 6" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p007.png" alt="Slide 7" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p008.png" alt="Slide 8" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p009.png" alt="Slide 9" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p010.png" alt="Slide 10" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p011.png" alt="Slide 11" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p012.png" alt="Slide 12" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p013.png" alt="Slide 13" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p014.png" alt="Slide 14" loading="lazy">
+  </div>
+</details>
+
+<!-- ═══════════════════ AULA 5 ═══════════════════ -->
+<h2 id="aula5">Aula 5 – Árvores Geradoras Mínimas</h2>
+<div class="card">
+<p>Uma <strong>Árvore Geradora Mínima (AGM / MST)</strong> de um grafo conexo ponderado é uma subárvore que conecta todos os vértices com o menor custo total de arestas possível.</p>
+<p>Aplicações: redes de telecomunicações, distribuição elétrica, projeto de circuitos.</p>
+</div>
+
+<h3 id="aula5-kruskal">5.1 Algoritmo de Kruskal</h3>
+<div class="card">
+<p>Estratégia gulosa: ordena arestas por peso crescente e adiciona cada aresta se não forma ciclo (Union-Find).</p>
+<pre><code>class KruskalMST {
+    int[] pai, rank;
+    
+    int find(int x) {
+        if (pai[x] != x) pai[x] = find(pai[x]);  // path compression
+        return pai[x];
+    }
+    
+    void union(int x, int y) {
+        int px = find(x), py = find(y);
+        if (rank[px] &lt; rank[py]) pai[px] = py;
+        else if (rank[px] &gt; rank[py]) pai[py] = px;
+        else { pai[py] = px; rank[px]++; }
+    }
+    
+    int[][] kruskal(int n, int[][] arestas) {
+        // arestas[i] = {peso, u, v}
+        Arrays.sort(arestas, (a,b) -&gt; a[0]-b[0]);
+        pai = new int[n]; rank = new int[n];
+        for (int i = 0; i &lt; n; i++) pai[i] = i;
+        
+        List&lt;int[]&gt; mst = new ArrayList&lt;&gt;();
+        for (int[] e : arestas) {
+            if (find(e[1]) != find(e[2])) {
+                union(e[1], e[2]);
+                mst.add(e);
+                if (mst.size() == n-1) break;
+            }
+        }
+        return mst.toArray(new int[0][]);
+    }
+}</code></pre>
+<p><strong>Complexidade:</strong> O(E log E) para ordenar + O(E α(V)) para Union-Find ≈ O(E log E)</p>
+</div>
+
+<h3 id="aula5-prim">5.2 Algoritmo de Prim</h3>
+<div class="card">
+<p>Cresce a árvore a partir de um vértice inicial, sempre adicionando a aresta de menor peso que conecta um novo vértice.</p>
+<pre><code>void prim(int[][] grafo, int n) {
+    int[] chave = new int[n];      // peso mínimo para entrar na MST
+    boolean[] inMST = new boolean[n];
+    int[] pai = new int[n];
+    
+    Arrays.fill(chave, Integer.MAX_VALUE);
+    chave[0] = 0; pai[0] = -1;
+    
+    for (int i = 0; i &lt; n-1; i++) {
+        // encontra vértice com menor chave não incluído
+        int u = -1;
+        for (int v = 0; v &lt; n; v++)
+            if (!inMST[v] && (u == -1 || chave[v] &lt; chave[u])) u = v;
+        inMST[u] = true;
+        
+        for (int v = 0; v &lt; n; v++) {
+            if (grafo[u][v] != 0 && !inMST[v] && grafo[u][v] &lt; chave[v]) {
+                chave[v] = grafo[u][v];
+                pai[v] = u;
+            }
+        }
+    }
+}</code></pre>
+<p><strong>Complexidade:</strong> O(V²) com array simples; O(E log V) com fila de prioridade</p>
+</div>
+
+<details class="slides">
+  <summary>📑 Slides do Professor – Aula 05 – Árvores Geradoras (14 slides)</summary>
+  <div class="slide-grid">
+      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p001.png" alt="Slide 1" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p002.png" alt="Slide 2" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p003.png" alt="Slide 3" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p004.png" alt="Slide 4" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p005.png" alt="Slide 5" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p006.png" alt="Slide 6" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p007.png" alt="Slide 7" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p008.png" alt="Slide 8" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p009.png" alt="Slide 9" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p010.png" alt="Slide 10" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p011.png" alt="Slide 11" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p012.png" alt="Slide 12" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p013.png" alt="Slide 13" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p014.png" alt="Slide 14" loading="lazy">
+  </div>
+</details>
+
+<!-- ═══════════════════ AULA 6 ═══════════════════ -->
+<h2 id="aula6">Aula 6 – Aplicações e Coloração de Grafos</h2>
+<div class="card">
+<h3>Coloração de Grafos</h3>
+<p>Atribuir cores a vértices de forma que nenhum par de vértices adjacentes tenha a mesma cor, usando o mínimo de cores possível (<strong>número cromático χ(G)</strong>).</p>
+<ul>
+  <li><strong>Grafos bipartidos:</strong> χ = 2 (se não vazio)</li>
+  <li><strong>Grafos com ciclo ímpar:</strong> χ ≥ 3</li>
+  <li><strong>Grafo completo K<sub>n</sub>:</strong> χ = n</li>
+</ul>
+<div class="info"><strong>Teorema das 4 Cores:</strong> qualquer mapa planar pode ser colorido com no máximo 4 cores. Provado em 1976 com auxílio computacional (Appel e Haken).</div>
+<h4>Aplicação: Alocação de Registradores</h4>
+<p>Compiladores modelam a interferência entre variáveis como um grafo de interferência e usam coloração para alocar registradores de CPU — cada cor representa um registrador físico.</p>
+</div>
+
+<div class="card">
+<h3>Fluxo em Redes (Ford-Fulkerson)</h3>
+<p>Em um dígrafo com capacidades nas arestas, o <strong>fluxo máximo</strong> da fonte ao sumidouro é determinado pelo <em>corte mínimo</em> (Teorema Max-Flow Min-Cut).</p>
+<pre><code>// Algoritmo de Ford-Fulkerson (BFS = Edmonds-Karp, O(VE²))
+int fordFulkerson(int[][] cap, int s, int t, int n) {
+    int[][] residual = new int[n][n];
+    for (int u = 0; u &lt; n; u++)
+        for (int v = 0; v &lt; n; v++) residual[u][v] = cap[u][v];
+    
+    int maxFlow = 0;
+    int[] pai = new int[n];
+    
+    while (bfsAumentante(residual, s, t, n, pai)) {
+        int fluxoCaminho = Integer.MAX_VALUE;
+        for (int v = t; v != s; v = pai[v])
+            fluxoCaminho = Math.min(fluxoCaminho, residual[pai[v]][v]);
+        for (int v = t; v != s; v = pai[v]) {
+            residual[pai[v]][v] -= fluxoCaminho;
+            residual[v][pai[v]] += fluxoCaminho;
+        }
+        maxFlow += fluxoCaminho;
+    }
+    return maxFlow;
+}</code></pre>
+</div>
+
+<div class="card">
+<h3>Ordenação Topológica</h3>
+<p>Para <strong>DAGs</strong> (grafos dirigidos acíclicos): ordenar vértices de forma que toda aresta u→v tenha u antes de v na ordenação. Usado em: make/build systems, resolução de dependências, planejamento de tarefas.</p>
+<pre><code>// Usando DFS
+void topoSort(GrafoLista g, int v, boolean[] vis, Stack&lt;Integer&gt; pilha) {
+    vis[v] = true;
+    for (int u : g.vizinhos(v))
+        if (!vis[u]) topoSort(g, u, vis, pilha);
+    pilha.push(v);  // adiciona após explorar todos os descendentes
+}
+
+// Resultado: pop da pilha dá a ordenação topológica</code></pre>
+</div>
+
+<details class="slides">
+  <summary>📑 Slides do Professor – Aula 06 – Aplicações (24 slides)</summary>
+  <div class="slide-grid">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p001.png" alt="Slide 1" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p002.png" alt="Slide 2" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p003.png" alt="Slide 3" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p004.png" alt="Slide 4" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p005.png" alt="Slide 5" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p006.png" alt="Slide 6" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p007.png" alt="Slide 7" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p008.png" alt="Slide 8" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p009.png" alt="Slide 9" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p010.png" alt="Slide 10" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p011.png" alt="Slide 11" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p012.png" alt="Slide 12" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p013.png" alt="Slide 13" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p014.png" alt="Slide 14" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p015.png" alt="Slide 15" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p016.png" alt="Slide 16" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p017.png" alt="Slide 17" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p018.png" alt="Slide 18" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p019.png" alt="Slide 19" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p020.png" alt="Slide 20" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p021.png" alt="Slide 21" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p022.png" alt="Slide 22" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p023.png" alt="Slide 23" loading="lazy">
+      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p024.png" alt="Slide 24" loading="lazy">
+  </div>
+</details>
+
+</div><!-- .container -->
+</body>
+</html>
