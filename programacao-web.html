@@ -80,13 +80,14 @@
     <li><a href="#express">Backend com Express.js</a></li>
     <li><a href="#api">React consumindo API</a></li>
     <li><a href="#resumo">Resumo para Prova</a></li>
+    <li><a href="#simulado2">Simulado 2</a></li>
   </ol>
 </div>
 <h2 id="html-forms">1. Formulários HTML</h2>
 <div class="card">
-<p>Formulários HTML são o principal mecanismo para coleta de dados do usuário na web. A tag <code>&lt;form&gt;</code> define o container do formulário com atributos que controlam <em>como</em> e <em>para onde</em> os dados são enviados.</p>
+<p>Formulários HTML são o principal mecanismo para coleta de dados do usuário na web. A tag <code><form></code> define o container do formulário com atributos que controlam <em>como</em> e <em>para onde</em> os dados são enviados.</p>
 
-<h4>Atributos essenciais de &lt;form&gt;:</h4>
+<h4>Atributos essenciais de <form>:</h4>
 <table>
   <tr><th>Atributo</th><th>Valores</th><th>Descrição</th></tr>
   <tr><td><code>action</code></td><td>URL</td><td>Destino para onde os dados serão enviados. Ex: <code>action="resposta.php"</code></td></tr>
@@ -96,30 +97,30 @@
 </table>
 
 <h4>Estrutura básica de um formulário:</h4>
-<pre><code>&lt;form action="resposta.php" method="POST"&gt;
+<pre><code><form action="resposta.php" method="POST">
 
-  &lt;fieldset&gt;
-    &lt;legend&gt;Dados Pessoais&lt;/legend&gt;
+  <fieldset>
+    <legend>Dados Pessoais</legend>
 
-    &lt;label for="nome"&gt;Nome:&lt;/label&gt;
-    &lt;input type="text" id="nome" name="nome" required
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" name="nome" required
            placeholder="Digite seu nome completo"
-           minlength="3" maxlength="100"&gt;
+           minlength="3" maxlength="100">
 
-    &lt;label for="email"&gt;E-mail:&lt;/label&gt;
-    &lt;input type="email" id="email" name="email" required&gt;
+    <label for="email">E-mail:</label>
+    <input type="email" id="email" name="email" required>
 
-    &lt;button type="submit"&gt;Enviar&lt;/button&gt;
-    &lt;button type="reset"&gt;Limpar&lt;/button&gt;
-  &lt;/fieldset&gt;
+    <button type="submit">Enviar</button>
+    <button type="reset">Limpar</button>
+  </fieldset>
 
-&lt;/form&gt;</code></pre>
+</form></code></pre>
 
 <h4>Tags especiais de agrupamento:</h4>
 <ul>
-  <li><strong><code>&lt;fieldset&gt;</code></strong> — agrupa visualmente campos relacionados com uma borda. Melhora a organização e acessibilidade.</li>
-  <li><strong><code>&lt;legend&gt;</code></strong> — título descritivo do fieldset. Aparece na borda superior do grupo.</li>
-  <li><strong><code>&lt;label&gt;</code></strong> — rótulo do campo. Ao clicar no label, o foco vai para o campo associado via atributo <code>for</code> (deve ser igual ao <code>id</code> do input).</li>
+  <li><strong><code><fieldset></code></strong> — agrupa visualmente campos relacionados com uma borda. Melhora a organização e acessibilidade.</li>
+  <li><strong><code><legend></code></strong> — título descritivo do fieldset. Aparece na borda superior do grupo.</li>
+  <li><strong><code><label></code></strong> — rótulo do campo. Ao clicar no label, o foco vai para o campo associado via atributo <code>for</code> (deve ser igual ao <code>id</code> do input).</li>
 </ul>
 </div>
 <h2 id="input-types">2. Tipos de Input e Atributos</h2>
@@ -143,15 +144,15 @@
   <tr><td><code>tel</code></td><td>Número de telefone (sem validação automática de formato).</td><td>Contato</td></tr>
   <tr><td><code>search</code></td><td>Campo de busca com botão de limpeza.</td><td>Busca no site</td></tr>
   <tr><td><code>hidden</code></td><td>Campo invisível ao usuário, enviado com o formulário.</td><td>ID de sessão, CSRF token</td></tr>
-  <tr><td><code>submit</code></td><td>Botão que envia o formulário.</td><td>&lt;input type="submit" value="Enviar"&gt;</td></tr>
-  <tr><td><code>reset</code></td><td>Botão que limpa todos os campos.</td><td>&lt;input type="reset"&gt;</td></tr>
+  <tr><td><code>submit</code></td><td>Botão que envia o formulário.</td><td><input type="submit" value="Enviar"></td></tr>
+  <tr><td><code>reset</code></td><td>Botão que limpa todos os campos.</td><td><input type="reset"></td></tr>
 </table>
 
 <h3>2.2 Atributos Importantes de Input</h3>
 <table>
   <tr><th>Atributo</th><th>Tipos compatíveis</th><th>Descrição</th></tr>
   <tr><td><code>name</code></td><td>Todos</td><td>Nome do campo enviado ao servidor. Obrigatório para que o campo apareça nos dados.</td></tr>
-  <tr><td><code>id</code></td><td>Todos</td><td>Identificador único na página. Usado pelo &lt;label for=""&gt;.</td></tr>
+  <tr><td><code>id</code></td><td>Todos</td><td>Identificador único na página. Usado pelo <label for="">.</td></tr>
   <tr><td><code>value</code></td><td>Todos</td><td>Valor inicial do campo / valor enviado ao servidor.</td></tr>
   <tr><td><code>required</code></td><td>Todos</td><td>Campo obrigatório — formulário não envia se vazio.</td></tr>
   <tr><td><code>placeholder</code></td><td>text, email, etc.</td><td>Texto de dica exibido quando o campo está vazio.</td></tr>
@@ -165,77 +166,77 @@
   <tr><td><code>autofocus</code></td><td>Todos</td><td>Foco automático ao carregar a página.</td></tr>
   <tr><td><code>multiple</code></td><td>email, file</td><td>Permite múltiplos valores (e-mails separados por vírgula).</td></tr>
   <tr><td><code>accept</code></td><td>file</td><td>Tipos de arquivo aceitos. Ex: accept=".pdf,.jpg"</td></tr>
-  <tr><td><code>list</code></td><td>text</td><td>Vincula a um &lt;datalist&gt; para sugestões de autocompletar.</td></tr>
+  <tr><td><code>list</code></td><td>text</td><td>Vincula a um <datalist> para sugestões de autocompletar.</td></tr>
   <tr><td><code>checked</code></td><td>checkbox, radio</td><td>Estado inicial marcado.</td></tr>
 </table>
 
 <h3>2.3 Elementos Especiais</h3>
 <h4>datalist — lista de sugestões</h4>
-<pre><code>&lt;label for="cidade"&gt;Cidade:&lt;/label&gt;
-&lt;input type="text" id="cidade" name="cidade" list="cidades"
-       placeholder="Digite ou escolha..."&gt;
-&lt;datalist id="cidades"&gt;
-  &lt;option value="Belo Horizonte"&gt;
-  &lt;option value="São Paulo"&gt;
-  &lt;option value="Rio de Janeiro"&gt;
-  &lt;option value="Brasília"&gt;
-&lt;/datalist&gt;</code></pre>
+<pre><code><label for="cidade">Cidade:</label>
+<input type="text" id="cidade" name="cidade" list="cidades"
+       placeholder="Digite ou escolha...">
+<datalist id="cidades">
+  <option value="Belo Horizonte">
+  <option value="São Paulo">
+  <option value="Rio de Janeiro">
+  <option value="Brasília">
+</datalist></code></pre>
 <p>O <code>datalist</code> fornece sugestões enquanto o usuário digita, mas permite qualquer valor (diferente do <code>select</code>).</p>
 
 <h4>textarea — texto multilinha</h4>
-<pre><code>&lt;label for="obs"&gt;Observações:&lt;/label&gt;
-&lt;textarea id="obs" name="obs"
+<pre><code><label for="obs">Observações:</label>
+<textarea id="obs" name="obs"
           rows="6" cols="40"
           placeholder="Digite aqui..."
           maxlength="500"
-          required&gt;&lt;/textarea&gt;</code></pre>
+          required></textarea></code></pre>
 
 <h4>select — lista suspensa</h4>
-<pre><code>&lt;label for="estado"&gt;Estado:&lt;/label&gt;
-&lt;select id="estado" name="estado" required&gt;
-  &lt;option value=""&gt;-- Selecione --&lt;/option&gt;
-  &lt;optgroup label="Sudeste"&gt;
-    &lt;option value="MG"&gt;Minas Gerais&lt;/option&gt;
-    &lt;option value="SP"&gt;São Paulo&lt;/option&gt;
-    &lt;option value="RJ"&gt;Rio de Janeiro&lt;/option&gt;
-  &lt;/optgroup&gt;
-  &lt;optgroup label="Norte"&gt;
-    &lt;option value="AM"&gt;Amazonas&lt;/option&gt;
-  &lt;/optgroup&gt;
-&lt;/select&gt;</code></pre>
+<pre><code><label for="estado">Estado:</label>
+<select id="estado" name="estado" required>
+  <option value="">-- Selecione --</option>
+  <optgroup label="Sudeste">
+    <option value="MG">Minas Gerais</option>
+    <option value="SP">São Paulo</option>
+    <option value="RJ">Rio de Janeiro</option>
+  </optgroup>
+  <optgroup label="Norte">
+    <option value="AM">Amazonas</option>
+  </optgroup>
+</select></code></pre>
 
 <h4>Exemplo completo de formulário:</h4>
-<pre><code>&lt;form action="resposta.php" method="POST"&gt;
-  &lt;fieldset&gt;
-    &lt;legend&gt;Cadastro de Aluno&lt;/legend&gt;
+<pre><code><form action="resposta.php" method="POST">
+  <fieldset>
+    <legend>Cadastro de Aluno</legend>
 
-    &lt;label for="nome"&gt;Nome:&lt;/label&gt;
-    &lt;input type="text" id="nome" name="nome" required minlength="3"&gt;
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" name="nome" required minlength="3">
 
-    &lt;label for="nascimento"&gt;Data de Nascimento:&lt;/label&gt;
-    &lt;input type="date" id="nascimento" name="nascimento"
-           min="1900-01-01" max="2010-12-31"&gt;
+    <label for="nascimento">Data de Nascimento:</label>
+    <input type="date" id="nascimento" name="nascimento"
+           min="1900-01-01" max="2010-12-31">
 
-    &lt;label for="nota"&gt;Nota (0-10):&lt;/label&gt;
-    &lt;input type="number" id="nota" name="nota"
-           min="0" max="10" step="0.5"&gt;
+    <label for="nota">Nota (0-10):</label>
+    <input type="number" id="nota" name="nota"
+           min="0" max="10" step="0.5">
 
-    &lt;label&gt;Turno:&lt;/label&gt;
-    &lt;input type="radio" name="turno" value="manha" id="manha"&gt;
-    &lt;label for="manha"&gt;Manhã&lt;/label&gt;
-    &lt;input type="radio" name="turno" value="noite" id="noite"&gt;
-    &lt;label for="noite"&gt;Noite&lt;/label&gt;
+    <label>Turno:</label>
+    <input type="radio" name="turno" value="manha" id="manha">
+    <label for="manha">Manhã</label>
+    <input type="radio" name="turno" value="noite" id="noite">
+    <label for="noite">Noite</label>
 
-    &lt;label&gt;Disciplinas:&lt;/label&gt;
-    &lt;input type="checkbox" name="disc" value="web" id="web"&gt;
-    &lt;label for="web"&gt;Prog. Web&lt;/label&gt;
-    &lt;input type="checkbox" name="disc" value="ed" id="ed"&gt;
-    &lt;label for="ed"&gt;Estrutura de Dados&lt;/label&gt;
+    <label>Disciplinas:</label>
+    <input type="checkbox" name="disc" value="web" id="web">
+    <label for="web">Prog. Web</label>
+    <input type="checkbox" name="disc" value="ed" id="ed">
+    <label for="ed">Estrutura de Dados</label>
 
-    &lt;button type="submit"&gt;Cadastrar&lt;/button&gt;
-    &lt;button type="reset"&gt;Limpar&lt;/button&gt;
-  &lt;/fieldset&gt;
-&lt;/form&gt;</code></pre>
+    <button type="submit">Cadastrar</button>
+    <button type="reset">Limpar</button>
+  </fieldset>
+</form></code></pre>
 </div>
 <h2 id="tables">3. Tabelas HTML</h2>
 <div class="card">
@@ -244,14 +245,14 @@
 <h4>Tags de uma tabela:</h4>
 <table>
   <tr><th>Tag</th><th>Descrição</th></tr>
-  <tr><td><code>&lt;table&gt;</code></td><td>Container principal da tabela.</td></tr>
-  <tr><td><code>&lt;thead&gt;</code></td><td>Cabeçalho semântico (opcional, mas bom para acessibilidade).</td></tr>
-  <tr><td><code>&lt;tbody&gt;</code></td><td>Corpo da tabela com os dados.</td></tr>
-  <tr><td><code>&lt;tfoot&gt;</code></td><td>Rodapé semântico (totais, notas).</td></tr>
-  <tr><td><code>&lt;tr&gt;</code></td><td>Table Row — uma linha da tabela.</td></tr>
-  <tr><td><code>&lt;th&gt;</code></td><td>Table Header — célula de cabeçalho (negrito por padrão). Atributo <code>scope</code>.</td></tr>
-  <tr><td><code>&lt;td&gt;</code></td><td>Table Data — célula de dado.</td></tr>
-  <tr><td><code>&lt;caption&gt;</code></td><td>Título descritivo da tabela (acessibilidade).</td></tr>
+  <tr><td><code><table></code></td><td>Container principal da tabela.</td></tr>
+  <tr><td><code><thead></code></td><td>Cabeçalho semântico (opcional, mas bom para acessibilidade).</td></tr>
+  <tr><td><code><tbody></code></td><td>Corpo da tabela com os dados.</td></tr>
+  <tr><td><code><tfoot></code></td><td>Rodapé semântico (totais, notas).</td></tr>
+  <tr><td><code><tr></code></td><td>Table Row — uma linha da tabela.</td></tr>
+  <tr><td><code><th></code></td><td>Table Header — célula de cabeçalho (negrito por padrão). Atributo <code>scope</code>.</td></tr>
+  <tr><td><code><td></code></td><td>Table Data — célula de dado.</td></tr>
+  <tr><td><code><caption></code></td><td>Título descritivo da tabela (acessibilidade).</td></tr>
 </table>
 
 <h4>Atributos de mesclagem de células:</h4>
@@ -261,38 +262,38 @@
 </ul>
 
 <h4>Exemplo completo:</h4>
-<pre><code>&lt;table border="1" cellspacing="0" cellpadding="8" width="100%"&gt;
-  &lt;caption&gt;Notas dos Alunos&lt;/caption&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th rowspan="2"&gt;Aluno&lt;/th&gt;
-      &lt;th colspan="2"&gt;1º Semestre&lt;/th&gt;
-      &lt;th colspan="2"&gt;2º Semestre&lt;/th&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;th&gt;P1&lt;/th&gt;
-      &lt;th&gt;P2&lt;/th&gt;
-      &lt;th&gt;P3&lt;/th&gt;
-      &lt;th&gt;P4&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Ana Silva&lt;/td&gt;
-      &lt;td align="center"&gt;9.5&lt;/td&gt;
-      &lt;td align="center"&gt;8.0&lt;/td&gt;
-      &lt;td align="center"&gt;7.5&lt;/td&gt;
-      &lt;td align="center"&gt;9.0&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;João Souza&lt;/td&gt;
-      &lt;td align="center"&gt;6.0&lt;/td&gt;
-      &lt;td align="center"&gt;7.5&lt;/td&gt;
-      &lt;td align="center"&gt;8.0&lt;/td&gt;
-      &lt;td align="center"&gt;7.0&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</code></pre>
+<pre><code><table border="1" cellspacing="0" cellpadding="8" width="100%">
+  <caption>Notas dos Alunos</caption>
+  <thead>
+    <tr>
+      <th rowspan="2">Aluno</th>
+      <th colspan="2">1º Semestre</th>
+      <th colspan="2">2º Semestre</th>
+    </tr>
+    <tr>
+      <th>P1</th>
+      <th>P2</th>
+      <th>P3</th>
+      <th>P4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ana Silva</td>
+      <td align="center">9.5</td>
+      <td align="center">8.0</td>
+      <td align="center">7.5</td>
+      <td align="center">9.0</td>
+    </tr>
+    <tr>
+      <td>João Souza</td>
+      <td align="center">6.0</td>
+      <td align="center">7.5</td>
+      <td align="center">8.0</td>
+      <td align="center">7.0</td>
+    </tr>
+  </tbody>
+</table></code></pre>
 
 <div class="nota"><strong>Atributos de estilo (HTML antigo, ainda usados em exercícios):</strong> <code>border</code>, <code>cellspacing</code> (espaço entre células), <code>cellpadding</code> (espaço interno da célula), <code>width</code>, <code>align</code> (alinhamento do texto). Em HTML moderno, prefira CSS.</div>
 </div>
@@ -333,9 +334,9 @@ import './index.css'
 import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
-  &lt;StrictMode&gt;
-    &lt;App /&gt;
-  &lt;/StrictMode&gt;
+  <StrictMode>
+    <App />
+  </StrictMode>
 )</code></pre>
 </div>
 <h2 id="jsx">5. JSX</h2>
@@ -344,8 +345,8 @@ createRoot(document.getElementById('root')).render(
 
 <h4>Regras do JSX:</h4>
 <ul>
-  <li>Toda tag deve ser <strong>fechada</strong>: <code>&lt;br /&gt;</code>, <code>&lt;img /&gt;</code>, <code>&lt;input /&gt;</code></li>
-  <li>Retorno de componente deve ter <strong>um único elemento raiz</strong>. Use <code>&lt;div&gt;</code> ou fragmento <code>&lt;&gt;...&lt;/&gt;</code>.</li>
+  <li>Toda tag deve ser <strong>fechada</strong>: <code><br /></code>, <code><img /></code>, <code><input /></code></li>
+  <li>Retorno de componente deve ter <strong>um único elemento raiz</strong>. Use <code><div></code> ou fragmento <code><>...</></code>.</li>
   <li>Atributos são <strong>camelCase</strong>: <code>className</code> (não <code>class</code>), <code>htmlFor</code> (não <code>for</code>), <code>onClick</code>.</li>
   <li>Expressões JavaScript dentro do JSX ficam entre <strong>chaves {}</strong>.</li>
   <li>Comentários: <code>{/* comentário */}</code></li>
@@ -357,13 +358,13 @@ const idade = 20;
 
 function App() {
   return (
-    &lt;&gt;
-      &lt;h1&gt;Olá, {nome}!&lt;/h1&gt;
-      &lt;p&gt;Você tem {idade} anos e em 10 anos terá {idade + 10}.&lt;/p&gt;
-      &lt;p className="destaque"&gt;Texto em destaque&lt;/p&gt;
+    <>
+      <h1>Olá, {nome}!</h1>
+      <p>Você tem {idade} anos e em 10 anos terá {idade + 10}.</p>
+      <p className="destaque">Texto em destaque</p>
       {/* Isso é um comentário em JSX */}
-      &lt;img src="/foto.jpg" alt="Foto do usuário" /&gt;
-    &lt;/&gt;
+      <img src="/foto.jpg" alt="Foto do usuário" />
+    </>
   );
 }</code></pre>
 
@@ -376,17 +377,17 @@ function App() {
 <h3>6.1 Criando um Componente</h3>
 <pre><code>// Componente funcional (forma moderna)
 function Saudacao() {
-  return &lt;h1&gt;Olá, Mundo!&lt;/h1&gt;;
+  return <h1>Olá, Mundo!</h1>;
 }
 
 // Componente com múltiplas linhas de JSX
 function CartaoAluno() {
   return (
-    &lt;div className="cartao"&gt;
-      &lt;h2&gt;Perfil do Aluno&lt;/h2&gt;
-      &lt;p&gt;Nome: João Silva&lt;/p&gt;
-      &lt;p&gt;Curso: Engenharia de Software&lt;/p&gt;
-    &lt;/div&gt;
+    <div className="cartao">
+      <h2>Perfil do Aluno</h2>
+      <p>Nome: João Silva</p>
+      <p>Curso: Engenharia de Software</p>
+    </div>
   );
 }</code></pre>
 
@@ -395,33 +396,33 @@ function CartaoAluno() {
 <pre><code>// Componente recebe props como objeto
 function CartaoAluno(props) {
   return (
-    &lt;div className="cartao"&gt;
-      &lt;h2&gt;{props.nome}&lt;/h2&gt;
-      &lt;p&gt;Matrícula: {props.matricula}&lt;/p&gt;
-      &lt;p&gt;Nota: {props.nota}&lt;/p&gt;
-    &lt;/div&gt;
+    <div className="cartao">
+      <h2>{props.nome}</h2>
+      <p>Matrícula: {props.matricula}</p>
+      <p>Nota: {props.nota}</p>
+    </div>
   );
 }
 
 // Usando destructuring (mais limpo e recomendado)
 function CartaoAluno({ nome, matricula, nota }) {
   return (
-    &lt;div className="cartao"&gt;
-      &lt;h2&gt;{nome}&lt;/h2&gt;
-      &lt;p&gt;Matrícula: {matricula}&lt;/p&gt;
-      &lt;p&gt;Nota: {nota}&lt;/p&gt;
-    &lt;/div&gt;
+    <div className="cartao">
+      <h2>{nome}</h2>
+      <p>Matrícula: {matricula}</p>
+      <p>Nota: {nota}</p>
+    </div>
   );
 }
 
 // App.jsx — usando o componente com props
 function App() {
   return (
-    &lt;div&gt;
-      &lt;CartaoAluno nome="Ana Silva" matricula="2024001" nota={9.5} /&gt;
-      &lt;CartaoAluno nome="João Souza" matricula="2024002" nota={7.0} /&gt;
-      &lt;CartaoAluno nome="Maria Lima" matricula="2024003" nota={8.5} /&gt;
-    &lt;/div&gt;
+    <div>
+      <CartaoAluno nome="Ana Silva" matricula="2024001" nota={9.5} />
+      <CartaoAluno nome="João Souza" matricula="2024002" nota={7.0} />
+      <CartaoAluno nome="Maria Lima" matricula="2024003" nota={8.5} />
+    </div>
   );
 }</code></pre>
 
@@ -430,33 +431,33 @@ function App() {
 <h3>6.3 Renderização Condicional</h3>
 <pre><code>function StatusAluno({ nota }) {
   return (
-    &lt;div&gt;
-      {nota &gt;= 6
-        ? &lt;span style={{color: 'green'}}&gt;Aprovado&lt;/span&gt;
-        : &lt;span style={{color: 'red'}}&gt;Reprovado&lt;/span&gt;
+    <div>
+      {nota >= 6
+        ? <span style={{color: 'green'}}>Aprovado</span>
+        : <span style={{color: 'red'}}>Reprovado</span>
       }
-    &lt;/div&gt;
+    </div>
   );
 }</code></pre>
 
 <h3>6.4 Renderização de Listas</h3>
 <pre><code>function ListaAlunos({ alunos }) {
   return (
-    &lt;ul&gt;
-      {alunos.map((aluno) =&gt; (
-        &lt;li key={aluno.id}&gt;
+    <ul>
+      {alunos.map((aluno) => (
+        <li key={aluno.id}>
           {aluno.nome} — Nota: {aluno.nota}
-        &lt;/li&gt;
+        </li>
       ))}
-    &lt;/ul&gt;
+    </ul>
   );
 }
 
 // Uso:
-&lt;ListaAlunos alunos={[
+<ListaAlunos alunos={[
   { id: 1, nome: "Ana", nota: 9.5 },
   { id: 2, nome: "João", nota: 7.0 }
-]} /&gt;</code></pre>
+]} /></code></pre>
 <div class="nota">O atributo <code>key</code> é <strong>obrigatório</strong> ao renderizar listas. Deve ser único e estável (use ID, não o índice do array quando possível).</div>
 </div>
 <h2 id="usestate">7. Hook useState</h2>
@@ -499,12 +500,12 @@ function Contador() {
   }
 
   return (
-    &lt;div&gt;
-      &lt;h2&gt;Contagem: {contagem}&lt;/h2&gt;
-      &lt;button onClick={incrementar}&gt;+1&lt;/button&gt;
-      &lt;button onClick={decrementar}&gt;-1&lt;/button&gt;
-      &lt;button onClick={zerar}&gt;Zerar&lt;/button&gt;
-    &lt;/div&gt;
+    <div>
+      <h2>Contagem: {contagem}</h2>
+      <button onClick={incrementar}>+1</button>
+      <button onClick={decrementar}>-1</button>
+      <button onClick={zerar}>Zerar</button>
+    </div>
   );
 }</code></pre>
 
@@ -513,15 +514,15 @@ function Contador() {
   const [nome, setNome] = useState('');
 
   return (
-    &lt;div&gt;
-      &lt;input
+    <div>
+      <input
         type="text"
         value={nome}                          // valor controlado pelo estado
-        onChange={(e) =&gt; setNome(e.target.value)}  // atualiza a cada tecla
+        onChange={(e) => setNome(e.target.value)}  // atualiza a cada tecla
         placeholder="Digite seu nome"
-      /&gt;
-      &lt;p&gt;Olá, {nome || '...'}&lt;/p&gt;
-    &lt;/div&gt;
+      />
+      <p>Olá, {nome || '...'}</p>
+    </div>
   );
 }</code></pre>
 <div class="info"><strong>Input controlado:</strong> o valor do input é sempre determinado pelo estado React (<code>value={nome}</code>), não pelo DOM. Isso garante que o React tenha controle total sobre o formulário.</div>
@@ -561,30 +562,30 @@ function App() {
   }
 
   return (
-    &lt;div className="calculadora"&gt;
-      &lt;h1&gt;Calculadora&lt;/h1&gt;
-      &lt;input
+    <div className="calculadora">
+      <h1>Calculadora</h1>
+      <input
         type="number"
         value={num1}
-        onChange={(e) =&gt; setNum1(e.target.value)}
+        onChange={(e) => setNum1(e.target.value)}
         placeholder="Número 1"
-      /&gt;
-      &lt;input
+      />
+      <input
         type="number"
         value={num2}
-        onChange={(e) =&gt; setNum2(e.target.value)}
+        onChange={(e) => setNum2(e.target.value)}
         placeholder="Número 2"
-      /&gt;
-      &lt;div className="botoes"&gt;
-        &lt;button onClick={() =&gt; calcular('+')}&gt;+&lt;/button&gt;
-        &lt;button onClick={() =&gt; calcular('-')}&gt;-&lt;/button&gt;
-        &lt;button onClick={() =&gt; calcular('*')}&gt;×&lt;/button&gt;
-        &lt;button onClick={() =&gt; calcular('/')}&gt;÷&lt;/button&gt;
-      &lt;/div&gt;
-      {resultado !== '' &amp;&amp; (
-        &lt;p className="resultado"&gt;Resultado: &lt;strong&gt;{resultado}&lt;/strong&gt;&lt;/p&gt;
+      />
+      <div className="botoes">
+        <button onClick={() => calcular('+')}>+</button>
+        <button onClick={() => calcular('-')}>-</button>
+        <button onClick={() => calcular('*')}>×</button>
+        <button onClick={() => calcular('/')}>÷</button>
+      </div>
+      {resultado !== '' && (
+        <p className="resultado">Resultado: <strong>{resultado}</strong></p>
       )}
-    &lt;/div&gt;
+    </div>
   );
 }
 
@@ -610,7 +611,7 @@ function App() {
 
   function removerTarefa(id) {
     // filter: cria novo array sem o elemento com o id especificado
-    setTarefas(tarefas.filter((t) =&gt; t.id !== id));
+    setTarefas(tarefas.filter((t) => t.id !== id));
   }
 
   function handleKeyDown(e) {
@@ -618,31 +619,31 @@ function App() {
   }
 
   return (
-    &lt;div className="todo"&gt;
-      &lt;h1&gt;Lista de Tarefas ({tarefas.length})&lt;/h1&gt;
+    <div className="todo">
+      <h1>Lista de Tarefas ({tarefas.length})</h1>
 
-      &lt;div className="adicionar"&gt;
-        &lt;input
+      <div className="adicionar">
+        <input
           type="text"
           value={novaTarefa}
-          onChange={(e) =&gt; setNovaTarefa(e.target.value)}
+          onChange={(e) => setNovaTarefa(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Nova tarefa..."
-        /&gt;
-        &lt;button onClick={adicionarTarefa}&gt;Adicionar&lt;/button&gt;
-      &lt;/div&gt;
+        />
+        <button onClick={adicionarTarefa}>Adicionar</button>
+      </div>
 
-      &lt;ul&gt;
-        {tarefas.map((tarefa) =&gt; (
-          &lt;li key={tarefa.id}&gt;
+      <ul>
+        {tarefas.map((tarefa) => (
+          <li key={tarefa.id}>
             {tarefa.texto}
-            &lt;button onClick={() =&gt; removerTarefa(tarefa.id)}&gt;✕&lt;/button&gt;
-          &lt;/li&gt;
+            <button onClick={() => removerTarefa(tarefa.id)}>✕</button>
+          </li>
         ))}
-      &lt;/ul&gt;
+      </ul>
 
-      {tarefas.length === 0 &amp;&amp; &lt;p&gt;Nenhuma tarefa. Adicione uma!&lt;/p&gt;}
-    &lt;/div&gt;
+      {tarefas.length === 0 && <p>Nenhuma tarefa. Adicione uma!</p>}
+    </div>
   );
 }
 
@@ -663,9 +664,9 @@ export default App;</code></pre>
 <h4>Sintaxe:</h4>
 <pre><code>import { useEffect } from 'react';
 
-useEffect(() =&gt; {
+useEffect(() => {
   // código do efeito
-  return () =&gt; {
+  return () => {
     // função de cleanup (limpeza) — opcional
   };
 }, [dependencias]); // array de dependências</code></pre>
@@ -685,13 +686,13 @@ function ExemploEffect() {
   const [busca, setBusca] = useState('');
 
   // Executa apenas uma vez (montagem) — busca inicial
-  useEffect(() =&gt; {
+  useEffect(() => {
     console.log('Componente montado!');
     buscarDados();
   }, []);
 
   // Executa sempre que 'busca' mudar
-  useEffect(() =&gt; {
+  useEffect(() => {
     if (busca) {
       console.log(`Buscando por: ${busca}`);
       // chamar API de busca...
@@ -704,7 +705,7 @@ function ExemploEffect() {
     setDados(json);
   }
 
-  return &lt;div&gt;{dados ? JSON.stringify(dados) : 'Carregando...'}&lt;/div&gt;;
+  return <div>{dados ? JSON.stringify(dados) : 'Carregando...'}</div>;
 }</code></pre>
 </div>
 <h2 id="veiculo">11. Exemplo: Componente Veiculo</h2>
@@ -716,15 +717,15 @@ function Veiculo({ marca, modelo, ano, cor, eletrico }) {
   const idade = anoAtual - ano;
 
   return (
-    &lt;div className="card-veiculo"&gt;
-      &lt;h2&gt;{marca} {modelo}&lt;/h2&gt;
-      &lt;ul&gt;
-        &lt;li&gt;&lt;strong&gt;Ano:&lt;/strong&gt; {ano} ({idade} anos)&lt;/li&gt;
-        &lt;li&gt;&lt;strong&gt;Cor:&lt;/strong&gt; {cor}&lt;/li&gt;
-        &lt;li&gt;&lt;strong&gt;Tipo:&lt;/strong&gt; {eletrico ? '⚡ Elétrico' : '⛽ Combustão'}&lt;/li&gt;
-      &lt;/ul&gt;
-      {idade &gt; 20 &amp;&amp; &lt;p className="aviso"&gt;⚠️ Veículo antigo&lt;/p&gt;}
-    &lt;/div&gt;
+    <div className="card-veiculo">
+      <h2>{marca} {modelo}</h2>
+      <ul>
+        <li><strong>Ano:</strong> {ano} ({idade} anos)</li>
+        <li><strong>Cor:</strong> {cor}</li>
+        <li><strong>Tipo:</strong> {eletrico ? '⚡ Elétrico' : '⛽ Combustão'}</li>
+      </ul>
+      {idade > 20 && <p className="aviso">⚠️ Veículo antigo</p>}
+    </div>
   );
 }
 
@@ -735,12 +736,12 @@ import Veiculo from './Veiculo';
 
 function App() {
   return (
-    &lt;div&gt;
-      &lt;h1&gt;Frota de Veículos&lt;/h1&gt;
-      &lt;Veiculo marca="Tesla" modelo="Model 3" ano={2023} cor="Branco" eletrico={true} /&gt;
-      &lt;Veiculo marca="Toyota" modelo="Corolla" ano={2000} cor="Prata" eletrico={false} /&gt;
-      &lt;Veiculo marca="VW" modelo="Gol" ano={2015} cor="Azul" eletrico={false} /&gt;
-    &lt;/div&gt;
+    <div>
+      <h1>Frota de Veículos</h1>
+      <Veiculo marca="Tesla" modelo="Model 3" ano={2023} cor="Branco" eletrico={true} />
+      <Veiculo marca="Toyota" modelo="Corolla" ano={2000} cor="Prata" eletrico={false} />
+      <Veiculo marca="VW" modelo="Gol" ano={2015} cor="Azul" eletrico={false} />
+    </div>
   );
 }</code></pre>
 </div>
@@ -770,7 +771,7 @@ app.use(cors({
 app.use(express.json());            // parseia body JSON automaticamente
 
 // Rota GET simples
-app.get('/api/alunos', (req, res) =&gt; {
+app.get('/api/alunos', (req, res) => {
   const alunos = [
     { id: 1, nome: 'Ana Silva', nota: 9.5 },
     { id: 2, nome: 'João Souza', nota: 7.0 }
@@ -780,20 +781,20 @@ app.get('/api/alunos', (req, res) =&gt; {
 
 // Rota GET com parâmetros de query
 // URL: /api/numeros?quantidade=10&max=100
-app.get('/api/numeros', (req, res) =&gt; {
+app.get('/api/numeros', (req, res) => {
   const quantidade = parseInt(req.query.quantidade) || 5;
   const max = parseInt(req.query.max) || 100;
 
   const numeros = Array.from(
     { length: quantidade },
-    () =&gt; Math.floor(Math.random() * max) + 1
+    () => Math.floor(Math.random() * max) + 1
   );
 
   res.json({ numeros, quantidade, max });
 });
 
 // Rota POST — recebe dados no body
-app.post('/api/alunos', (req, res) =&gt; {
+app.post('/api/alunos', (req, res) => {
   const { nome, nota } = req.body;
   if (!nome || nota === undefined) {
     return res.status(400).json({ erro: 'Nome e nota são obrigatórios' });
@@ -803,14 +804,14 @@ app.post('/api/alunos', (req, res) =&gt; {
 });
 
 // Rota com parâmetros de rota
-app.get('/api/alunos/:id', (req, res) =&gt; {
+app.get('/api/alunos/:id', (req, res) => {
   const id = parseInt(req.params.id);
   // ... buscar aluno pelo id
   res.json({ id, nome: 'Ana Silva', nota: 9.5 });
 });
 
-app.listen(PORT, () =&gt; {
-  console.log(\`Servidor rodando em http://localhost:\${PORT}\`);
+app.listen(PORT, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
 });</code></pre>
 
 <h4>Conceitos do Express:</h4>
@@ -881,35 +882,35 @@ function App() {
   }
 
   // Busca automática ao montar o componente
-  useEffect(() =&gt; {
+  useEffect(() => {
     buscarNumeros();
   }, []);  // [] = executa apenas uma vez
 
   return (
-    &lt;div className="app"&gt;
-      &lt;h1&gt;Números Aleatórios&lt;/h1&gt;
+    <div className="app">
+      <h1>Números Aleatórios</h1>
 
-      &lt;button onClick={buscarNumeros} disabled={loading}&gt;
+      <button onClick={buscarNumeros} disabled={loading}>
         {loading ? 'Buscando...' : 'Buscar Novos Números'}
-      &lt;/button&gt;
+      </button>
 
-      {loading &amp;&amp; &lt;p className="loading"&gt;⏳ Carregando...&lt;/p&gt;}
+      {loading && <p className="loading">⏳ Carregando...</p>}
 
-      {erro &amp;&amp; (
-        &lt;div className="erro"&gt;
-          &lt;p&gt;❌ Erro: {erro}&lt;/p&gt;
-          &lt;button onClick={buscarNumeros}&gt;Tentar novamente&lt;/button&gt;
-        &lt;/div&gt;
+      {erro && (
+        <div className="erro">
+          <p>❌ Erro: {erro}</p>
+          <button onClick={buscarNumeros}>Tentar novamente</button>
+        </div>
       )}
 
-      {!loading &amp;&amp; !erro &amp;&amp; numeros.length &gt; 0 &amp;&amp; (
-        &lt;ul&gt;
-          {numeros.map((num, index) =&gt; (
-            &lt;li key={index}&gt;{num}&lt;/li&gt;
+      {!loading && !erro && numeros.length > 0 && (
+        <ul>
+          {numeros.map((num, index) => (
+            <li key={index}>{num}</li>
           ))}
-        &lt;/ul&gt;
+        </ul>
       )}
-    &lt;/div&gt;
+    </div>
   );
 }
 
@@ -973,6 +974,300 @@ export default App;</code></pre>
 </div>
 
 </div>
+<h2 id="simulado2">15. Simulado 2</h2>
+<div class="card">
+<p>Clique na alternativa que julgar correta. Acertos ficam em <strong style="color:green">verde</strong>, erros em <strong style="color:red">vermelho</strong>. A resposta correta será sempre destacada em verde.</p>
+
+<div id="quiz-container">
+
+<!-- Questão 1 -->
+<div class="questao" data-resposta="C">
+  <h4>Questão 1</h4>
+<p>Analise o código JavaScript a seguir:</p>
+  <pre><code>let nome = "Carlos";
+
+function exibirNome() {
+    let nome = "Ana";
+    console.log(nome);
+}
+
+exibirNome();
+console.log(nome);</code></pre>
+<p>Qual será a saída exibida no console?</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Carlos Carlos</div>
+    <div class="alt" data-alt="B">B) Ana Ana</div>
+    <div class="alt" data-alt="C">C) Ana Carlos</div>
+    <div class="alt" data-alt="D">D) Carlos Ana</div>
+    <div class="alt" data-alt="E">E) O código apresentará erro de execução.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 2 -->
+<div class="questao" data-resposta="E">
+  <h4>Questão 2</h4>
+<p>Observe o código JavaScript a seguir:</p>
+  <pre><code>const numeros = [10, 20, 30];
+
+for(let i = 0; i &lt; numeros.length; i++) {
+    console.log(numeros[i]);
+}</code></pre>
+<p>Qual alternativa descreve corretamente o comportamento do código?</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) O código exibirá apenas o número 10.</div>
+    <div class="alt" data-alt="B">B) O código exibirá os índices do array.</div>
+    <div class="alt" data-alt="C">C) O método length retorna o último valor do array.</div>
+    <div class="alt" data-alt="D">D) O código apresentará erro no laço for.</div>
+    <div class="alt" data-alt="E">E) O código exibirá os valores 10, 20 e 30 no console.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 3 -->
+<div class="questao" data-resposta="B">
+  <h4>Questão 3</h4>
+<p>Analise o código React.js abaixo:</p>
+  <pre><code>function Saudacao() {
+    return &lt;h1&gt;Olá, aluno!&lt;/h1&gt;;
+}
+
+export default Saudacao;</code></pre>
+<p>Sobre o código apresentado, assinale a alternativa correta:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) O componente não pode retornar elementos HTML.</div>
+    <div class="alt" data-alt="B">B) O export default permite que o componente seja importado em outros arquivos.</div>
+    <div class="alt" data-alt="C">C) O React.js utiliza apenas classes para criar componentes.</div>
+    <div class="alt" data-alt="D">D) A função Saudacao deve obrigatoriamente possuir parâmetros.</div>
+    <div class="alt" data-alt="E">E) O código apresentará erro por utilizar JSX.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 4 -->
+<div class="questao" data-resposta="C">
+  <h4>Questão 4</h4>
+<p>Durante o desenvolvimento de um site responsivo, um programador percebeu que a página não estava sendo exibida corretamente em dispositivos móveis, mesmo utilizando media queries e layouts flexíveis. Após análise, identificou-se a ausência da configuração de viewport no documento HTML.</p>
+<p>Sobre a meta tag viewport, analise as afirmativas a seguir:</p>
+  <ul>
+<li>I. A meta tag viewport auxilia na adaptação da página para diferentes tamanhos de tela.</li>
+<li>II. O atributo width=device-width define que a largura da página deve acompanhar a largura do dispositivo.</li>
+<li>III. A configuração da viewport deve ser inserida dentro da tag &lt;body&gt;.</li>
+<li>IV. A ausência da viewport pode causar problemas de escala em dispositivos móveis.</li>
+  </ul>
+<p>Assinale a alternativa correta:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Apenas as afirmativas I e II estão corretas.</div>
+    <div class="alt" data-alt="B">B) Apenas as afirmativas II e III estão corretas.</div>
+    <div class="alt" data-alt="C">C) Apenas as afirmativas I, II e IV estão corretas.</div>
+    <div class="alt" data-alt="D">D) Apenas as afirmativas I, III e IV estão corretas.</div>
+    <div class="alt" data-alt="E">E) Todas as afirmativas estão corretas.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 5 -->
+<div class="questao" data-resposta="E">
+  <h4>Questão 5</h4>
+<p>Analise o componente React.js a seguir:</p>
+  <pre><code>function Usuario(props) {
+    return &lt;h2&gt;Usuário: {props.nome}&lt;/h2&gt;;
+}</code></pre>
+<p>E sua utilização:</p>
+  <pre><code>&lt;Usuario nome="Carlos" /&gt;</code></pre>
+<p>Assinale a alternativa correta:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) O atributo nome não pode ser passado para componentes React.</div>
+    <div class="alt" data-alt="B">B) Props só podem ser utilizadas em componentes de classe.</div>
+    <div class="alt" data-alt="C">C) O React.js não permite reutilização de componentes.</div>
+    <div class="alt" data-alt="D">D) O código apresentará erro porque JSX não aceita chaves {}.</div>
+    <div class="alt" data-alt="E">E) O componente exibirá "Usuário: Carlos" na tela.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 6 -->
+<div class="questao" data-resposta="B">
+  <h4>Questão 6</h4>
+<p>Uma empresa está desenvolvendo um portal de notícias que deve funcionar corretamente em computadores, tablets e smartphones. Durante o desenvolvimento, a equipe decidiu utilizar recursos de CSS para adaptar o layout conforme o tamanho da tela do dispositivo.</p>
+<p>Sobre design responsivo em CSS, analise as afirmativas a seguir:</p>
+  <ul>
+<li>I. Media queries permitem aplicar estilos diferentes dependendo das características da tela.</li>
+<li>II. O uso de unidades relativas, como % e rem, pode auxiliar na criação de layouts responsivos.</li>
+<li>III. A propriedade display: flex pode ser utilizada para organizar elementos de forma mais adaptável.</li>
+<li>IV. O design responsivo funciona apenas em dispositivos móveis modernos.</li>
+  </ul>
+<p>Assinale a alternativa correta:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Apenas as afirmativas I e II estão corretas.</div>
+    <div class="alt" data-alt="B">B) Apenas as afirmativas I, II e III estão corretas.</div>
+    <div class="alt" data-alt="C">C) Apenas as afirmativas II e IV estão corretas.</div>
+    <div class="alt" data-alt="D">D) Apenas as afirmativas I e IV estão corretas.</div>
+    <div class="alt" data-alt="E">E) Todas as afirmativas estão corretas.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 7 -->
+<div class="questao" data-resposta="A">
+  <h4>Questão 7</h4>
+<p>Observe o código abaixo:</p>
+  <pre><code>import { useState } from "react";
+
+function Contador() {
+    const [contador, setContador] = useState(0);
+
+    return (
+        &lt;button onClick={() =&gt; setContador(contador + 1)}&gt;
+            {contador}
+        &lt;/button&gt;
+    );
+}</code></pre>
+<p>Considerando o funcionamento do React.js, assinale a alternativa correta:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) O hook useState é utilizado para controlar estado no componente.</div>
+    <div class="alt" data-alt="B">B) O valor do contador será decrementado a cada clique.</div>
+    <div class="alt" data-alt="C">C) O botão não executará nenhuma ação ao ser clicado.</div>
+    <div class="alt" data-alt="D">D) O React.js não permite eventos em elementos HTML.</div>
+    <div class="alt" data-alt="E">E) O código apresentará erro porque useState não pode armazenar números.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 8 -->
+<div class="questao" data-resposta="B">
+  <h4>Questão 8</h4>
+<p>Uma pequena empresa deseja criar uma página inicial simples para apresentar seus serviços na Internet. O desenvolvedor responsável precisa organizar o conteúdo utilizando boas práticas de HTML, incluindo um título principal, textos descritivos e links de navegação.</p>
+<p>Considerando a estrutura básica do HTML, analise as afirmativas a seguir:</p>
+  <ul>
+<li>I. A tag &lt;title&gt; define o título exibido na aba do navegador.</li>
+<li>II. A tag &lt;body&gt; contém o conteúdo visível da página web.</li>
+<li>III. A tag &lt;h1&gt; deve ser utilizada para representar o principal título da página.</li>
+<li>IV. A tag &lt;head&gt; é utilizada para exibir textos diretamente ao usuário no corpo da página.</li>
+  </ul>
+<p>Assinale a alternativa correta:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Apenas as afirmativas I e II estão corretas.</div>
+    <div class="alt" data-alt="B">B) Apenas as afirmativas I, II e III estão corretas.</div>
+    <div class="alt" data-alt="C">C) Apenas as afirmativas II e IV estão corretas.</div>
+    <div class="alt" data-alt="D">D) Apenas as afirmativas I, III e IV estão corretas.</div>
+    <div class="alt" data-alt="E">E) Todas as afirmativas estão corretas.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 9 -->
+<div class="questao" data-resposta="D">
+  <h4>Questão 9</h4>
+<p>Analise o código JavaScript abaixo:</p>
+  <pre><code>&lt;p id="mensagem"&gt;Olá Mundo!&lt;/p&gt;
+
+&lt;script&gt;
+    const elemento = document.getElementById("mensagem");
+    elemento.innerHTML = "Bem-vindo ao JavaScript!";
+&lt;/script&gt;</code></pre>
+<p>Considerando o funcionamento da manipulação do DOM (Document Object Model), assinale a alternativa correta:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) O método getElementById() cria um novo elemento HTML na página.</div>
+    <div class="alt" data-alt="B">B) A propriedade innerHTML remove permanentemente o elemento do DOM.</div>
+    <div class="alt" data-alt="C">C) O código apresentará erro porque JavaScript não pode acessar elementos HTML.</div>
+    <div class="alt" data-alt="D">D) O texto exibido na página será alterado para "Bem-vindo ao JavaScript!".</div>
+<div class="alt" data-alt="E">E) O método getElementById() funciona apenas com tags <div>.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 10 -->
+<div class="questao" data-resposta="D">
+  <h4>Questão 10</h4>
+<p>Uma clínica médica está desenvolvendo um sistema de agendamento online. Para isso, o programador criou um formulário HTML para que os pacientes preencham informações como nome, e-mail e telefone.</p>
+<p>Sobre os formulários em HTML, analise as afirmativas a seguir:</p>
+  <ul>
+<li>I. O atributo src da tag &lt;form&gt; define para onde os dados serão enviados.</li>
+<li>II. A tag &lt;input&gt; pode ser utilizada para criar campos de texto.</li>
+<li>III. O atributo type="email" ajuda na validação de endereços de e-mail.</li>
+<li>IV. A tag &lt;form&gt; é utilizada para agrupar os campos de entrada de dados.</li>
+  </ul>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Apenas as afirmativas I e II estão corretas.</div>
+    <div class="alt" data-alt="B">B) Apenas as afirmativas I e IV estão corretas.</div>
+    <div class="alt" data-alt="C">C) Apenas as afirmativas II e III estão corretas.</div>
+    <div class="alt" data-alt="D">D) Apenas as afirmativas II, III e IV estão corretas.</div>
+    <div class="alt" data-alt="E">E) Todas as afirmativas estão corretas.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+</div><!-- /quiz-container -->
+
+<div id="quiz-placar" style="display:none; margin-top:1.5rem; padding:1rem 1.4rem; border-radius:8px; font-size:1.1rem; font-weight:600; text-align:center;"></div>
+</div>
+
+<style>
+.questao{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid #eee}
+.questao:last-child{border-bottom:none}
+.alternativas{display:flex;flex-direction:column;gap:.5rem;margin:.8rem 0}
+.alt{padding:.7rem 1rem;border:2px solid #ccc;border-radius:8px;cursor:pointer;transition:all .2s;font-size:.97rem}
+.alt:hover{border-color:var(--c2);background:#f0f7ff}
+.alt.selecionada-correta{border-color:#4caf50;background:#e8f5e9;color:#2e7d32;font-weight:600}
+.alt.selecionada-incorreta{border-color:#e53935;background:#ffebee;color:#c62828;font-weight:600}
+.alt.resposta-certa{border-color:#4caf50;background:#e8f5e9;color:#2e7d32;font-weight:600}
+.alt.desabilitada{pointer-events:none;opacity:.7}
+.resultado-questao{margin-top:.6rem;font-weight:600;font-size:.95rem}
+</style>
+
+<script>
+(function(){
+  const questoes = document.querySelectorAll('.questao');
+  const placar = document.getElementById('quiz-placar');
+  let acertos = 0;
+  let respondidas = 0;
+
+  questoes.forEach(q => {
+    const correta = q.dataset.resposta;
+    const alternativas = q.querySelectorAll('.alt');
+    const resultadoDiv = q.querySelector('.resultado-questao');
+
+    alternativas.forEach(alt => {
+      alt.addEventListener('click', function(){
+        if(q.dataset.respondida === 'true') return;
+        q.dataset.respondida = 'true';
+        respondidas++;
+
+        const escolhida = this.dataset.alt;
+        alternativas.forEach(a => a.classList.add('desabilitada'));
+
+        if(escolhida === correta){
+          this.classList.add('selecionada-correta');
+          resultadoDiv.innerHTML = '<span style="color:#4caf50">✔ Você acertou!</span>';
+          acertos++;
+        } else {
+          this.classList.add('selecionada-incorreta');
+          alternativas.forEach(a => {
+            if(a.dataset.alt === correta) a.classList.add('resposta-certa');
+          });
+          resultadoDiv.innerHTML = '<span style="color:#e53935">✘ Você errou! A resposta correta é <strong>' + correta + '</strong>.</span>';
+        }
+
+        if(respondidas === questoes.length){
+          placar.style.display = 'block';
+          const pct = Math.round((acertos / questoes.length) * 100);
+          if(acertos === questoes.length){
+            placar.style.background = '#e8f5e9';
+            placar.style.color = '#2e7d32';
+            placar.innerHTML = '🎉 Parabéns! Você acertou todas as ' + questoes.length + ' questões!';
+          } else {
+            placar.style.background = '#fff8e1';
+            placar.style.color = '#f57f17';
+            placar.innerHTML = 'Você acertou <strong>' + acertos + ' de ' + questoes.length + '</strong> questões (' + pct + '%).';
+          }
+        }
+      });
+    });
+  });
+})();
+</script>
+
 <footer>Material de estudo elaborado a partir das aulas &mdash; Newton Paiva &mdash; Prof. Fabrício Rodrigues Inácio</footer>
 </body>
 </html>
