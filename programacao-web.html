@@ -69,6 +69,12 @@
     <li><a href="#html-forms">Formulários HTML</a></li>
     <li><a href="#input-types">Tipos de Input</a></li>
     <li><a href="#tables">Tabelas HTML</a></li>
+    <li><a href="#html-basico">HTML Básico e Semântico</a></li>
+    <li><a href="#css-basico">CSS Básico</a></li>
+    <li><a href="#flexbox">Flexbox</a></li>
+    <li><a href="#responsivo">Design Responsivo</a></li>
+    <li><a href="#js-basico">JavaScript Básico</a></li>
+    <li><a href="#dom">Manipulação do DOM</a></li>
     <li><a href="#react-intro">Introdução ao React</a></li>
     <li><a href="#jsx">JSX</a></li>
     <li><a href="#componentes">Componentes e Props</a></li>
@@ -76,7 +82,7 @@
     <li><a href="#calculadora">Projeto: Calculadora</a></li>
     <li><a href="#todolist">Projeto: Todo List</a></li>
     <li><a href="#useeffect">Hook useEffect</a></li>
-    <li><a href="#veiculo">Exemplo: Classe Veiculo</a></li>
+    <li><a href="#veiculo">Exemplo: Componente Veiculo</a></li>
     <li><a href="#express">Backend com Express.js</a></li>
     <li><a href="#api">React consumindo API</a></li>
     <li><a href="#resumo">Resumo para Prova</a></li>
@@ -86,7 +92,7 @@
 </div>
 <h2 id="html-forms">1. Formulários HTML</h2>
 <div class="card">
-<p>Formulários HTML são o principal mecanismo para coleta de dados do usuário na web. A tag <code><form></code> define o container do formulário com atributos que controlam <em>como</em> e <em>para onde</em> os dados são enviados.</p>
+<p>Formulários HTML são o principal mecanismo para coleta de dados do usuário na web. A tag <code>&lt;form&gt;</code> define o container do formulário com atributos que controlam <em>como</em> e <em>para onde</em> os dados são enviados.</p>
 
 <h4>Atributos essenciais de <form>:</h4>
 <table>
@@ -98,30 +104,30 @@
 </table>
 
 <h4>Estrutura básica de um formulário:</h4>
-<pre><code><form action="resposta.php" method="POST">
+<pre><code>&lt;form action="resposta.php" method="POST"&gt;
 
-  <fieldset>
-    <legend>Dados Pessoais</legend>
+  &lt;fieldset&gt;
+    &lt;legend&gt;Dados Pessoais&lt;/legend&gt;
 
-    <label for="nome">Nome:</label>
-    <input type="text" id="nome" name="nome" required
+    &lt;label for="nome"&gt;Nome:&lt;/label&gt;
+    &lt;input type="text" id="nome" name="nome" required
            placeholder="Digite seu nome completo"
-           minlength="3" maxlength="100">
+           minlength="3" maxlength="100"&gt;
 
-    <label for="email">E-mail:</label>
-    <input type="email" id="email" name="email" required>
+    &lt;label for="email"&gt;E-mail:&lt;/label&gt;
+    &lt;input type="email" id="email" name="email" required&gt;
 
-    <button type="submit">Enviar</button>
-    <button type="reset">Limpar</button>
-  </fieldset>
+    &lt;button type="submit"&gt;Enviar&lt;/button&gt;
+    &lt;button type="reset"&gt;Limpar&lt;/button&gt;
+  &lt;/fieldset&gt;
 
-</form></code></pre>
+&lt;/form&gt;</code></pre>
 
 <h4>Tags especiais de agrupamento:</h4>
 <ul>
-  <li><strong><code><fieldset></code></strong> — agrupa visualmente campos relacionados com uma borda. Melhora a organização e acessibilidade.</li>
-  <li><strong><code><legend></code></strong> — título descritivo do fieldset. Aparece na borda superior do grupo.</li>
-  <li><strong><code><label></code></strong> — rótulo do campo. Ao clicar no label, o foco vai para o campo associado via atributo <code>for</code> (deve ser igual ao <code>id</code> do input).</li>
+  <li><strong><code>&lt;fieldset&gt;</code></strong> — agrupa visualmente campos relacionados com uma borda. Melhora a organização e acessibilidade.</li>
+  <li><strong><code>&lt;legend&gt;</code></strong> — título descritivo do fieldset. Aparece na borda superior do grupo.</li>
+  <li><strong><code>&lt;label&gt;</code></strong> — rótulo do campo. Ao clicar no label, o foco vai para o campo associado via atributo <code>for</code> (deve ser igual ao <code>id</code> do input).</li>
 </ul>
 </div>
 <h2 id="input-types">2. Tipos de Input e Atributos</h2>
@@ -173,71 +179,71 @@
 
 <h3>2.3 Elementos Especiais</h3>
 <h4>datalist — lista de sugestões</h4>
-<pre><code><label for="cidade">Cidade:</label>
-<input type="text" id="cidade" name="cidade" list="cidades"
-       placeholder="Digite ou escolha...">
-<datalist id="cidades">
-  <option value="Belo Horizonte">
-  <option value="São Paulo">
-  <option value="Rio de Janeiro">
-  <option value="Brasília">
-</datalist></code></pre>
+<pre><code>&lt;label for="cidade"&gt;Cidade:&lt;/label&gt;
+&lt;input type="text" id="cidade" name="cidade" list="cidades"
+       placeholder="Digite ou escolha..."&gt;
+&lt;datalist id="cidades"&gt;
+  &lt;option value="Belo Horizonte"&gt;
+  &lt;option value="São Paulo"&gt;
+  &lt;option value="Rio de Janeiro"&gt;
+  &lt;option value="Brasília"&gt;
+&lt;/datalist&gt;</code></pre>
 <p>O <code>datalist</code> fornece sugestões enquanto o usuário digita, mas permite qualquer valor (diferente do <code>select</code>).</p>
 
 <h4>textarea — texto multilinha</h4>
-<pre><code><label for="obs">Observações:</label>
-<textarea id="obs" name="obs"
+<pre><code>&lt;label for="obs"&gt;Observações:&lt;/label&gt;
+&lt;textarea id="obs" name="obs"
           rows="6" cols="40"
           placeholder="Digite aqui..."
           maxlength="500"
-          required></textarea></code></pre>
+          required&gt;&lt;/textarea&gt;</code></pre>
 
 <h4>select — lista suspensa</h4>
-<pre><code><label for="estado">Estado:</label>
-<select id="estado" name="estado" required>
-  <option value="">-- Selecione --</option>
-  <optgroup label="Sudeste">
-    <option value="MG">Minas Gerais</option>
-    <option value="SP">São Paulo</option>
-    <option value="RJ">Rio de Janeiro</option>
-  </optgroup>
-  <optgroup label="Norte">
-    <option value="AM">Amazonas</option>
-  </optgroup>
-</select></code></pre>
+<pre><code>&lt;label for="estado"&gt;Estado:&lt;/label&gt;
+&lt;select id="estado" name="estado" required&gt;
+  &lt;option value=""&gt;-- Selecione --&lt;/option&gt;
+  &lt;optgroup label="Sudeste"&gt;
+    &lt;option value="MG"&gt;Minas Gerais&lt;/option&gt;
+    &lt;option value="SP"&gt;São Paulo&lt;/option&gt;
+    &lt;option value="RJ"&gt;Rio de Janeiro&lt;/option&gt;
+  &lt;/optgroup&gt;
+  &lt;optgroup label="Norte"&gt;
+    &lt;option value="AM"&gt;Amazonas&lt;/option&gt;
+  &lt;/optgroup&gt;
+&lt;/select&gt;</code></pre>
 
 <h4>Exemplo completo de formulário:</h4>
-<pre><code><form action="resposta.php" method="POST">
-  <fieldset>
-    <legend>Cadastro de Aluno</legend>
+<pre><code>&lt;form action="resposta.php" method="POST"&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;Cadastro de Aluno&lt;/legend&gt;
 
-    <label for="nome">Nome:</label>
-    <input type="text" id="nome" name="nome" required minlength="3">
+    &lt;label for="nome"&gt;Nome:&lt;/label&gt;
+    &lt;input type="text" id="nome" name="nome" required minlength="3"&gt;
 
-    <label for="nascimento">Data de Nascimento:</label>
-    <input type="date" id="nascimento" name="nascimento"
-           min="1900-01-01" max="2010-12-31">
+    &lt;label for="nascimento"&gt;Data de Nascimento:&lt;/label&gt;
+    &lt;input type="date" id="nascimento" name="nascimento"
+           min="1900-01-01" max="2010-12-31"&gt;
 
-    <label for="nota">Nota (0-10):</label>
-    <input type="number" id="nota" name="nota"
-           min="0" max="10" step="0.5">
+    &lt;label for="nota"&gt;Nota (0-10):&lt;/label&gt;
+    &lt;input type="number" id="nota" name="nota"
+           min="0" max="10" step="0.5"&gt;
 
-    <label>Turno:</label>
-    <input type="radio" name="turno" value="manha" id="manha">
-    <label for="manha">Manhã</label>
-    <input type="radio" name="turno" value="noite" id="noite">
-    <label for="noite">Noite</label>
+    &lt;label&gt;Turno:&lt;/label&gt;
+    &lt;input type="radio" name="turno" value="manha" id="manha"&gt;
+    &lt;label for="manha"&gt;Manhã&lt;/label&gt;
+    &lt;input type="radio" name="turno" value="noite" id="noite"&gt;
+    &lt;label for="noite"&gt;Noite&lt;/label&gt;
 
-    <label>Disciplinas:</label>
-    <input type="checkbox" name="disc" value="web" id="web">
-    <label for="web">Prog. Web</label>
-    <input type="checkbox" name="disc" value="ed" id="ed">
-    <label for="ed">Estrutura de Dados</label>
+    &lt;label&gt;Disciplinas:&lt;/label&gt;
+    &lt;input type="checkbox" name="disc" value="web" id="web"&gt;
+    &lt;label for="web"&gt;Prog. Web&lt;/label&gt;
+    &lt;input type="checkbox" name="disc" value="ed" id="ed"&gt;
+    &lt;label for="ed"&gt;Estrutura de Dados&lt;/label&gt;
 
-    <button type="submit">Cadastrar</button>
-    <button type="reset">Limpar</button>
-  </fieldset>
-</form></code></pre>
+    &lt;button type="submit"&gt;Cadastrar&lt;/button&gt;
+    &lt;button type="reset"&gt;Limpar&lt;/button&gt;
+  &lt;/fieldset&gt;
+&lt;/form&gt;</code></pre>
 </div>
 <h2 id="tables">3. Tabelas HTML</h2>
 <div class="card">
@@ -246,14 +252,14 @@
 <h4>Tags de uma tabela:</h4>
 <table>
   <tr><th>Tag</th><th>Descrição</th></tr>
-  <tr><td><code><table></code></td><td>Container principal da tabela.</td></tr>
-  <tr><td><code><thead></code></td><td>Cabeçalho semântico (opcional, mas bom para acessibilidade).</td></tr>
-  <tr><td><code><tbody></code></td><td>Corpo da tabela com os dados.</td></tr>
-  <tr><td><code><tfoot></code></td><td>Rodapé semântico (totais, notas).</td></tr>
-  <tr><td><code><tr></code></td><td>Table Row — uma linha da tabela.</td></tr>
-  <tr><td><code><th></code></td><td>Table Header — célula de cabeçalho (negrito por padrão). Atributo <code>scope</code>.</td></tr>
-  <tr><td><code><td></code></td><td>Table Data — célula de dado.</td></tr>
-  <tr><td><code><caption></code></td><td>Título descritivo da tabela (acessibilidade).</td></tr>
+  <tr><td><code>&lt;table&gt;</code></td><td>Container principal da tabela.</td></tr>
+  <tr><td><code>&lt;thead&gt;</code></td><td>Cabeçalho semântico (opcional, mas bom para acessibilidade).</td></tr>
+  <tr><td><code>&lt;tbody&gt;</code></td><td>Corpo da tabela com os dados.</td></tr>
+  <tr><td><code>&lt;tfoot&gt;</code></td><td>Rodapé semântico (totais, notas).</td></tr>
+  <tr><td><code>&lt;tr&gt;</code></td><td>Table Row — uma linha da tabela.</td></tr>
+  <tr><td><code>&lt;th&gt;</code></td><td>Table Header — célula de cabeçalho (negrito por padrão). Atributo <code>scope</code>.</td></tr>
+  <tr><td><code>&lt;td&gt;</code></td><td>Table Data — célula de dado.</td></tr>
+  <tr><td><code>&lt;caption&gt;</code></td><td>Título descritivo da tabela (acessibilidade).</td></tr>
 </table>
 
 <h4>Atributos de mesclagem de células:</h4>
@@ -263,42 +269,490 @@
 </ul>
 
 <h4>Exemplo completo:</h4>
-<pre><code><table border="1" cellspacing="0" cellpadding="8" width="100%">
-  <caption>Notas dos Alunos</caption>
-  <thead>
-    <tr>
-      <th rowspan="2">Aluno</th>
-      <th colspan="2">1º Semestre</th>
-      <th colspan="2">2º Semestre</th>
-    </tr>
-    <tr>
-      <th>P1</th>
-      <th>P2</th>
-      <th>P3</th>
-      <th>P4</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Ana Silva</td>
-      <td align="center">9.5</td>
-      <td align="center">8.0</td>
-      <td align="center">7.5</td>
-      <td align="center">9.0</td>
-    </tr>
-    <tr>
-      <td>João Souza</td>
-      <td align="center">6.0</td>
-      <td align="center">7.5</td>
-      <td align="center">8.0</td>
-      <td align="center">7.0</td>
-    </tr>
-  </tbody>
-</table></code></pre>
+<pre><code>&lt;table border="1" cellspacing="0" cellpadding="8" width="100%"&gt;
+  &lt;caption&gt;Notas dos Alunos&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th rowspan="2"&gt;Aluno&lt;/th&gt;
+      &lt;th colspan="2"&gt;1º Semestre&lt;/th&gt;
+      &lt;th colspan="2"&gt;2º Semestre&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;P1&lt;/th&gt;
+      &lt;th&gt;P2&lt;/th&gt;
+      &lt;th&gt;P3&lt;/th&gt;
+      &lt;th&gt;P4&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Ana Silva&lt;/td&gt;
+      &lt;td align="center"&gt;9.5&lt;/td&gt;
+      &lt;td align="center"&gt;8.0&lt;/td&gt;
+      &lt;td align="center"&gt;7.5&lt;/td&gt;
+      &lt;td align="center"&gt;9.0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;João Souza&lt;/td&gt;
+      &lt;td align="center"&gt;6.0&lt;/td&gt;
+      &lt;td align="center"&gt;7.5&lt;/td&gt;
+      &lt;td align="center"&gt;8.0&lt;/td&gt;
+      &lt;td align="center"&gt;7.0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
 
 <div class="nota"><strong>Atributos de estilo (HTML antigo, ainda usados em exercícios):</strong> <code>border</code>, <code>cellspacing</code> (espaço entre células), <code>cellpadding</code> (espaço interno da célula), <code>width</code>, <code>align</code> (alinhamento do texto). Em HTML moderno, prefira CSS.</div>
 </div>
-<h2 id="react-intro">4. Introdução ao React</h2>
+
+<h2 id="html-basico">4. HTML Básico e Semântico</h2>
+<div class="card">
+<p>HTML (HyperText Markup Language) é a linguagem de marcação que define a estrutura de páginas web. Todo documento HTML segue uma estrutura padrão com elementos semânticos que facilitam a acessibilidade e o SEO.</p>
+
+<h4>Estrutura mínima de um documento HTML5:</h4>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;Titulo da Pagina&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Titulo Principal&lt;/h1&gt;
+  &lt;p&gt;Conteudo da pagina.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<h4>Elementos da estrutura HTML5:</h4>
+<table>
+  <tr><th>Tag</th><th>Função</th></tr>
+  <tr><td><code>&lt;!DOCTYPE html&gt;</code></td><td>Declara o tipo do documento como HTML5. Deve ser a primeira linha.</td></tr>
+  <tr><td><code>&lt;html&gt;</code></td><td>Elemento raiz que contém todo o conteúdo da página.</td></tr>
+  <tr><td><code>&lt;head&gt;</code></td><td>Contém metadados, título, links para CSS/JS. Não é visível ao usuário.</td></tr>
+  <tr><td><code>&lt;title&gt;</code></td><td>Define o título exibido na aba do navegador.</td></tr>
+  <tr><td><code>&lt;body&gt;</code></td><td>Contém todo o conteúdo visível da página.</td></tr>
+</table>
+
+<h4>Tags semânticas do HTML5:</h4>
+<p>Tags semânticas transmitem o significado do conteúdo, melhorando acessibilidade e SEO.</p>
+<table>
+  <tr><th>Tag</th><th>Função</th><th>Uso</th></tr>
+  <tr><td><code>&lt;header&gt;</code></td><td>Cabeçalho de uma seção ou da página</td><td>Logo, título, navegação principal</td></tr>
+  <tr><td><code>&lt;nav&gt;</code></td><td>Bloco de navegação</td><td>Menus e links de navegação</td></tr>
+  <tr><td><code>&lt;main&gt;</code></td><td>Conteúdo principal da página</td><td>Único por página, contém o conteúdo principal</td></tr>
+  <tr><td><code>&lt;article&gt;</code></td><td>Conteúdo independente e autocontido</td><td>Posts, notícias, artigos</td></tr>
+  <tr><td><code>&lt;section&gt;</code></td><td>Seção temática de conteúdo</td><td>Agrupar conteúdo por tema</td></tr>
+  <tr><td><code>&lt;aside&gt;</code></td><td>Conteúdo complementar</td><td>Sidebar, links relacionados</td></tr>
+  <tr><td><code>&lt;footer&gt;</code></td><td>Rodapé de uma seção ou da página</td><td>Copyright, contatos, links</td></tr>
+</table>
+
+<h4>Tags de conteúdo essenciais:</h4>
+<pre><code>&lt;!-- Imagem --&gt;
+&lt;img src="foto.jpg" alt="Descricao da imagem"&gt;
+
+&lt;!-- Link --&gt;
+&lt;a href="https://www.google.com" target="_blank"&gt;Google&lt;/a&gt;
+
+&lt;!-- Titulos (h1 a h6) --&gt;
+&lt;h1&gt;Titulo Principal&lt;/h1&gt;
+&lt;h2&gt;Subtitulo&lt;/h2&gt;
+
+&lt;!-- Paragrafo --&gt;
+&lt;p&gt;Texto em paragrafo.&lt;/p&gt;
+
+&lt;!-- Lista nao ordenada --&gt;
+&lt;ul&gt;
+  &lt;li&gt;Item 1&lt;/li&gt;
+  &lt;li&gt;Item 2&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- Lista ordenada --&gt;
+&lt;ol&gt;
+  &lt;li&gt;Primeiro&lt;/li&gt;
+  &lt;li&gt;Segundo&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!-- Negrito e italico --&gt;
+&lt;p&gt;&lt;strong&gt;Negrito&lt;/strong&gt; e &lt;em&gt;italico&lt;/em&gt;.&lt;/p&gt;</code></pre>
+
+<div class="nota"><strong>Boas práticas:</strong> Use sempre <code>&lt;!DOCTYPE html&gt;</code>, defina <code>lang="pt-BR"</code> no <html>, inclua <code>&lt;meta charset="UTF-8"&gt;</code> e <code>viewport</code>, use apenas um <code>&lt;h1&gt;</code> por página, e prefira tags semânticas a <code>&lt;div&gt;</code> genéricas.</div>
+</div>
+
+<h2 id="css-basico">5. CSS Básico</h2>
+<div class="card">
+<p>CSS (Cascading Style Sheets) controla a apresentação visual dos elementos HTML. É composto por seletores, propriedades e valores.</p>
+
+<h4>Sintaxe básica:</h4>
+<pre><code>seletor {
+  propriedade: valor;
+  outra-propriedade: outro-valor;
+}</code></pre>
+
+<h4>Formas de aplicar CSS:</h4>
+<table>
+  <tr><th>Método</th><th>Sintaxe</th><th>Quando usar</th></tr>
+  <tr><td>Inline</td><td><code>&lt;p style="color: red;"&gt;</code></td><td>Apenas para testes rápidos</td></tr>
+  <tr><td>Interno</td><td><code>&lt;style&gt; p { color: red; } &lt;/style&gt;</code></td><td>Página única</td></tr>
+  <tr><td>Externo</td><td><code>&lt;link rel="stylesheet" href="style.css"&gt;</code></td><td>Recomendado — reutilizável</td></tr>
+</table>
+
+<h4>Principais seletores CSS:</h4>
+<table>
+  <tr><th>Seletor</th><th>Sintaxe</th><th>Exemplo</th></tr>
+  <tr><td>Elemento</td><td><code>tag</code></td><td><code>p { color: blue; }</code></td></tr>
+  <tr><td>Classe</td><td><code>.nome</code></td><td><code>.destaque { font-weight: bold; }</code></td></tr>
+  <tr><td>ID</td><td><code>#nome</code></td><td><code>#menu { display: flex; }</code></td></tr>
+  <tr><td>Universal</td><td><code>*</code></td><td><code>* { margin: 0; padding: 0; }</code></td></tr>
+  <tr><td>Descendente</td><td><code>A B</code></td><td><code>div p { font-size: 14px; }</code></td></tr>
+  <tr><td>Filho direto</td><td><code>A &gt; B</code></td><td><code>ul &gt; li { list-style: none; }</code></td></tr>
+  <tr><td>Pseudo-classe</td><td><code>:hover</code></td><td><code>a:hover { color: red; }</code></td></tr>
+</table>
+
+<div class="destaque"><strong>Regra de especificidade:</strong> ID &gt; Classe &lt; Elemento &gt; Universal. Quanto mais específico o seletor, maior a prioridade.</div>
+
+<h4>Propriedades CSS mais usadas:</h4>
+<table>
+  <tr><th>Propriedade</th><th>Exemplo</th><th>Descrição</th></tr>
+  <tr><td><code>color</code></td><td><code>color: red;</code></td><td>Cor do texto</td></tr>
+  <tr><td><code>background-color</code></td><td><code>background-color: #fff;</code></td><td>Cor de fundo</td></tr>
+  <tr><td><code>font-size</code></td><td><code>font-size: 16px;</code></td><td>Tamanho da fonte</td></tr>
+  <tr><td><code>font-weight</code></td><td><code>font-weight: bold;</code></td><td>Espessura da fonte</td></tr>
+  <tr><td><code>font-style</code></td><td><code>font-style: italic;</code></td><td>Estilo da fonte</td></tr>
+  <tr><td><code>text-align</code></td><td><code>text-align: center;</code></td><td>Alinhamento do texto</td></tr>
+  <tr><td><code>margin</code></td><td><code>margin: 10px 20px;</code></td><td>Espaçamento externo</td></tr>
+  <tr><td><code>padding</code></td><td><code>padding: 15px;</code></td><td>Espaçamento interno</td></tr>
+  <tr><td><code>border</code></td><td><code>border: 1px solid #ccc;</code></td><td>Borda do elemento</td></tr>
+  <tr><td><code>display</code></td><td><code>display: flex;</code></td><td>Tipo de exibição</td></tr>
+  <tr><td><code>width</code> / <code>height</code></td><td><code>width: 100%;</code></td><td>Largura / Altura</td></tr>
+</table>
+
+<h4>Unidades de medida:</h4>
+<ul>
+  <li><strong>px</strong> — pixel absoluto. Ex: <code>font-size: 16px;</code></li>
+  <li><strong>%</strong> — porcentagem do elemento pai. Ex: <code>width: 50%;</code></li>
+  <li><strong>rem</strong> — relativo ao font-size raiz. Ex: <code>padding: 1.5rem;</code></li>
+  <li><strong>em</strong> — relativo ao font-size do elemento pai.</li>
+  <li><strong>vh / vw</strong> — relativo à viewport (altura/largura). Ex: <code>height: 100vh;</code></li>
+</ul>
+
+<h4>Modelo de caixa (Box Model):</h4>
+<pre><code>┌──────────────────────────┐
+│        margin            │
+│  ┌────────────────────┐  │
+│  │     border         │  │
+│  │  ┌──────────────┐  │  │
+│  │  │   padding     │  │  │
+│  │  │  ┌────────┐  │  │  │
+│  │  │  │ content │  │  │  │
+│  │  │  └────────┘  │  │  │
+│  │  └──────────────┘  │  │
+│  └────────────────────┘  │
+└──────────────────────────┘</code></pre>
+<div class="info"><strong>box-sizing: border-box;</strong> faz width/height incluirem padding e border, evitando cálculos complexos.</div>
+</div>
+
+<h2 id="flexbox">6. Flexbox</h2>
+<div class="card">
+<p>Flexbox é um modelo de layout CSS que facilita o alinhamento e a distribuição de espaço entre itens de um container, mesmo quando seus tamanhos são desconhecidos ou dinâmicos.</p>
+
+<h4>Ativar Flexbox:</h4>
+<pre><code>.container {
+  display: flex;
+}</code></pre>
+
+<h4>Propriedades do container flex:</h4>
+<table>
+  <tr><th>Propriedade</th><th>Valores</th><th>Descrição</th></tr>
+  <tr><td><code>flex-direction</code></td><td>row | row-reverse | column | column-reverse</td><td>Direção do eixo principal</td></tr>
+  <tr><td><code>justify-content</code></td><td>flex-start | flex-end | center | space-between | space-around | space-evenly</td><td>Alinhamento no eixo principal</td></tr>
+  <tr><td><code>align-items</code></td><td>flex-start | flex-end | center | stretch | baseline</td><td>Alinhamento no eixo transversal</td></tr>
+  <tr><td><code>align-content</code></td><td>flex-start | flex-end | center | stretch</td><td>Alinhamento de múltiplas linhas</td></tr>
+  <tr><td><code>flex-wrap</code></td><td>nowrap | wrap | wrap-reverse</td><td>Permite que itens quebrem linha</td></tr>
+  <tr><td><code>gap</code></td><td>10px</td><td>Espaço entre os itens</td></tr>
+</table>
+
+<h4>Propriedades dos itens flex (filhos):</h4>
+<table>
+  <tr><th>Propriedade</th><th>Descrição</th></tr>
+  <tr><td><code>flex-grow</code></td><td>Fator de crescimento (padrão: 0)</td></tr>
+  <tr><td><code>flex-shrink</code></td><td>Fator de encolhimento (padrão: 1)</td></tr>
+  <tr><td><code>flex-basis</code></td><td>Tamanho inicial do item</td></tr>
+  <tr><td><code>flex</code></td><td>Atalho: <code>flex: 1</code> = <code>flex-grow: 1; flex-shrink: 1; flex-basis: 0%</code></td></tr>
+  <tr><td><code>align-self</code></td><td>Alinhamento individual no eixo transversal</td></tr>
+  <tr><td><code>order</code></td><td>Ordem visual do item (padrão: 0)</td></tr>
+</table>
+
+<h4>Exemplo prático:</h4>
+<pre><code>.container {
+  display: flex;
+  justify-content: space-between;   /* eixo principal */
+  align-items: center;              /* eixo transversal */
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.item {
+  flex: 1;                          /* cresce igualmente */
+  padding: 1rem;
+}</code></pre>
+</div>
+
+<h2 id="responsivo">7. Design Responsivo</h2>
+<div class="card">
+<p>Design responsivo garante que a página se adapte a diferentes tamanhos de tela, proporcionando boa experiência em desktops, tablets e smartphones.</p>
+
+<h4>Meta tag viewport (obrigatória):</h4>
+<pre><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code></pre>
+<div class="alerta"><strong>Importante:</strong> Sem a meta tag viewport, o navegador renderiza a página como se fosse desktop, causando zoom inadequado em dispositivos móveis.</div>
+
+<h4>Media Queries:</h4>
+<p>Permitem aplicar estilos diferentes dependendo das características da tela (largura, orientação, resolução).</p>
+<pre><code>/* Estilos para desktop (padrão) */
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Tablet: até 768px */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+}
+
+/* Smartphone: até 480px */
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+  .container {
+    padding: 0.5rem;
+  }
+}</code></pre>
+
+<h4>BREAKPOINTS comuns:</h4>
+<table>
+  <tr><th>Breakpoint</th><th>Dispositivo</th></tr>
+  <tr><td><code>max-width: 480px</code></td><td>Smartphones pequenos</td></tr>
+  <tr><td><code>max-width: 768px</code></td><td>Tablets</td></tr>
+  <tr><td><code>max-width: 1024px</code></td><td>Laptops</td></tr>
+  <tr><td><code>min-width: 1200px</code></td><td>Desktops grandes</td></tr>
+</table>
+
+<h4>Dicas de responsividade:</h4>
+<ul>
+  <li>Use unidades relativas (<code>%</code>, <code>rem</code>, <code>vw</code>) em vez de <code>px</code></li>
+  <li>Use Flexbox ou Grid para layouts adaptáveis</li>
+  <li>Imagens com <code>max-width: 100%;</code> para não estourar o container</li>
+  <li>Use <code>display: none;</code> ou <code>display: block;</code> em media queries para mostrar/ocultar elementos</li>
+  <li>Teste sempre em diferentes tamanhos de tela</li>
+</ul>
+</div>
+
+<h2 id="js-basico">8. JavaScript Básico</h2>
+<div class="card">
+<p>JavaScript é a linguagem de programação da web. Permite adicionar interatividade, manipular o DOM, fazer requisições de rede e muito mais.</p>
+
+<h4>Declaração de variáveis:</h4>
+<pre><code>// var — escopo de função (evitar em código moderno)
+var nome = "Ana";
+
+// let — escopo de bloco (valor pode mudar)
+let contador = 0;
+contador = 1;  // válido
+
+// const — escopo de bloco (valor NÃO pode mudar)
+const PI = 3.14;
+// PI = 3;  // ERRO! Assignment to constant variable</code></pre>
+
+<div class="destaque"><strong>Regra importante:</strong> <code>let</code> e <code>const</code> têm escopo de bloco (respeitam <code>{}</code>), enquanto <code>var</code> tem escopo de função. Prefira sempre <code>let</code> e <code>const</code>.</div>
+
+<h4>Tipos de dados:</h4>
+<table>
+  <tr><th>Tipo</th><th>Exemplo</th><th>Descrição</th></tr>
+  <tr><td>String</td><td><code>"Olá"</code>, <code>'Mundo'</code></td><td>Texto</td></tr>
+  <tr><td>Number</td><td><code>42</code>, <code>3.14</code></td><td>Números (inteiros e decimais)</td></tr>
+  <tr><td>Boolean</td><td><code>true</code>, <code>false</code></td><td>Verdadeiro ou falso</td></tr>
+  <tr><td>Array</td><td><code>[1, 2, 3]</code></td><td>Lista de valores</td></tr>
+  <tr><td>Object</td><td><code>{nome: "Ana", idade: 20}</code></td><td>Conjunto de pares chave-valor</td></tr>
+  <tr><td>Null</td><td><code>null</code></td><td>Ausência intencional de valor</td></tr>
+  <tr><td>Undefined</td><td><code>undefined</code></td><td>Valor não definido</td></tr>
+</table>
+
+<h4>Operadores:</h4>
+<pre><code>// Aritméticos: +, -, *, /, %, **
+let soma = 10 + 5;      // 15
+let resto = 10 % 3;     // 1
+let potencia = 2 ** 3;  // 8
+
+// Comparação (valor e tipo): ===, !==
+let igual = (5 === "5");    // false (tipos diferentes)
+let diferente = (5 !== "5"); // true
+
+// Comparação (só valor): ==, !=
+let igualLoose = (5 == "5");  // true (converte tipo)
+
+// Lógicos: &amp;&amp; (E), || (OU), ! (NÃO)
+let resultado = (true &amp;&amp; false);  // false
+let resultado2 = (true || false); // true</code></pre>
+
+<div class="destaque"><strong>Use sempre <code>===</code> e <code>!==</code></strong> (comparações estritas) em vez de <code>==</code> e <code>!=</code>.</div>
+
+<h4>Estruturas de controle:</h4>
+<pre><code>// if / else
+if (nota &gt;= 7) {
+  console.log("Aprovado");
+} else if (nota &gt;= 5) {
+  console.log("Recuperação");
+} else {
+  console.log("Reprovado");
+}
+
+// switch
+switch (dia) {
+  case "segunda": console.log("Segunda-feira"); break;
+  case "terca":   console.log("Terça-feira"); break;
+  default:        console.log("Outro dia");
+}
+
+// for
+for (let i = 0; i &lt; 5; i++) {
+  console.log(i);  // 0, 1, 2, 3, 4
+}
+
+// while
+let x = 0;
+while (x &lt; 5) {
+  console.log(x);
+  x++;
+}</code></pre>
+
+<h4>Arrays — métodos essenciais:</h4>
+<pre><code>const numeros = [10, 20, 30, 40, 50];
+
+// .length — tamanho do array
+console.log(numeros.length);  // 5
+
+// .push() — adiciona ao final
+numeros.push(60);
+
+// .pop() — remove do final
+numeros.pop();
+
+// .filter() — retorna novo array com elementos que passam no teste
+const pares = numeros.filter(n =&gt; n % 2 === 0);
+
+// .map() — retorna novo array transformado
+const dobros = numeros.map(n =&gt; n * 2);
+
+// .find() — retorna o primeiro elemento que satisfaz a condição
+const encontrado = numeros.find(n =&gt; n &gt; 25);
+
+// .forEach() — executa uma função para cada elemento
+numeros.forEach(n =&gt; console.log(n));</code></pre>
+
+<h4>Funções:</h4>
+<pre><code>// Função declarada
+function somar(a, b) {
+  return a + b;
+}
+
+// Função expressa
+const subtrair = function(a, b) {
+  return a - b;
+};
+
+// Arrow function (mais concisa)
+const multiplicar = (a, b) =&gt; a * b;
+
+// Arrow function com uma linha (retorno implícito)
+const dobro = n =&gt; n * 2;
+
+console.log(somar(3, 5));      // 8
+console.log(multiplicar(4, 2)); // 8</code></pre>
+
+<h4>Escopo de variáveis:</h4>
+<pre><code>let nome = "Carlos";         // escopo global
+
+function exibirNome() {
+    let nome = "Ana";         // escopo local (bloco da função)
+    console.log(nome);        // "Ana" (usa a variável local)
+}
+
+exibirNome();
+console.log(nome);            // "Carlos" (usa a variável global)</code></pre>
+<div class="info"><strong>Escopo de bloco:</strong> Variáveis declaradas com <code>let</code> e <code>const</code> dentro de <code>{}</code> (if, for, funções) só existem dentro desse bloco.</div>
+</div>
+
+<h2 id="dom">9. Manipulação do DOM</h2>
+<div class="card">
+<p>O DOM (Document Object Model) é uma representação em árvore do documento HTML que o JavaScript pode manipular para alterar conteúdo, estrutura e estilo da página dinamicamente.</p>
+
+<h4>Selecionar elementos:</h4>
+<pre><code>// Por ID (retorna um elemento)
+const elemento = document.getElementById("meu-id");
+
+// Por classe (retorna HTMLCollection)
+const itens = document.querySelectorAll(".minha-classe");
+
+// Por seletor CSS (retorna NodeList — mais moderno)
+const item = document.querySelector("#meu-id");
+
+// Por tag (retorna HTMLCollection)
+const paragrafos = document.getElementsByTagName("p");</code></pre>
+
+<h4>Alterar conteúdo:</h4>
+<pre><code>// Alterar texto (seguro, não interpreta HTML)
+elemento.textContent = "Novo texto";
+
+// Alterar HTML (cuidado com XSS)
+elemento.innerHTML = "&lt;strong&gt;Texto em negrito&lt;/strong&gt;";
+
+// Alterar atributo
+elemento.setAttribute("href", "https://novo-link.com");
+elemento.getAttribute("href");
+
+// Alterar estilo diretamente
+elemento.style.color = "red";
+elemento.style.fontSize = "20px";</code></pre>
+
+<h4>Adicionar e remover classes:</h4>
+<pre><code>elemento.classList.add("ativo");        // adiciona
+elemento.classList.remove("ativo");     // remove
+elemento.classList.toggle("ativo");     // adiciona se não existe, remove se existe
+elemento.classList.contains("ativo");   // verifica (true/false)</code></pre>
+
+<h4>Exemplo prático — Trocar conteúdo ao clicar:</h4>
+<pre><code>&lt;button id="btn"&gt;Clique aqui&lt;/button&gt;
+&lt;p id="mensagem"&gt;Olá Mundo!&lt;/p&gt;
+
+&lt;script&gt;
+  const btn = document.getElementById("btn");
+  const msg = document.getElementById("mensagem");
+
+  btn.addEventListener("click", function() {
+    msg.textContent = "Bem-vindo ao JavaScript!";
+    msg.style.color = "green";
+  });
+&lt;/script&gt;</code></pre>
+
+<h4>Eventos comuns:</h4>
+<table>
+  <tr><th>Evento</th><th>Quando dispara</th></tr>
+  <tr><td><code>click</code></td><td>Clique do mouse</td></tr>
+  <tr><td><code>dblclick</code></td><td>Dois cliques</td></tr>
+  <tr><td><code>mouseover</code></td><td>Mouse sobre o elemento</td></tr>
+  <tr><td><code>mouseout</code></td><td>Mouse sai do elemento</td></tr>
+  <tr><td><code>keydown</code></td><td>Tecla pressionada</td></tr>
+  <tr><td><code>submit</code></td><td>Formulário enviado</td></tr>
+  <tr><td><code>change</code></td><td>Valor de input alterado</td></tr>
+  <tr><td><code>input</code></td><td>Valor digitado em tempo real</td></tr>
+</table>
+</div>
+
+<h2 id="html-forms">1. Formulários HTML</h2>
+
+<h2 id="react-intro">10. Introdução ao React</h2>
 <div class="card">
 <p><strong>React</strong> é uma biblioteca JavaScript criada pelo Facebook para construir interfaces de usuário componentizadas e reativas. "Reativa" significa que a interface se atualiza automaticamente quando o estado muda.</p>
 
@@ -335,19 +789,19 @@ import './index.css'
 import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
+  &lt;StrictMode&gt;
+    &lt;App /&gt;
+  &lt;/StrictMode&gt;
 )</code></pre>
 </div>
-<h2 id="jsx">5. JSX</h2>
+<h2 id="jsx">11. JSX</h2>
 <div class="card">
 <p><strong>JSX</strong> (JavaScript XML) é uma extensão de sintaxe para JavaScript que parece HTML mas é transformada em chamadas de funções JavaScript. É o "dialeto" do React para descrever a interface.</p>
 
 <h4>Regras do JSX:</h4>
 <ul>
-  <li>Toda tag deve ser <strong>fechada</strong>: <code><br /></code>, <code><img /></code>, <code><input /></code></li>
-  <li>Retorno de componente deve ter <strong>um único elemento raiz</strong>. Use <code><div></code> ou fragmento <code><>...</></code>.</li>
+  <li>Toda tag deve ser <strong>fechada</strong>: <code>&lt;br /&gt;</code>, <code>&lt;img /&gt;</code>, <code>&lt;input /&gt;</code></li>
+  <li>Retorno de componente deve ter <strong>um único elemento raiz</strong>. Use <code>&lt;div&gt;</code> ou fragmento <code>&lt;&gt;...&lt;/&gt;</code>.</li>
   <li>Atributos são <strong>camelCase</strong>: <code>className</code> (não <code>class</code>), <code>htmlFor</code> (não <code>for</code>), <code>onClick</code>.</li>
   <li>Expressões JavaScript dentro do JSX ficam entre <strong>chaves {}</strong>.</li>
   <li>Comentários: <code>{/* comentário */}</code></li>
@@ -359,36 +813,36 @@ const idade = 20;
 
 function App() {
   return (
-    <>
-      <h1>Olá, {nome}!</h1>
-      <p>Você tem {idade} anos e em 10 anos terá {idade + 10}.</p>
-      <p className="destaque">Texto em destaque</p>
+    &lt;&gt;
+      &lt;h1&gt;Olá, {nome}!&lt;/h1&gt;
+      &lt;p&gt;Você tem {idade} anos e em 10 anos terá {idade + 10}.&lt;/p&gt;
+      &lt;p className="destaque"&gt;Texto em destaque&lt;/p&gt;
       {/* Isso é um comentário em JSX */}
-      <img src="/foto.jpg" alt="Foto do usuário" />
-    </>
+      &lt;img src="/foto.jpg" alt="Foto do usuário" /&gt;
+    &lt;/&gt;
   );
 }</code></pre>
 
 <div class="nota"><code>className</code> em vez de <code>class</code> porque <code>class</code> é palavra reservada no JavaScript.</div>
 </div>
-<h2 id="componentes">6. Componentes e Props</h2>
+<h2 id="componentes">12. Componentes e Props</h2>
 <div class="card">
 <p>Um <strong>componente</strong> é uma função JavaScript que retorna JSX. É a unidade fundamental de construção de interfaces em React.</p>
 
 <h3>6.1 Criando um Componente</h3>
 <pre><code>// Componente funcional (forma moderna)
 function Saudacao() {
-  return <h1>Olá, Mundo!</h1>;
+  return &lt;h1&gt;Olá, Mundo!&lt;/h1&gt;;
 }
 
 // Componente com múltiplas linhas de JSX
 function CartaoAluno() {
   return (
-    <div className="cartao">
-      <h2>Perfil do Aluno</h2>
-      <p>Nome: João Silva</p>
-      <p>Curso: Engenharia de Software</p>
-    </div>
+    &lt;div className="cartao"&gt;
+      &lt;h2&gt;Perfil do Aluno&lt;/h2&gt;
+      &lt;p&gt;Nome: João Silva&lt;/p&gt;
+      &lt;p&gt;Curso: Engenharia de Software&lt;/p&gt;
+    &lt;/div&gt;
   );
 }</code></pre>
 
@@ -397,33 +851,33 @@ function CartaoAluno() {
 <pre><code>// Componente recebe props como objeto
 function CartaoAluno(props) {
   return (
-    <div className="cartao">
-      <h2>{props.nome}</h2>
-      <p>Matrícula: {props.matricula}</p>
-      <p>Nota: {props.nota}</p>
-    </div>
+    &lt;div className="cartao"&gt;
+      &lt;h2&gt;{props.nome}&lt;/h2&gt;
+      &lt;p&gt;Matrícula: {props.matricula}&lt;/p&gt;
+      &lt;p&gt;Nota: {props.nota}&lt;/p&gt;
+    &lt;/div&gt;
   );
 }
 
 // Usando destructuring (mais limpo e recomendado)
 function CartaoAluno({ nome, matricula, nota }) {
   return (
-    <div className="cartao">
-      <h2>{nome}</h2>
-      <p>Matrícula: {matricula}</p>
-      <p>Nota: {nota}</p>
-    </div>
+    &lt;div className="cartao"&gt;
+      &lt;h2&gt;{nome}&lt;/h2&gt;
+      &lt;p&gt;Matrícula: {matricula}&lt;/p&gt;
+      &lt;p&gt;Nota: {nota}&lt;/p&gt;
+    &lt;/div&gt;
   );
 }
 
 // App.jsx — usando o componente com props
 function App() {
   return (
-    <div>
-      <CartaoAluno nome="Ana Silva" matricula="2024001" nota={9.5} />
-      <CartaoAluno nome="João Souza" matricula="2024002" nota={7.0} />
-      <CartaoAluno nome="Maria Lima" matricula="2024003" nota={8.5} />
-    </div>
+    &lt;div&gt;
+      &lt;CartaoAluno nome="Ana Silva" matricula="2024001" nota={9.5} /&gt;
+      &lt;CartaoAluno nome="João Souza" matricula="2024002" nota={7.0} /&gt;
+      &lt;CartaoAluno nome="Maria Lima" matricula="2024003" nota={8.5} /&gt;
+    &lt;/div&gt;
   );
 }</code></pre>
 
@@ -432,36 +886,36 @@ function App() {
 <h3>6.3 Renderização Condicional</h3>
 <pre><code>function StatusAluno({ nota }) {
   return (
-    <div>
-      {nota >= 6
-        ? <span style={{color: 'green'}}>Aprovado</span>
-        : <span style={{color: 'red'}}>Reprovado</span>
+    &lt;div&gt;
+      {nota &gt;= 6
+        ? &lt;span style={{color: 'green'}}&gt;Aprovado&lt;/span&gt;
+        : &lt;span style={{color: 'red'}}&gt;Reprovado&lt;/span&gt;
       }
-    </div>
+    &lt;/div&gt;
   );
 }</code></pre>
 
 <h3>6.4 Renderização de Listas</h3>
 <pre><code>function ListaAlunos({ alunos }) {
   return (
-    <ul>
-      {alunos.map((aluno) => (
-        <li key={aluno.id}>
+    &lt;ul&gt;
+      {alunos.map((aluno) =&gt; (
+        &lt;li key={aluno.id}&gt;
           {aluno.nome} — Nota: {aluno.nota}
-        </li>
+        &lt;/li&gt;
       ))}
-    </ul>
+    &lt;/ul&gt;
   );
 }
 
 // Uso:
-<ListaAlunos alunos={[
+&lt;ListaAlunos alunos={[
   { id: 1, nome: "Ana", nota: 9.5 },
   { id: 2, nome: "João", nota: 7.0 }
-]} /></code></pre>
+]} /&gt;</code></pre>
 <div class="nota">O atributo <code>key</code> é <strong>obrigatório</strong> ao renderizar listas. Deve ser único e estável (use ID, não o índice do array quando possível).</div>
 </div>
-<h2 id="usestate">7. Hook useState</h2>
+<h2 id="usestate">13. Hook useState</h2>
 <div class="card">
 <p>O <code>useState</code> é o hook mais fundamental do React. Permite que componentes funcionais tenham e gerenciem <strong>estado</strong> — dados que podem mudar e quando mudam causam a re-renderização do componente.</p>
 
@@ -501,12 +955,12 @@ function Contador() {
   }
 
   return (
-    <div>
-      <h2>Contagem: {contagem}</h2>
-      <button onClick={incrementar}>+1</button>
-      <button onClick={decrementar}>-1</button>
-      <button onClick={zerar}>Zerar</button>
-    </div>
+    &lt;div&gt;
+      &lt;h2&gt;Contagem: {contagem}&lt;/h2&gt;
+      &lt;button onClick={incrementar}&gt;+1&lt;/button&gt;
+      &lt;button onClick={decrementar}&gt;-1&lt;/button&gt;
+      &lt;button onClick={zerar}&gt;Zerar&lt;/button&gt;
+    &lt;/div&gt;
   );
 }</code></pre>
 
@@ -515,20 +969,20 @@ function Contador() {
   const [nome, setNome] = useState('');
 
   return (
-    <div>
-      <input
+    &lt;div&gt;
+      &lt;input
         type="text"
         value={nome}                          // valor controlado pelo estado
-        onChange={(e) => setNome(e.target.value)}  // atualiza a cada tecla
+        onChange={(e) =&gt; setNome(e.target.value)}  // atualiza a cada tecla
         placeholder="Digite seu nome"
-      />
-      <p>Olá, {nome || '...'}</p>
-    </div>
+      /&gt;
+      &lt;p&gt;Olá, {nome || '...'}&lt;/p&gt;
+    &lt;/div&gt;
   );
 }</code></pre>
 <div class="info"><strong>Input controlado:</strong> o valor do input é sempre determinado pelo estado React (<code>value={nome}</code>), não pelo DOM. Isso garante que o React tenha controle total sobre o formulário.</div>
 </div>
-<h2 id="calculadora">8. Projeto: Calculadora</h2>
+<h2 id="calculadora">14. Projeto: Calculadora</h2>
 <div class="card">
 <p>A calculadora exemplifica o uso de múltiplos estados em um componente e como cada input controlado tem seu próprio estado.</p>
 <pre><code>import { useState } from 'react';
@@ -563,36 +1017,36 @@ function App() {
   }
 
   return (
-    <div className="calculadora">
-      <h1>Calculadora</h1>
-      <input
+    &lt;div className="calculadora"&gt;
+      &lt;h1&gt;Calculadora&lt;/h1&gt;
+      &lt;input
         type="number"
         value={num1}
-        onChange={(e) => setNum1(e.target.value)}
+        onChange={(e) =&gt; setNum1(e.target.value)}
         placeholder="Número 1"
-      />
-      <input
+      /&gt;
+      &lt;input
         type="number"
         value={num2}
-        onChange={(e) => setNum2(e.target.value)}
+        onChange={(e) =&gt; setNum2(e.target.value)}
         placeholder="Número 2"
-      />
-      <div className="botoes">
-        <button onClick={() => calcular('+')}>+</button>
-        <button onClick={() => calcular('-')}>-</button>
-        <button onClick={() => calcular('*')}>×</button>
-        <button onClick={() => calcular('/')}>÷</button>
-      </div>
-      {resultado !== '' && (
-        <p className="resultado">Resultado: <strong>{resultado}</strong></p>
+      /&gt;
+      &lt;div className="botoes"&gt;
+        &lt;button onClick={() =&gt; calcular('+')}&gt;+&lt;/button&gt;
+        &lt;button onClick={() =&gt; calcular('-')}&gt;-&lt;/button&gt;
+        &lt;button onClick={() =&gt; calcular('*')}&gt;×&lt;/button&gt;
+        &lt;button onClick={() =&gt; calcular('/')}&gt;÷&lt;/button&gt;
+      &lt;/div&gt;
+      {resultado !== '' &amp;&amp; (
+        &lt;p className="resultado"&gt;Resultado: &lt;strong&gt;{resultado}&lt;/strong&gt;&lt;/p&gt;
       )}
-    </div>
+    &lt;/div&gt;
   );
 }
 
 export default App;</code></pre>
 </div>
-<h2 id="todolist">9. Projeto: Todo List</h2>
+<h2 id="todolist">15. Projeto: Todo List</h2>
 <div class="card">
 <p>O projeto Todo List introduz o uso de <strong>array no estado</strong>, adição de itens com spread operator e remoção com <code>filter</code>.</p>
 <pre><code>import { useState } from 'react';
@@ -612,7 +1066,7 @@ function App() {
 
   function removerTarefa(id) {
     // filter: cria novo array sem o elemento com o id especificado
-    setTarefas(tarefas.filter((t) => t.id !== id));
+    setTarefas(tarefas.filter((t) =&gt; t.id !== id));
   }
 
   function handleKeyDown(e) {
@@ -620,31 +1074,31 @@ function App() {
   }
 
   return (
-    <div className="todo">
-      <h1>Lista de Tarefas ({tarefas.length})</h1>
+    &lt;div className="todo"&gt;
+      &lt;h1&gt;Lista de Tarefas ({tarefas.length})&lt;/h1&gt;
 
-      <div className="adicionar">
-        <input
+      &lt;div className="adicionar"&gt;
+        &lt;input
           type="text"
           value={novaTarefa}
-          onChange={(e) => setNovaTarefa(e.target.value)}
+          onChange={(e) =&gt; setNovaTarefa(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Nova tarefa..."
-        />
-        <button onClick={adicionarTarefa}>Adicionar</button>
-      </div>
+        /&gt;
+        &lt;button onClick={adicionarTarefa}&gt;Adicionar&lt;/button&gt;
+      &lt;/div&gt;
 
-      <ul>
-        {tarefas.map((tarefa) => (
-          <li key={tarefa.id}>
+      &lt;ul&gt;
+        {tarefas.map((tarefa) =&gt; (
+          &lt;li key={tarefa.id}&gt;
             {tarefa.texto}
-            <button onClick={() => removerTarefa(tarefa.id)}>✕</button>
-          </li>
+            &lt;button onClick={() =&gt; removerTarefa(tarefa.id)}&gt;✕&lt;/button&gt;
+          &lt;/li&gt;
         ))}
-      </ul>
+      &lt;/ul&gt;
 
-      {tarefas.length === 0 && <p>Nenhuma tarefa. Adicione uma!</p>}
-    </div>
+      {tarefas.length === 0 &amp;&amp; &lt;p&gt;Nenhuma tarefa. Adicione uma!&lt;/p&gt;}
+    &lt;/div&gt;
   );
 }
 
@@ -658,16 +1112,16 @@ export default App;</code></pre>
   <li><strong><code>Date.now()</code>:</strong> retorna o timestamp atual em milissegundos — útil como ID único temporário.</li>
 </ul>
 </div>
-<h2 id="useeffect">10. Hook useEffect</h2>
+<h2 id="useeffect">16. Hook useEffect</h2>
 <div class="card">
 <p>O <code>useEffect</code> permite executar <strong>efeitos colaterais</strong> em componentes funcionais. Efeitos colaterais são operações que acontecem "fora" do fluxo de renderização: chamadas de API, manipulação do DOM, timers, subscrições a eventos.</p>
 
 <h4>Sintaxe:</h4>
 <pre><code>import { useEffect } from 'react';
 
-useEffect(() => {
+useEffect(() =&gt; {
   // código do efeito
-  return () => {
+  return () =&gt; {
     // função de cleanup (limpeza) — opcional
   };
 }, [dependencias]); // array de dependências</code></pre>
@@ -687,13 +1141,13 @@ function ExemploEffect() {
   const [busca, setBusca] = useState('');
 
   // Executa apenas uma vez (montagem) — busca inicial
-  useEffect(() => {
+  useEffect(() =&gt; {
     console.log('Componente montado!');
     buscarDados();
   }, []);
 
   // Executa sempre que 'busca' mudar
-  useEffect(() => {
+  useEffect(() =&gt; {
     if (busca) {
       console.log(`Buscando por: ${busca}`);
       // chamar API de busca...
@@ -706,7 +1160,7 @@ function ExemploEffect() {
     setDados(json);
   }
 
-  return <div>{dados ? JSON.stringify(dados) : 'Carregando...'}</div>;
+  return &lt;div&gt;{dados ? JSON.stringify(dados) : 'Carregando...'}&lt;/div&gt;;
 }</code></pre>
 </div>
 <h2 id="veiculo">11. Exemplo: Componente Veiculo</h2>
@@ -718,15 +1172,15 @@ function Veiculo({ marca, modelo, ano, cor, eletrico }) {
   const idade = anoAtual - ano;
 
   return (
-    <div className="card-veiculo">
-      <h2>{marca} {modelo}</h2>
-      <ul>
-        <li><strong>Ano:</strong> {ano} ({idade} anos)</li>
-        <li><strong>Cor:</strong> {cor}</li>
-        <li><strong>Tipo:</strong> {eletrico ? '⚡ Elétrico' : '⛽ Combustão'}</li>
-      </ul>
-      {idade > 20 && <p className="aviso">⚠️ Veículo antigo</p>}
-    </div>
+    &lt;div className="card-veiculo"&gt;
+      &lt;h2&gt;{marca} {modelo}&lt;/h2&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;strong&gt;Ano:&lt;/strong&gt; {ano} ({idade} anos)&lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;Cor:&lt;/strong&gt; {cor}&lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;Tipo:&lt;/strong&gt; {eletrico ? '⚡ Elétrico' : '⛽ Combustão'}&lt;/li&gt;
+      &lt;/ul&gt;
+      {idade &gt; 20 &amp;&amp; &lt;p className="aviso"&gt;⚠️ Veículo antigo&lt;/p&gt;}
+    &lt;/div&gt;
   );
 }
 
@@ -737,16 +1191,16 @@ import Veiculo from './Veiculo';
 
 function App() {
   return (
-    <div>
-      <h1>Frota de Veículos</h1>
-      <Veiculo marca="Tesla" modelo="Model 3" ano={2023} cor="Branco" eletrico={true} />
-      <Veiculo marca="Toyota" modelo="Corolla" ano={2000} cor="Prata" eletrico={false} />
-      <Veiculo marca="VW" modelo="Gol" ano={2015} cor="Azul" eletrico={false} />
-    </div>
+    &lt;div&gt;
+      &lt;h1&gt;Frota de Veículos&lt;/h1&gt;
+      &lt;Veiculo marca="Tesla" modelo="Model 3" ano={2023} cor="Branco" eletrico={true} /&gt;
+      &lt;Veiculo marca="Toyota" modelo="Corolla" ano={2000} cor="Prata" eletrico={false} /&gt;
+      &lt;Veiculo marca="VW" modelo="Gol" ano={2015} cor="Azul" eletrico={false} /&gt;
+    &lt;/div&gt;
   );
 }</code></pre>
 </div>
-<h2 id="express">12. Backend com Express.js</h2>
+<h2 id="express">18. Backend com Express.js</h2>
 <div class="card">
 <p><strong>Express.js</strong> é um framework minimalista para Node.js que facilita a criação de servidores HTTP e APIs RESTful.</p>
 
@@ -772,7 +1226,7 @@ app.use(cors({
 app.use(express.json());            // parseia body JSON automaticamente
 
 // Rota GET simples
-app.get('/api/alunos', (req, res) => {
+app.get('/api/alunos', (req, res) =&gt; {
   const alunos = [
     { id: 1, nome: 'Ana Silva', nota: 9.5 },
     { id: 2, nome: 'João Souza', nota: 7.0 }
@@ -781,21 +1235,21 @@ app.get('/api/alunos', (req, res) => {
 });
 
 // Rota GET com parâmetros de query
-// URL: /api/numeros?quantidade=10&max=100
-app.get('/api/numeros', (req, res) => {
+// URL: /api/numeros?quantidade=10&amp;max=100
+app.get('/api/numeros', (req, res) =&gt; {
   const quantidade = parseInt(req.query.quantidade) || 5;
   const max = parseInt(req.query.max) || 100;
 
   const numeros = Array.from(
     { length: quantidade },
-    () => Math.floor(Math.random() * max) + 1
+    () =&gt; Math.floor(Math.random() * max) + 1
   );
 
   res.json({ numeros, quantidade, max });
 });
 
 // Rota POST — recebe dados no body
-app.post('/api/alunos', (req, res) => {
+app.post('/api/alunos', (req, res) =&gt; {
   const { nome, nota } = req.body;
   if (!nome || nota === undefined) {
     return res.status(400).json({ erro: 'Nome e nota são obrigatórios' });
@@ -805,13 +1259,13 @@ app.post('/api/alunos', (req, res) => {
 });
 
 // Rota com parâmetros de rota
-app.get('/api/alunos/:id', (req, res) => {
+app.get('/api/alunos/:id', (req, res) =&gt; {
   const id = parseInt(req.params.id);
   // ... buscar aluno pelo id
   res.json({ id, nome: 'Ana Silva', nota: 9.5 });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, () =&gt; {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });</code></pre>
 
@@ -844,7 +1298,7 @@ app.listen(PORT, () => {
   }
 }</code></pre>
 </div>
-<h2 id="api">13. React consumindo API</h2>
+<h2 id="api">19. React consumindo API</h2>
 <div class="card">
 <p>O padrão de consumo de API em React envolve: 3 estados (dados/loading/erro), função assíncrona com fetch, try/catch/finally, e useEffect para disparar a busca.</p>
 <pre><code>import { useState, useEffect } from 'react';
@@ -864,7 +1318,7 @@ function App() {
     setErro(null);      // limpa erro anterior
 
     try {
-      const resposta = await fetch('http://localhost:3001/api/numeros?quantidade=10&max=50');
+      const resposta = await fetch('http://localhost:3001/api/numeros?quantidade=10&amp;max=50');
 
       if (!resposta.ok) {
         throw new Error(`Erro HTTP: ${resposta.status}`);
@@ -883,35 +1337,35 @@ function App() {
   }
 
   // Busca automática ao montar o componente
-  useEffect(() => {
+  useEffect(() =&gt; {
     buscarNumeros();
   }, []);  // [] = executa apenas uma vez
 
   return (
-    <div className="app">
-      <h1>Números Aleatórios</h1>
+    &lt;div className="app"&gt;
+      &lt;h1&gt;Números Aleatórios&lt;/h1&gt;
 
-      <button onClick={buscarNumeros} disabled={loading}>
+      &lt;button onClick={buscarNumeros} disabled={loading}&gt;
         {loading ? 'Buscando...' : 'Buscar Novos Números'}
-      </button>
+      &lt;/button&gt;
 
-      {loading && <p className="loading">⏳ Carregando...</p>}
+      {loading &amp;&amp; &lt;p className="loading"&gt;⏳ Carregando...&lt;/p&gt;}
 
-      {erro && (
-        <div className="erro">
-          <p>❌ Erro: {erro}</p>
-          <button onClick={buscarNumeros}>Tentar novamente</button>
-        </div>
+      {erro &amp;&amp; (
+        &lt;div className="erro"&gt;
+          &lt;p&gt;❌ Erro: {erro}&lt;/p&gt;
+          &lt;button onClick={buscarNumeros}&gt;Tentar novamente&lt;/button&gt;
+        &lt;/div&gt;
       )}
 
-      {!loading && !erro && numeros.length > 0 && (
-        <ul>
-          {numeros.map((num, index) => (
-            <li key={index}>{num}</li>
+      {!loading &amp;&amp; !erro &amp;&amp; numeros.length &gt; 0 &amp;&amp; (
+        &lt;ul&gt;
+          {numeros.map((num, index) =&gt; (
+            &lt;li key={index}&gt;{num}&lt;/li&gt;
           ))}
-        </ul>
+        &lt;/ul&gt;
       )}
-    </div>
+    &lt;/div&gt;
   );
 }
 
@@ -938,7 +1392,7 @@ export default App;</code></pre>
 <code>finally</code>: código executado SEMPRE (sucesso ou erro) — ideal para limpar loading.
 </div>
 </div>
-<h2 id="resumo">14. Resumo — O que cai na prova</h2>
+<h2 id="resumo">20. Resumo — O que cai na prova</h2>
 <div class="card">
 <div class="alerta">
 <strong>HTML — Pontos essenciais:</strong>
@@ -963,9 +1417,9 @@ export default App;</code></pre>
   <li><strong>useState:</strong> <code>const [valor, setValor] = useState(inicial)</code>. Re-renderiza ao atualizar.</li>
   <li><strong>Input controlado:</strong> value={estado} + onChange={(e)=>set(e.target.value)}.</li>
   <li><strong>Listas:</strong> .map() retorna JSX. key obrigatório. Não use índice como key quando possível.</li>
-  <li><strong>Renderização condicional:</strong> ternário <code>cond ? a : b</code> ou short-circuit <code>cond && a</code>.</li>
+  <li><strong>Renderização condicional:</strong> ternário <code>cond ? a : b</code> ou short-circuit <code>cond &amp;&amp; a</code>.</li>
   <li><strong>spread operator:</strong> <code>[...arr, novoItem]</code> para adicionar ao array de estado.</li>
-  <li><strong>filter:</strong> <code>arr.filter(t => t.id !== id)</code> para remover do estado.</li>
+  <li><strong>filter:</strong> <code>arr.filter(t =&gt; t.id !== id)</code> para remover do estado.</li>
   <li><strong>useEffect(fn, []):</strong> executa uma vez após montagem. <code>[dep]</code>: toda vez que dep muda.</li>
   <li><strong>async/await + try/catch/finally:</strong> chamar API. finally sempre limpa o loading.</li>
   <li><strong>Padrão API:</strong> 3 estados (dados, loading, erro) + buscarDados() + useEffect(()=>{buscarDados()},[]).</li>
@@ -976,7 +1430,7 @@ export default App;</code></pre>
 
 </div>
 
-<h2 id="simulado1">15. Simulado 1</h2>
+<h2 id="simulado1">21. Simulado 1</h2>
 <div class="card">
 <p>Clique na alternativa que julgar correta. Acertos ficam em <strong style="color:green">verde</strong>, erros em <strong style="color:red">vermelho</strong>. A resposta correta sera sempre destacada em verde.</p>
 
@@ -1196,7 +1650,7 @@ export default App;</code></pre>
 })();
 </script>
 
-<h2 id="simulado2">16. Simulado 2</h2>
+<h2 id="simulado2">22. Simulado 2</h2>
 <div class="card">
 <p>Clique na alternativa que julgar correta. Acertos ficam em <strong style="color:green">verde</strong>, erros em <strong style="color:red">vermelho</strong>. A resposta correta será sempre destacada em verde.</p>
 
@@ -1232,7 +1686,7 @@ console.log(nome);</code></pre>
 <p>Observe o código JavaScript a seguir:</p>
   <pre><code>const numeros = [10, 20, 30];
 
-for(let i = 0; i &lt; numeros.length; i++) {
+for(let i = 0; i &amp;lt; numeros.length; i++) {
     console.log(numeros[i]);
 }</code></pre>
 <p>Qual alternativa descreve corretamente o comportamento do código?</p>
@@ -1251,7 +1705,7 @@ for(let i = 0; i &lt; numeros.length; i++) {
   <h4>Questão 3</h4>
 <p>Analise o código React.js abaixo:</p>
   <pre><code>function Saudacao() {
-    return &lt;h1&gt;Olá, aluno!&lt;/h1&gt;;
+    return &amp;lt;h1&amp;gt;Olá, aluno!&amp;lt;/h1&amp;gt;;
 }
 
 export default Saudacao;</code></pre>
@@ -1293,10 +1747,10 @@ export default Saudacao;</code></pre>
   <h4>Questão 5</h4>
 <p>Analise o componente React.js a seguir:</p>
   <pre><code>function Usuario(props) {
-    return &lt;h2&gt;Usuário: {props.nome}&lt;/h2&gt;;
+    return &amp;lt;h2&amp;gt;Usuário: {props.nome}&amp;lt;/h2&amp;gt;;
 }</code></pre>
 <p>E sua utilização:</p>
-  <pre><code>&lt;Usuario nome="Carlos" /&gt;</code></pre>
+  <pre><code>&amp;lt;Usuario nome="Carlos" /&amp;gt;</code></pre>
 <p>Assinale a alternativa correta:</p>
   <div class="alternativas">
     <div class="alt" data-alt="A">A) O atributo nome não pode ser passado para componentes React.</div>
@@ -1340,9 +1794,9 @@ function Contador() {
     const [contador, setContador] = useState(0);
 
     return (
-        &lt;button onClick={() =&gt; setContador(contador + 1)}&gt;
+        &amp;lt;button onClick={() =&amp;gt; setContador(contador + 1)}&amp;gt;
             {contador}
-        &lt;/button&gt;
+        &amp;lt;/button&amp;gt;
     );
 }</code></pre>
 <p>Considerando o funcionamento do React.js, assinale a alternativa correta:</p>
@@ -1382,12 +1836,12 @@ function Contador() {
 <div class="questao" data-resposta="D">
   <h4>Questão 9</h4>
 <p>Analise o código JavaScript abaixo:</p>
-  <pre><code>&lt;p id="mensagem"&gt;Olá Mundo!&lt;/p&gt;
+  <pre><code>&amp;lt;p id="mensagem"&amp;gt;Olá Mundo!&amp;lt;/p&amp;gt;
 
-&lt;script&gt;
+&amp;lt;script&amp;gt;
     const elemento = document.getElementById("mensagem");
     elemento.innerHTML = "Bem-vindo ao JavaScript!";
-&lt;/script&gt;</code></pre>
+&amp;lt;/script&amp;gt;</code></pre>
 <p>Considerando o funcionamento da manipulação do DOM (Document Object Model), assinale a alternativa correta:</p>
   <div class="alternativas">
     <div class="alt" data-alt="A">A) O método getElementById() cria um novo elemento HTML na página.</div>
