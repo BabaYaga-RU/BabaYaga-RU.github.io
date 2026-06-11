@@ -37,13 +37,6 @@ tr:hover td{background:#f5f5f5}
 .toc li{padding:.2rem 0}
 .toc a{color:var(--c2);text-decoration:none}
 .toc a:hover{color:var(--acc)}
-details.slides{margin:1.5rem 0;border:1px solid #ddd;border-radius:8px;background:#fff}
-details.slides summary{cursor:pointer;padding:.9rem 1.2rem;font-weight:600;color:var(--c1);list-style:none;display:flex;align-items:center;gap:.5rem;font-size:.95rem}
-details.slides summary::-webkit-details-marker{display:none}
-details.slides[open] summary{border-bottom:1px solid #ddd;background:#f5f7fa;border-radius:8px 8px 0 0}
-.slide-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;padding:1rem}
-.slide-grid img{width:100%;border-radius:6px;border:1px solid #e0e0e0;box-shadow:0 2px 6px rgba(0,0,0,.1);transition:transform .2s}
-.slide-grid img:hover{transform:scale(1.02);box-shadow:0 4px 12px rgba(0,0,0,.18)}
 @media(max-width:768px){
   header{padding:1.2rem 1rem}
   header h1{font-size:1.4rem}
@@ -56,17 +49,16 @@ details.slides[open] summary{border-bottom:1px solid #ddd;background:#f5f7fa;bor
   table{font-size:.78rem}
   td,th{padding:.4rem .5rem}
   .card{padding:1rem .8rem}
-  .slide-grid{grid-template-columns:1fr 1fr}
 }
-@media(max-width:480px){
-  .slide-grid{grid-template-columns:1fr}
-}
+.professor-content{border-top:2px dashed #d6dee8;margin:2.2rem 0;padding-top:.2rem}
+.professor-content>h3{background:#eef4fa;border-left:4px solid var(--c2);padding:.7rem 1rem;border-radius:4px}
+.professor-content .card h4:first-child{margin-top:0}
 </style>
 </head>
 <body>
 <header>
   <h1>Simulação de Sistemas Computacionais</h1>
-  <p>Apostila completa com slides do professor · 42 slides · Estatística · Simulação · Teoria das Filas</p>
+  <p>Apostila integrada de Estatística, Modelagem, Simulação e Teoria das Filas</p>
 </header>
 <nav>
   <a href="index.html">← Início</a>
@@ -82,14 +74,17 @@ details.slides[open] summary{border-bottom:1px solid #ddd;background:#f5f7fa;bor
     <li><a href="#estat-desc">1.1 Estatística Descritiva</a></li>
     <li><a href="#estat-prob">1.2 Distribuições de Probabilidade</a></li>
     <li><a href="#estat-inf">1.3 Inferência Estatística</a></li>
+    <li><a href="#slides-simulacao-estatistica">1.4 Interpretação estatística — slides integrados</a></li>
     <li><a href="#simul">2. Simulação de Sistemas</a></li>
     <li><a href="#simul-intro">2.1 Conceitos e Tipos de Simulação</a></li>
     <li><a href="#simul-montecarlo">2.2 Método de Monte Carlo</a></li>
     <li><a href="#simul-eventos">2.3 Simulação por Eventos Discretos</a></li>
+    <li><a href="#slides-simulacao-modelagem">2.4 Modelagem e metodologia — slides integrados</a></li>
     <li><a href="#filas">3. Teoria das Filas</a></li>
     <li><a href="#filas-mm1">3.1 Modelo M/M/1</a></li>
     <li><a href="#filas-mmc">3.2 Modelo M/M/c</a></li>
     <li><a href="#filas-python">3.3 Simulação em Python</a></li>
+    <li><a href="#slides-simulacao-filas">3.4 Análise completa de filas — slides integrados</a></li>
   </ul>
 </div>
 
@@ -173,37 +168,42 @@ t_stat, p_val = stats.ttest_1samp(amostra, 24)
 print(f"t={t_stat:.3f}, p={p_val:.4f}")</code></pre>
 </div>
 
-<details class="slides">
-  <summary>📑 Slides do Professor – Estatística Aplicada (26 slides)</summary>
-  <div class="slide-grid">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p001.png" alt="Slide 1" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p002.png" alt="Slide 2" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p003.png" alt="Slide 3" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p004.png" alt="Slide 4" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p005.png" alt="Slide 5" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p006.png" alt="Slide 6" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p007.png" alt="Slide 7" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p008.png" alt="Slide 8" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p009.png" alt="Slide 9" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p010.png" alt="Slide 10" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p011.png" alt="Slide 11" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p012.png" alt="Slide 12" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p013.png" alt="Slide 13" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p014.png" alt="Slide 14" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p015.png" alt="Slide 15" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p016.png" alt="Slide 16" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p017.png" alt="Slide 17" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p018.png" alt="Slide 18" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p019.png" alt="Slide 19" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p020.png" alt="Slide 20" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p021.png" alt="Slide 21" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p022.png" alt="Slide 22" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p023.png" alt="Slide 23" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p024.png" alt="Slide 24" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p025.png" alt="Slide 25" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-estat-stica-aplicada__p026.png" alt="Slide 26" loading="lazy">
-  </div>
-</details>
+<section class="professor-content" id="slides-simulacao-estatistica">
+<h3>1.4 Conteúdo incorporado dos slides: interpretação estatística</h3>
+<div class="card">
+<h4>Escolha e interpretação das medidas</h4>
+<ul>
+  <li><strong>Média:</strong> representa bem dados aproximadamente simétricos, mas é sensível a extremos.</li>
+  <li><strong>Mediana:</strong> divide os dados ordenados e é robusta a outliers.</li>
+  <li><strong>Moda:</strong> identifica o valor mais frequente e funciona também para categorias.</li>
+  <li><strong>Amplitude:</strong> máximo menos mínimo; é simples, porém muito sensível a um único outlier.</li>
+  <li><strong>Coeficiente de variação:</strong> <code>CV = desvio / média × 100%</code>; compara dispersões relativas entre escalas diferentes.</li>
+</ul>
+<p>Para amostras, NumPy deve usar <code>ddof=1</code> em <code>np.var</code> e <code>np.std</code>, dividindo por <code>n − 1</code>. Sem esse ajuste, calcula-se a medida populacional.</p>
+</div>
+<div class="card">
+<h4>Quartis, boxplot e outliers</h4>
+<p>Q1, Q2 e Q3 deixam, respectivamente, 25%, 50% e 75% dos dados abaixo deles. O intervalo interquartil é <strong>IQR = Q3 − Q1</strong>. Um critério comum marca como outlier valores abaixo de <code>Q1 − 1,5·IQR</code> ou acima de <code>Q3 + 1,5·IQR</code>.</p>
+<p>Na simulação, gráficos ajudam a identificar distribuição, instabilidade, picos e cenários extremos. Sistemas com a mesma média podem ter comportamentos muito diferentes quando seus desvios e CVs diferem.</p>
+</div>
+<div class="card">
+<h4>Poisson e eventos por intervalo</h4>
+<p>A distribuição de Poisson modela o número de ocorrências independentes em um intervalo fixo, com taxa média constante λ. Nela, média e variância teóricas são iguais a λ. Exemplo: número de requisições recebidas por minuto.</p>
+</div>
+<div class="card">
+<h4>Inferência, testes e interpretação correta</h4>
+<table>
+<tr><th>Termo</th><th>Significado</th></tr>
+<tr><td>População / amostra</td><td>Todo o conjunto de interesse / subconjunto observado</td></tr>
+<tr><td>Parâmetro / estatística</td><td>Medida da população / medida calculada da amostra</td></tr>
+<tr><td>Erro tipo I</td><td>Rejeitar H₀ quando H₀ é verdadeira</td></tr>
+<tr><td>Erro tipo II</td><td>Não rejeitar H₀ quando H₀ é falsa</td></tr>
+</table>
+<p>Em um teste com α = 0,05, rejeita-se H₀ quando <code>p &lt; 0,05</code>. Quando <code>p ≥ 0,05</code>, a conclusão correta é <strong>não há evidência suficiente para rejeitar H₀</strong>, e não “H₀ foi provada”.</p>
+<p>A distribuição t de Student é apropriada para inferir médias quando a variância populacional é desconhecida, especialmente com amostras pequenas. Suas caudas mais pesadas refletem maior incerteza.</p>
+<div class="warn"><strong>Intervalo de confiança:</strong> dizer “95% de confiança” descreve o procedimento que gera intervalos. O parâmetro populacional é fixo; não se deve afirmar que ele tem 95% de chance de estar em um intervalo já calculado.</div>
+</div>
+</section>
 
 <!-- ══════════════════════════ SIMULAÇÃO ══════════════════════════ -->
 <h2 id="simul">2. Simulação de Sistemas Computacionais</h2>
@@ -314,18 +314,53 @@ class SimuladorFila:
         return self.estatisticas</code></pre>
 </div>
 
-<details class="slides">
-  <summary>📑 Slides do Professor – Simulação de Sistemas (7 slides)</summary>
-  <div class="slide-grid">
-      <img src="imgs/simulacao-sistemas__ssc-rf-simula-o-de-sistemas-computacionais__p001.png" alt="Slide 1" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-simula-o-de-sistemas-computacionais__p002.png" alt="Slide 2" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-simula-o-de-sistemas-computacionais__p003.png" alt="Slide 3" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-simula-o-de-sistemas-computacionais__p004.png" alt="Slide 4" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-simula-o-de-sistemas-computacionais__p005.png" alt="Slide 5" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-simula-o-de-sistemas-computacionais__p006.png" alt="Slide 6" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-simula-o-de-sistemas-computacionais__p007.png" alt="Slide 7" loading="lazy">
-  </div>
-</details>
+<section class="professor-content" id="slides-simulacao-modelagem">
+<h3>2.4 Conteúdo incorporado dos slides: modelagem e metodologia</h3>
+<div class="card">
+<h4>Blocos fundamentais</h4>
+<table>
+<tr><th>Conceito</th><th>Papel</th></tr>
+<tr><td>Sistema</td><td>Entidades que interagem para atingir um objetivo</td></tr>
+<tr><td>Modelo</td><td>Representação simplificada que mantém apenas aspectos relevantes</td></tr>
+<tr><td>Simulação</td><td>Execução do modelo para observar seu comportamento</td></tr>
+<tr><td>Evento</td><td>Ocorrência que altera o estado em um instante, como chegada, término ou falha</td></tr>
+</table>
+<p>Um modelo útil não tenta copiar tudo. Ele responde uma pergunta específica com o nível de abstração necessário, sem complexidade que não altera a decisão.</p>
+</div>
+<div class="card">
+<h4>Modelo analítico versus simulação</h4>
+<table>
+<tr><th>Modelo analítico</th><th>Modelo de simulação</th></tr>
+<tr><td>Equações e solução exata sob hipóteses definidas</td><td>Estimativas estatísticas obtidas por experimentos</td></tr>
+<tr><td>Ótimo para sistemas simples e bem conhecidos</td><td>Ótimo para sistemas complexos, dinâmicos e variáveis</td></tr>
+<tr><td>Exemplo: fórmula M/M/1</td><td>Exemplo: rede com protocolos e falhas</td></tr>
+</table>
+<p>A simulação permite testar falhas, picos e decisões sem riscos reais, mas depende da qualidade dos dados, pode exigir muito tempo de modelagem e não garante encontrar a solução ótima.</p>
+</div>
+<div class="card">
+<h4>Metodologia rigorosa</h4>
+<ol>
+  <li>Formular problema, objetivo, escopo e métricas.</li>
+  <li>Coletar dados e caracterizar distribuições.</li>
+  <li>Construir o modelo conceitual e implementá-lo.</li>
+  <li><strong>Verificar:</strong> confirmar que o programa implementa corretamente o modelo.</li>
+  <li><strong>Validar:</strong> confirmar que o modelo representa adequadamente o sistema real.</li>
+  <li>Experimentar cenários e analisar resultados estatisticamente.</li>
+</ol>
+<div class="info"><strong>Diferença cobrada:</strong> verificação pergunta “construímos o modelo corretamente?”; validação pergunta “construímos o modelo correto para representar a realidade?”.</div>
+</div>
+<div class="card">
+<h4>Aplicações e ferramentas</h4>
+<p>Aplicações incluem escalonamento e memória em sistemas operacionais, protocolos de rede, treinamento de IA, balanceamento de carga em nuvem, bancos de dados, logística e saúde.</p>
+<table>
+<tr><th>Ferramenta</th><th>Uso típico</th></tr>
+<tr><td>Python + SimPy</td><td>Prototipagem e eventos discretos customizados</td></tr>
+<tr><td>NS-3</td><td>Redes, protocolos e comunicação sem fio</td></tr>
+<tr><td>OMNeT++</td><td>Simulações modulares de redes</td></tr>
+<tr><td>MATLAB/Simulink</td><td>Sistemas dinâmicos e processamento de sinais</td></tr>
+</table>
+</div>
+</section>
 
 <!-- ══════════════════════════ FILAS ══════════════════════════ -->
 <h2 id="filas">3. Teoria das Filas</h2>
@@ -454,20 +489,41 @@ Wq_teorico = TAXA_CHEGADA / (TAXA_SERVICO * (TAXA_SERVICO - TAXA_CHEGADA))
 print(f"Wq teórico M/M/1:    {Wq_teorico:.3f} min")</code></pre>
 </div>
 
-<details class="slides">
-  <summary>📑 Slides do Professor – Teoria das Filas (9 slides)</summary>
-  <div class="slide-grid">
-      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p001.png" alt="Slide 1" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p002.png" alt="Slide 2" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p003.png" alt="Slide 3" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p004.png" alt="Slide 4" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p005.png" alt="Slide 5" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p006.png" alt="Slide 6" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p007.png" alt="Slide 7" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p008.png" alt="Slide 8" loading="lazy">
-      <img src="imgs/simulacao-sistemas__ssc-rf-teoria-das-filas__p009.png" alt="Slide 9" loading="lazy">
-  </div>
-</details>
+<section class="professor-content" id="slides-simulacao-filas">
+<h3>3.4 Conteúdo incorporado dos slides: análise completa de filas</h3>
+<div class="card">
+<h4>Elementos do sistema</h4>
+<ul>
+  <li><strong>População/fonte:</strong> conjunto finito ou infinito de clientes potenciais.</li>
+  <li><strong>Processo de chegada:</strong> define os tempos entre chegadas.</li>
+  <li><strong>Fila/buffer:</strong> armazena quem aguarda e pode ter capacidade finita.</li>
+  <li><strong>Disciplina:</strong> FIFO, LIFO, prioridades ou outra regra de atendimento.</li>
+  <li><strong>Servidores:</strong> recursos que executam o serviço.</li>
+</ul>
+<p>Em computação, clientes podem ser processos aguardando CPU, pacotes em roteadores, consultas de banco, requisições web ou tarefas destinadas a GPUs.</p>
+</div>
+<div class="card">
+<h4>Notação de Kendall em exemplos</h4>
+<table>
+<tr><th>Modelo</th><th>Leitura</th></tr>
+<tr><td>M/M/1</td><td>Chegadas e serviços markovianos, um servidor; demais campos assumidos infinitos/FIFO</td></tr>
+<tr><td>M/D/3/10</td><td>Chegadas markovianas, serviço determinístico, três servidores, capacidade total 10</td></tr>
+<tr><td>M/G/4</td><td>Chegadas markovianas, serviço com distribuição geral, quatro servidores</td></tr>
+</table>
+<p>A distribuição exponencial é “sem memória”: dado que o evento ainda não ocorreu, o tempo já esperado não altera a distribuição do tempo restante.</p>
+</div>
+<div class="card">
+<h4>Métricas e estabilidade</h4>
+<p>No M/M/1, a estabilidade exige <strong>λ &lt; μ</strong> e a utilização é <strong>ρ = λ/μ</strong>. Além de L, Lq, W e Wq, os slides destacam:</p>
+<ul>
+  <li><strong>P₀ = 1 − ρ:</strong> probabilidade de o sistema estar vazio;</li>
+  <li><strong>Pₙ = (1 − ρ)ρⁿ:</strong> probabilidade de haver exatamente n clientes;</li>
+  <li>quando ρ se aproxima de 1, filas e tempos de espera crescem de forma não linear.</li>
+</ul>
+<p>No M/M/c, a condição é <strong>ρ = λ/(cμ) &lt; 1</strong>. Erlang C calcula a probabilidade de uma chegada precisar esperar.</p>
+<div class="tip"><strong>Uso conjunto:</strong> os modelos analíticos M/M/1 e M/M/c servem como referência para verificar e calibrar uma simulação. A simulação é necessária quando hipóteses como exponencialidade, capacidade infinita ou servidores idênticos não representam o sistema real.</div>
+</div>
+</section>
 
 </div><!-- .container -->
 </body>

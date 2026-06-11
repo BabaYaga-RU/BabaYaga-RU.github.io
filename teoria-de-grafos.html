@@ -37,13 +37,21 @@ tr:hover td{background:#f5f5f5}
 .toc li{padding:.2rem 0}
 .toc a{color:var(--c2);text-decoration:none}
 .toc a:hover{color:var(--acc)}
-details.slides{margin:1.5rem 0;border:1px solid #ddd;border-radius:8px;background:#fff}
-details.slides summary{cursor:pointer;padding:.9rem 1.2rem;font-weight:600;color:var(--c1);list-style:none;display:flex;align-items:center;gap:.5rem;font-size:.95rem}
-details.slides summary::-webkit-details-marker{display:none}
-details.slides[open] summary{border-bottom:1px solid #ddd;background:#f5f7fa;border-radius:8px 8px 0 0}
-.slide-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;padding:1rem}
-.slide-grid img{width:100%;border-radius:6px;border:1px solid #e0e0e0;box-shadow:0 2px 6px rgba(0,0,0,.1);transition:transform .2s}
-.slide-grid img:hover{transform:scale(1.02);box-shadow:0 4px 12px rgba(0,0,0,.18)}
+
+.exam-map{background:linear-gradient(135deg,#eef5fb,#fff8ed);border:1px solid #d8e4ed;border-radius:12px;padding:1.2rem 1.4rem;margin:1rem 0 1.5rem}
+.exam-map strong{color:var(--c1)}
+.exam-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1rem 0}
+.exam-card{background:#fff;border:1px solid #dde4ea;border-top:4px solid var(--c2);border-radius:9px;padding:1rem 1.1rem}
+.exam-card h4{color:var(--c1);margin:0 0 .4rem}
+.level-label{display:inline-block;background:var(--acc);color:#fff;border-radius:999px;padding:.15rem .55rem;font-size:.72rem;font-weight:700;margin-bottom:.45rem}
+.formula{background:#f4f7fa;border:1px solid #dce4ea;border-radius:7px;padding:.65rem .8rem;margin:.6rem 0;font-family:Consolas,'Courier New',monospace;font-size:.9rem}
+details.exercise{background:#fff;border:1px solid #d9e0e5;border-radius:8px;margin:.7rem 0;overflow:hidden}
+details.exercise summary{cursor:pointer;color:var(--c1);font-weight:600;padding:.8rem 1rem;background:#f7f9fb}
+details.exercise[open] summary{border-bottom:1px solid #e0e5e9}
+.exercise-answer{padding:1rem;border-left:4px solid #4caf50;background:#f3fbf4}
+.trap-list li::marker{color:#e67e22}
+@media(max-width:768px){.exam-grid{grid-template-columns:1fr}}
+
 @media(max-width:768px){
   header{padding:1.2rem 1rem}
   header h1{font-size:1.4rem}
@@ -56,17 +64,16 @@ details.slides[open] summary{border-bottom:1px solid #ddd;background:#f5f7fa;bor
   table{font-size:.78rem}
   td,th{padding:.4rem .5rem}
   .card{padding:1rem .8rem}
-  .slide-grid{grid-template-columns:1fr 1fr}
 }
-@media(max-width:480px){
-  .slide-grid{grid-template-columns:1fr}
-}
+.professor-content{border-top:2px dashed #d6dee8;margin:2.2rem 0;padding-top:.2rem}
+.professor-content>h3{background:#eef4fa;border-left:4px solid var(--c2);padding:.7rem 1rem;border-radius:4px}
+.professor-content .card h4:first-child{margin-top:0}
 </style>
 </head>
 <body>
 <header>
   <h1>Teoria de Grafos</h1>
-  <p>Apostila completa com slides do professor · Aulas 01–06 · 145 slides</p>
+  <p>Apostila integrada com o conteúdo das aulas 01–06, demonstrações, algoritmos e preparação para prova</p>
 </header>
 <nav>
   <a href="index.html">← Início</a>
@@ -76,6 +83,7 @@ details.slides[open] summary{border-bottom:1px solid #ddd;background:#f5f7fa;bor
   <a href="#aula4">Aula 4 – Caminhos</a>
   <a href="#aula5">Aula 5 – Árvores Geradoras</a>
   <a href="#aula6">Aula 6 – Aplicações</a>
+  <a href="#nivel-prova">Nível prova</a>
   <a href="#simulado">Simulado</a>
 </nav>
 <div class="container">
@@ -83,22 +91,29 @@ details.slides[open] summary{border-bottom:1px solid #ddd;background:#f5f7fa;bor
   <h3>Índice</h3>
   <ul>
     <li><a href="#aula1">1. Introdução – Conceitos Fundamentais</a></li>
-    <li><a href="#aula1-tipos">1.1 Tipos de Grafos</a></li>
-    <li><a href="#aula1-hist">1.2 Breve Histórico (Königsberg)</a></li>
+    <li><a href="#aula1-hist">1.1 Breve Histórico (Königsberg)</a></li>
+    <li><a href="#aula1-tipos">1.2 Tipos de Grafos</a></li>
+    <li><a href="#slides-grafos-aula1">1.3 Linguagem e representações — slides integrados</a></li>
     <li><a href="#aula2">2. Representação Computacional</a></li>
     <li><a href="#aula2-mat">2.1 Matriz de Adjacência</a></li>
     <li><a href="#aula2-lista">2.2 Lista de Adjacência</a></li>
+    <li><a href="#slides-grafos-aula2">2.3 Indução e demonstrações — slides integrados</a></li>
     <li><a href="#aula3">3. Algoritmos de Percurso</a></li>
     <li><a href="#aula3-bfs">3.1 BFS – Busca em Largura</a></li>
     <li><a href="#aula3-dfs">3.2 DFS – Busca em Profundidade</a></li>
+    <li><a href="#slides-grafos-aula3">3.3 Isomorfismo e caminhamentos — slides integrados</a></li>
     <li><a href="#aula4">4. Caminhos e Ciclos</a></li>
     <li><a href="#aula4-dijkstra">4.1 Algoritmo de Dijkstra</a></li>
     <li><a href="#aula4-euler">4.2 Caminhos de Euler e Hamilton</a></li>
+    <li><a href="#slides-grafos-aula4">4.3 Maximal, máximo e conectividade — slides integrados</a></li>
     <li><a href="#aula5">5. Árvores Geradoras Mínimas</a></li>
     <li><a href="#aula5-kruskal">5.1 Algoritmo de Kruskal</a></li>
     <li><a href="#aula5-prim">5.2 Algoritmo de Prim</a></li>
+    <li><a href="#slides-grafos-aula5">5.3 Operações com grafos — slides integrados</a></li>
     <li><a href="#aula6">6. Aplicações e Coloração</a></li>
-    <li><a href="#simulado">7. Simulado</a></li>
+    <li><a href="#slides-grafos-aula6">6.4 Propriedades de árvores — slides integrados</a></li>
+    <li><a href="#nivel-prova">7. Preparação para a Prova</a></li>
+    <li><a href="#simulado">8. Simulado</a></li>
   </ul>
 </div>
 
@@ -117,7 +132,7 @@ details.slides[open] summary{border-bottom:1px solid #ddd;background:#f5f7fa;bor
 <h3 id="aula1-hist">1.1 Problema das Pontes de Königsberg (1736)</h3>
 <div class="card">
 <p>Euler resolveu o problema histórico: <em>"É possível percorrer todas as 7 pontes de Königsberg exatamente uma vez e voltar ao ponto de partida?"</em></p>
-<p>Euler provou que <strong>não</strong>, modelando as margens como vértices e as pontes como arestas. Sua conclusão: um percurso euleriano (que passa por todas as arestas exatamente uma vez) só existe se o grafo tiver exatamente 0 ou 2 vértices com grau ímpar.</p>
+<p>Euler provou que <strong>não</strong>, modelando as margens como vértices e as pontes como arestas. Sua conclusão: uma trilha euleriana (que passa por todas as arestas exatamente uma vez) exige 0 ou 2 vértices de grau ímpar; para voltar ao ponto inicial, formando um circuito euleriano, todos os graus devem ser pares.</p>
 <div class="info">Este problema deu origem à Teoria de Grafos. O grafo resultante tinha 4 vértices e 7 arestas, com todos os vértices de grau ímpar (3 ou 5), impossibilitando o circuito.</div>
 </div>
 
@@ -136,55 +151,43 @@ details.slides[open] summary{border-bottom:1px solid #ddd;background:#f5f7fa;bor
 <div class="tip"><strong>Teorema de Euler para grafos planares:</strong> V − E + F = 2, onde V = vértices, E = arestas, F = faces (incluindo a face infinita externa).</div>
 </div>
 
-<details class="slides">
-  <summary>📑 Slides do Professor – Aula 01 – Introdução (44 slides)</summary>
-  <div class="slide-grid">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p001.png" alt="Slide 1" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p002.png" alt="Slide 2" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p003.png" alt="Slide 3" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p004.png" alt="Slide 4" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p005.png" alt="Slide 5" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p006.png" alt="Slide 6" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p007.png" alt="Slide 7" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p008.png" alt="Slide 8" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p009.png" alt="Slide 9" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p010.png" alt="Slide 10" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p011.png" alt="Slide 11" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p012.png" alt="Slide 12" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p013.png" alt="Slide 13" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p014.png" alt="Slide 14" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p015.png" alt="Slide 15" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p016.png" alt="Slide 16" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p017.png" alt="Slide 17" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p018.png" alt="Slide 18" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p019.png" alt="Slide 19" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p020.png" alt="Slide 20" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p021.png" alt="Slide 21" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p022.png" alt="Slide 22" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p023.png" alt="Slide 23" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p024.png" alt="Slide 24" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p025.png" alt="Slide 25" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p026.png" alt="Slide 26" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p027.png" alt="Slide 27" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p028.png" alt="Slide 28" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p029.png" alt="Slide 29" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p030.png" alt="Slide 30" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p031.png" alt="Slide 31" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p032.png" alt="Slide 32" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p033.png" alt="Slide 33" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p034.png" alt="Slide 34" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p035.png" alt="Slide 35" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p036.png" alt="Slide 36" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p037.png" alt="Slide 37" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p038.png" alt="Slide 38" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p039.png" alt="Slide 39" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p040.png" alt="Slide 40" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p041.png" alt="Slide 41" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p042.png" alt="Slide 42" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p043.png" alt="Slide 43" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-01-teoria-de-grafos__p044.png" alt="Slide 44" loading="lazy">
-  </div>
-</details>
+<section class="professor-content" id="slides-grafos-aula1">
+<h3>1.3 Conteúdo incorporado dos slides: linguagem e representações de grafos</h3>
+<div class="card">
+<h4>Vocabulário completo</h4>
+<table>
+<tr><th>Conceito</th><th>Definição</th></tr>
+<tr><td>Laço</td><td>Aresta que conecta um vértice a ele mesmo</td></tr>
+<tr><td>Arestas paralelas / antiparalelas</td><td>Ligam o mesmo par; antiparalelas têm sentidos opostos</td></tr>
+<tr><td>Grafo simples</td><td>Não possui laços nem arestas paralelas</td></tr>
+<tr><td>Regular</td><td>Todos os vértices têm o mesmo grau</td></tr>
+<tr><td>Fonte / sumidouro</td><td>Em dígrafo, grau de entrada zero / grau de saída zero</td></tr>
+<tr><td>Completo K<sub>n</sub></td><td>Todo par de vértices distintos é adjacente</td></tr>
+<tr><td>Bipartido K<sub>m,n</sub></td><td>Vértices divididos em dois conjuntos; arestas cruzam as partes</td></tr>
+<tr><td>Multigrafo / hipergrafo</td><td>Admite arestas paralelas / uma aresta pode conectar vários vértices</td></tr>
+<tr><td>Rotulado / ponderado</td><td>Possui rótulos / valores associados a vértices ou arestas</td></tr>
+</table>
+<p>Em um dígrafo, distingue-se grau de entrada e grau de saída. Um vértice <code>u</code> é antecessor de <code>v</code> quando existe arco <code>u → v</code>; <code>v</code> é sucessor de <code>u</code>.</p>
+</div>
+<div class="card">
+<h4>Alcançabilidade e fechos transitivos</h4>
+<ul>
+  <li><strong>Fecho transitivo direto de v:</strong> vértices alcançáveis partindo de <code>v</code>.</li>
+  <li><strong>Fecho transitivo inverso de v:</strong> vértices a partir dos quais é possível alcançar <code>v</code>.</li>
+  <li>O próprio vértice pertence aos dois fechos por ser alcançável a partir dele mesmo.</li>
+</ul>
+</div>
+<div class="card">
+<h4>Três representações</h4>
+<table>
+<tr><th>Representação</th><th>Melhor uso</th><th>Custo de espaço</th></tr>
+<tr><td>Matriz de adjacência</td><td>Grafos densos e consulta rápida de aresta</td><td>O(V²)</td></tr>
+<tr><td>Lista de adjacência</td><td>Grafos esparsos e percurso de vizinhos</td><td>O(V + E)</td></tr>
+<tr><td>Matriz de incidência</td><td>Relacionar explicitamente vértices e arestas</td><td>O(V · E)</td></tr>
+</table>
+<p>Em grafo não dirigido, cada aresta aparece em duas listas de adjacência. Em dígrafo, aparece na lista de saída de sua origem.</p>
+</div>
+</section>
 
 <!-- ═══════════════════ AULA 2 ═══════════════════ -->
 <h2 id="aula2">Aula 2 – Representação Computacional de Grafos</h2>
@@ -271,35 +274,26 @@ class Aresta {
 </table>
 </div>
 
-<details class="slides">
-  <summary>📑 Slides do Professor – Aula 02 – Representação (24 slides)</summary>
-  <div class="slide-grid">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p001.png" alt="Slide 1" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p002.png" alt="Slide 2" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p003.png" alt="Slide 3" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p004.png" alt="Slide 4" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p005.png" alt="Slide 5" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p006.png" alt="Slide 6" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p007.png" alt="Slide 7" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p008.png" alt="Slide 8" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p009.png" alt="Slide 9" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p010.png" alt="Slide 10" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p011.png" alt="Slide 11" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p012.png" alt="Slide 12" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p013.png" alt="Slide 13" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p014.png" alt="Slide 14" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p015.png" alt="Slide 15" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p016.png" alt="Slide 16" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p017.png" alt="Slide 17" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p018.png" alt="Slide 18" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p019.png" alt="Slide 19" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p020.png" alt="Slide 20" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p021.png" alt="Slide 21" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p022.png" alt="Slide 22" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p023.png" alt="Slide 23" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-02-teoria-de-grafos__p024.png" alt="Slide 24" loading="lazy">
-  </div>
-</details>
+<section class="professor-content" id="slides-grafos-aula2">
+<h3>2.3 Conteúdo incorporado dos slides: conjecturas, contraexemplos e indução</h3>
+<div class="card">
+<p>Testar vários casos pode sugerir uma <strong>conjectura</strong>, mas não prova que ela vale sempre. Um único <strong>contraexemplo</strong> basta para derrubá-la, como ocorreu com a conjectura de Fermat sobre números da forma 2<sup>2ⁿ</sup> + 1.</p>
+<h4>Estrutura de uma prova por indução</h4>
+<ol>
+  <li><strong>Passo base:</strong> provar que P(n₀) é verdadeira.</li>
+  <li><strong>Hipótese indutiva:</strong> assumir P(k) verdadeira para um k arbitrário.</li>
+  <li><strong>Passo indutivo:</strong> usando a hipótese, provar P(k + 1).</li>
+</ol>
+<p>Indução aparece em provas sobre complexidade, corretude de algoritmos, grafos e árvores. Exemplos clássicos são:</p>
+<ul>
+  <li>1 + 2 + ... + n = n(n + 1)/2;</li>
+  <li>a soma dos n primeiros ímpares é n²;</li>
+  <li>o número de vértices de grau ímpar é sempre par;</li>
+  <li>K<sub>n</sub> possui n(n − 1)/2 arestas.</li>
+</ul>
+<div class="info"><strong>Como provar a última fórmula:</strong> cada um dos n vértices pode ligar-se a n − 1 outros, produzindo n(n − 1) incidências. Cada aresta foi contada duas vezes, então divide-se por 2.</div>
+</div>
+</section>
 
 <!-- ═══════════════════ AULA 3 ═══════════════════ -->
 <h2 id="aula3">Aula 3 – Algoritmos de Percurso</h2>
@@ -371,36 +365,29 @@ void dfsIterativa(GrafoLista g, int inicio) {
 <div class="info"><strong>Usos do DFS:</strong> detecção de ciclos, ordenação topológica, componentes fortemente conexos (algoritmo de Tarjan/Kosaraju), labirintos, resolução de puzzles.</div>
 </div>
 
-<details class="slides">
-  <summary>📑 Slides do Professor – Aula 03 – Percurso BFS/DFS (25 slides)</summary>
-  <div class="slide-grid">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p001.png" alt="Slide 1" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p002.png" alt="Slide 2" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p003.png" alt="Slide 3" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p004.png" alt="Slide 4" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p005.png" alt="Slide 5" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p006.png" alt="Slide 6" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p007.png" alt="Slide 7" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p008.png" alt="Slide 8" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p009.png" alt="Slide 9" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p010.png" alt="Slide 10" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p011.png" alt="Slide 11" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p012.png" alt="Slide 12" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p013.png" alt="Slide 13" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p014.png" alt="Slide 14" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p015.png" alt="Slide 15" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p016.png" alt="Slide 16" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p017.png" alt="Slide 17" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p018.png" alt="Slide 18" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p019.png" alt="Slide 19" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p020.png" alt="Slide 20" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p021.png" alt="Slide 21" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p022.png" alt="Slide 22" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p023.png" alt="Slide 23" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p024.png" alt="Slide 24" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-03-teoria-de-grafos__p025.png" alt="Slide 25" loading="lazy">
-  </div>
-</details>
+<section class="professor-content" id="slides-grafos-aula3">
+<h3>3.3 Conteúdo incorporado dos slides: isomorfismo, subgrafos e caminhamentos</h3>
+<div class="card">
+<h4>Isomorfismo</h4>
+<p>Dois grafos são isomorfos quando existe uma bijeção entre seus vértices que preserva adjacências. Eles podem ter desenhos diferentes e ainda representar a mesma estrutura.</p>
+<p>Antes de procurar a bijeção, compare invariantes: número de vértices e arestas, sequência de graus, quantidade de componentes, ciclos e vértices de cada grau. Se algum deles difere, os grafos não são isomorfos; igualdade desses valores, sozinha, não garante isomorfismo.</p>
+</div>
+<div class="card">
+<h4>Subgrafos e disjunção</h4>
+<p>H = (V′, E′) é subgrafo de G = (V, E) quando V′ ⊆ V, E′ ⊆ E e cada aresta mantém as mesmas extremidades. Dois subgrafos podem ser <strong>aresta-disjuntos</strong> sem serem vértice-disjuntos.</p>
+</div>
+<div class="card">
+<h4>Passeio, trajeto, caminho e circuito</h4>
+<table>
+<tr><th>Objeto</th><th>Regra principal</th></tr>
+<tr><td>Passeio</td><td>Pode repetir vértices e arestas</td></tr>
+<tr><td>Trajeto / trilha</td><td>Não repete arestas, mas pode repetir vértices</td></tr>
+<tr><td>Caminho</td><td>Não repete vértices</td></tr>
+<tr><td>Circuito / ciclo</td><td>Caminhamento fechado sem repetição indevida</td></tr>
+</table>
+<p>Em grafo não ponderado, o comprimento é o número de arestas; em grafo ponderado, normalmente é a soma dos pesos.</p>
+</div>
+</section>
 
 <!-- ═══════════════════ AULA 4 ═══════════════════ -->
 <h2 id="aula4">Aula 4 – Caminhos Mínimos e Ciclos</h2>
@@ -437,9 +424,10 @@ void dijkstra(int[][] grafo, int src, int n) {
 }</code></pre>
 <table>
 <tr><th>Complexidade</th><th>Com array</th><th>Com fila de prioridade</th></tr>
-<tr><td>Tempo</td><td>O(V²)</td><td>O((V+E) log V)</td></tr>
+<tr><td>Tempo</td><td>O(V²)</td><td>O((V+E) log V)*</td></tr>
 <tr><td>Espaço</td><td>O(V)</td><td>O(V+E)</td></tr>
 </table>
+<div class="info"><strong>* Atenção à representação:</strong> O((V+E) log V) exige fila de prioridade combinada com lista de adjacência. A implementação acima usa matriz e percorre todos os V possíveis vizinhos, mantendo O(V²) como custo dominante.</div>
 <div class="warn"><strong>Limitação:</strong> Dijkstra não funciona com pesos negativos. Para isso, use o algoritmo de Bellman-Ford O(VE).</div>
 </div>
 
@@ -454,25 +442,25 @@ void dijkstra(int[][] grafo, int src, int n) {
 </table>
 </div>
 
-<details class="slides">
-  <summary>📑 Slides do Professor – Aula 04 – Caminhos (14 slides)</summary>
-  <div class="slide-grid">
-      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p001.png" alt="Slide 1" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p002.png" alt="Slide 2" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p003.png" alt="Slide 3" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p004.png" alt="Slide 4" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p005.png" alt="Slide 5" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p006.png" alt="Slide 6" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p007.png" alt="Slide 7" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p008.png" alt="Slide 8" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p009.png" alt="Slide 9" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p010.png" alt="Slide 10" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p011.png" alt="Slide 11" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p012.png" alt="Slide 12" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p013.png" alt="Slide 13" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-04-teoria-de-grafos__p014.png" alt="Slide 14" loading="lazy">
-  </div>
-</details>
+<section class="professor-content" id="slides-grafos-aula4">
+<h3>4.3 Conteúdo incorporado dos slides: maximal, máximo e conectividade</h3>
+<div class="card">
+<h4>Máximo não é maximal</h4>
+<ul>
+  <li><strong>Maximal:</strong> não pode ser ampliado sem perder a propriedade desejada.</li>
+  <li><strong>Máximo:</strong> possui o maior tamanho possível entre todas as soluções.</li>
+</ul>
+<p>Toda solução máxima é maximal, mas uma solução maximal pode ser menor que a máxima. Essa diferença aparece em conjuntos independentes, emparelhamentos e subgrafos com determinada propriedade.</p>
+</div>
+<div class="card">
+<h4>Componentes e limites de arestas</h4>
+<p>Cada componente é um subgrafo conexo maximal. Um grafo é desconexo se, e somente se, seus vértices podem ser particionados em dois conjuntos não vazios sem aresta entre eles.</p>
+<p>Para um grafo simples com <code>n</code> vértices e <code>k</code> componentes:</p>
+<p style="text-align:center"><strong>n − k ≤ m ≤ (n − k)(n − k + 1)/2</strong></p>
+<p>O limite inferior ocorre quando cada componente é uma árvore. O superior ocorre concentrando o máximo de vértices possível em uma componente completa e deixando as demais isoladas.</p>
+<div class="tip"><strong>Ponte:</strong> em um grafo conexo, remover uma aresta desconecta o grafo exatamente quando essa aresta não pertence a nenhum ciclo.</div>
+</div>
+</section>
 
 <!-- ═══════════════════ AULA 5 ═══════════════════ -->
 <h2 id="aula5">Aula 5 – Árvores Geradoras Mínimas</h2>
@@ -548,25 +536,22 @@ void dijkstra(int[][] grafo, int src, int n) {
 <p><strong>Complexidade:</strong> O(V²) com array simples; O(E log V) com fila de prioridade</p>
 </div>
 
-<details class="slides">
-  <summary>📑 Slides do Professor – Aula 05 – Árvores Geradoras (14 slides)</summary>
-  <div class="slide-grid">
-      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p001.png" alt="Slide 1" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p002.png" alt="Slide 2" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p003.png" alt="Slide 3" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p004.png" alt="Slide 4" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p005.png" alt="Slide 5" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p006.png" alt="Slide 6" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p007.png" alt="Slide 7" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p008.png" alt="Slide 8" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p009.png" alt="Slide 9" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p010.png" alt="Slide 10" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p011.png" alt="Slide 11" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p012.png" alt="Slide 12" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p013.png" alt="Slide 13" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-05-teoria-de-grafos__p014.png" alt="Slide 14" loading="lazy">
-  </div>
-</details>
+<section class="professor-content" id="slides-grafos-aula5">
+<h3>5.3 Conteúdo incorporado dos slides: operações com grafos</h3>
+<div class="card">
+<table>
+<tr><th>Operação</th><th>Resultado</th></tr>
+<tr><td>União G₁ ∪ G₂</td><td>Une conjuntos de vértices e de arestas</td></tr>
+<tr><td>Interseção G₁ ∩ G₂</td><td>Mantém vértices e arestas comuns</td></tr>
+<tr><td>Decomposição</td><td>Subgrafos cuja união recompõe G e que não compartilham arestas</td></tr>
+<tr><td>Remoção G − e / G − v</td><td>Remove aresta / remove vértice e todas as arestas incidentes</td></tr>
+<tr><td>Soma de grafos</td><td>Une os grafos e conecta cada vértice de um a cada vértice do outro</td></tr>
+<tr><td>Fusão de vértices</td><td>Substitui dois vértices por um, preservando incidências</td></tr>
+<tr><td>Contração de aresta</td><td>Remove a aresta, funde as extremidades e elimina laços/paralelas resultantes</td></tr>
+</table>
+<p>União e interseção são comutativas. A remoção de um vértice sempre implica remover suas arestas incidentes. Na fusão, o número de arestas pode ser preservado; na contração de grafos simples, laços e paralelas geradas são eliminados.</p>
+</div>
+</section>
 
 <!-- ═══════════════════ AULA 6 ═══════════════════ -->
 <h2 id="aula6">Aula 6 – Aplicações e Coloração de Grafos</h2>
@@ -623,39 +608,192 @@ void topoSort(GrafoLista g, int v, boolean[] vis, Stack&lt;Integer&gt; pilha) {
 // Resultado: pop da pilha dá a ordenação topológica</code></pre>
 </div>
 
-<details class="slides">
-  <summary>📑 Slides do Professor – Aula 06 – Aplicações (24 slides)</summary>
-  <div class="slide-grid">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p001.png" alt="Slide 1" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p002.png" alt="Slide 2" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p003.png" alt="Slide 3" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p004.png" alt="Slide 4" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p005.png" alt="Slide 5" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p006.png" alt="Slide 6" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p007.png" alt="Slide 7" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p008.png" alt="Slide 8" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p009.png" alt="Slide 9" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p010.png" alt="Slide 10" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p011.png" alt="Slide 11" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p012.png" alt="Slide 12" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p013.png" alt="Slide 13" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p014.png" alt="Slide 14" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p015.png" alt="Slide 15" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p016.png" alt="Slide 16" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p017.png" alt="Slide 17" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p018.png" alt="Slide 18" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p019.png" alt="Slide 19" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p020.png" alt="Slide 20" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p021.png" alt="Slide 21" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p022.png" alt="Slide 22" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p023.png" alt="Slide 23" loading="lazy">
-      <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p024.png" alt="Slide 24" loading="lazy">
+<section class="professor-content" id="slides-grafos-aula6">
+<h3>6.4 Conteúdo incorporado dos slides: propriedades de árvores</h3>
+<div class="card">
+<h4>Caracterizações equivalentes</h4>
+<p>Para um grafo G com n vértices, as afirmações abaixo caracterizam uma árvore:</p>
+<ul>
+  <li>G é conexo e não possui ciclos;</li>
+  <li>G é conexo e possui n − 1 arestas;</li>
+  <li>G não possui ciclos e possui n − 1 arestas;</li>
+  <li>existe exatamente um caminho entre cada par de vértices;</li>
+  <li>adicionar uma aresta entre dois vértices cria exatamente um ciclo.</li>
+</ul>
+<div class="info">Remover qualquer aresta de uma árvore a desconecta; adicionar qualquer aresta cria um ciclo.</div>
+</div>
+<div class="card">
+<h4>Árvores enraizadas e binárias</h4>
+<ul>
+  <li>Uma árvore com raiz distinguida é <strong>enraizada</strong>; sem raiz, é <strong>livre</strong>.</li>
+  <li>O nível de um vértice é sua distância até a raiz.</li>
+  <li>A altura é o maior nível, isto é, o maior caminho partindo da raiz.</li>
+  <li>Em uma árvore binária completa no sentido dos slides, todo vértice interno possui dois filhos.</li>
+</ul>
+<p>Se uma árvore binária cheia possui <code>i</code> vértices internos e <code>p</code> folhas, então <strong>p = i + 1</strong> e o total é <strong>n = 2p − 1</strong>, portanto n é ímpar. Com altura h, o número de folhas satisfaz <strong>p ≤ 2<sup>h</sup></strong>.</p>
+<div class="tip"><strong>Aplicação:</strong> um torneio eliminatório com p participantes exige p − 1 jogos, pois cada jogo elimina exatamente um participante.</div>
+</div>
+</section>
+
+
+
+
+<!-- ═══════════════════ PREPARAÇÃO NÍVEL PROVA ═══════════════════ -->
+<h2 id="nivel-prova">7. Preparação para a Prova — Conceitos, Deduções e Algoritmos</h2>
+<div class="exam-map">
+  <span class="level-label">COMO ESTUDAR ESTA SEÇÃO</span>
+  <p><strong>O simulado verifica definições diretas:</strong> grafo conexo, completo, bipartido, caminho, ciclo, componente, grau e matriz de adjacência. Uma prova mais exigente tende a fornecer um grafo, uma sequência de graus ou uma matriz e pedir que você <strong>deduza propriedades, escolha um algoritmo e justifique a resposta</strong>.</p>
+  <p>Em cada questão, identifique primeiro: o grafo é dirigido? possui pesos? é simples? é conexo? O problema trata de vértices, arestas, caminhos ou custo? Essas respostas eliminam boa parte das alternativas erradas.</p>
+</div>
+
+<div class="exam-grid">
+  <div class="exam-card">
+    <h4>O simulado cobra</h4>
+    <ul>
+      <li>Definições de caminho, ciclo e componente</li>
+      <li>Conectividade, completude e bipartição</li>
+      <li>Soma dos graus e vértices ímpares</li>
+      <li>Dimensão da matriz de adjacência</li>
+    </ul>
   </div>
+  <div class="exam-card">
+    <h4>A prova pode elevar para</h4>
+    <ul>
+      <li>Aplicar fórmulas e deduzir arestas/graus</li>
+      <li>Ler matriz e reconstruir propriedades</li>
+      <li>Escolher BFS, DFS, Dijkstra, Prim ou Kruskal</li>
+      <li>Distinguir Euler, Hamilton, menor caminho e AGM</li>
+    </ul>
+  </div>
+</div>
+
+<h3 id="prova-definicoes-grafos">7.1 Definições precisas que evitam pegadinhas</h3>
+<div class="card">
+  <table>
+    <tr><th>Conceito</th><th>Definição precisa</th><th>Pode repetir?</th></tr>
+    <tr><td>Passeio</td><td>Sequência de vértices adjacentes</td><td>Pode repetir vértices e arestas</td></tr>
+    <tr><td>Trilha</td><td>Passeio sem repetir arestas</td><td>Pode repetir vértices</td></tr>
+    <tr><td>Caminho simples</td><td>Passeio sem repetir vértices</td><td>Não repete vértices</td></tr>
+    <tr><td>Circuito</td><td>Trilha fechada</td><td>Início = fim</td></tr>
+    <tr><td>Ciclo</td><td>Caminho fechado, sem repetir vértices internos</td><td>Somente início = fim</td></tr>
+  </table>
+  <p>Uma <strong>componente conexa</strong> não é apenas qualquer subgrafo conexo: é um <strong>subgrafo conexo maximal</strong>, isto é, não pode receber outro vértice do grafo mantendo a conectividade.</p>
+  <div class="warn"><strong>Dirigidos:</strong> em dígrafos, “fortemente conexo” significa que existe caminho dirigido de u para v e de v para u para todo par. “Fracamente conexo” ignora as direções para testar conectividade.</div>
+</div>
+
+<h3 id="prova-graus-formulas">7.2 Grau, número de arestas e fórmulas essenciais</h3>
+<div class="card">
+  <div class="formula">Lema do aperto de mãos: Σ grau(v) = 2|E|</div>
+  <p>Cada aresta não dirigida toca dois vértices, portanto contribui duas unidades à soma dos graus. Duas consequências importantes:</p>
+  <ul>
+    <li>A soma dos graus sempre é par.</li>
+    <li>A quantidade de vértices com grau ímpar sempre é par.</li>
+  </ul>
+  <table>
+    <tr><th>Grafo</th><th>Propriedade</th><th>Número de arestas</th></tr>
+    <tr><td>Completo K<sub>n</sub></td><td>Cada vértice tem grau n − 1</td><td>n(n − 1)/2</td></tr>
+    <tr><td>Bipartido completo K<sub>m,n</sub></td><td>Cada vértice de uma parte liga-se a todos da outra</td><td>m × n</td></tr>
+    <tr><td>Árvore com n vértices</td><td>Conexa e sem ciclos</td><td>n − 1</td></tr>
+    <tr><td>Planar simples conexo, n ≥ 3</td><td>Limite útil para testar não planaridade</td><td>|E| ≤ 3|V| − 6</td></tr>
+  </table>
+  <div class="tip"><strong>Exemplo:</strong> K<sub>6</sub> possui 6×5/2 = 15 arestas, e cada vértice tem grau 5. K<sub>3,4</sub> possui 3×4 = 12 arestas.</div>
+</div>
+
+<h3 id="prova-matriz-grafos">7.3 Interpretando uma matriz de adjacência</h3>
+<div class="card">
+  <p>Em um grafo simples com n vértices, a matriz possui dimensão n×n. A posição <code>A[i][j]</code> informa se existe aresta de i para j.</p>
+  <table>
+    <tr><th>Propriedade observada</th><th>O que significa</th></tr>
+    <tr><td>Matriz simétrica</td><td>O grafo é não dirigido: A[i][j] = A[j][i]</td></tr>
+    <tr><td>Diagonal principal zerada</td><td>Não há laços</td></tr>
+    <tr><td>Soma da linha i em grafo não dirigido</td><td>Grau do vértice i</td></tr>
+    <tr><td>Soma da linha i em dígrafo</td><td>Grau de saída</td></tr>
+    <tr><td>Soma da coluna i em dígrafo</td><td>Grau de entrada</td></tr>
+    <tr><td>Entrada (i,j) de A<sup>k</sup></td><td>Quantidade de passeios de comprimento k de i até j</td></tr>
+  </table>
+  <pre><code>A = [0 1 1
+     1 0 1
+     1 1 0]</code></pre>
+  <p>A matriz é simétrica, a diagonal é zero e cada linha soma 2. Portanto representa o grafo completo K<sub>3</sub>, no qual todos os vértices têm grau 2.</p>
+</div>
+
+<h3 id="prova-conectividade-bipartido">7.4 Conectividade, componentes e bipartição</h3>
+<div class="card">
+  <p>BFS e DFS podem marcar todos os vértices alcançáveis a partir de uma origem. Para contar componentes em um grafo não dirigido, execute uma nova busca sempre que encontrar um vértice ainda não visitado.</p>
+  <pre><code>componentes = 0
+para cada vértice v:
+    se v não foi visitado:
+        BFS_ou_DFS(v)
+        componentes++</code></pre>
+  <p>Para verificar se um grafo é bipartido, use BFS ou DFS atribuindo duas cores. Todo vizinho deve receber a cor oposta. Se uma aresta ligar vértices da mesma cor, o grafo não é bipartido.</p>
+  <div class="formula">Um grafo não dirigido é bipartido se, e somente se, não possui ciclo de comprimento ímpar.</div>
+  <div class="tip"><strong>Aplicação:</strong> modelar relações entre dois tipos distintos de entidade, como alunos e disciplinas, candidatos e vagas, máquinas e tarefas.</div>
+</div>
+
+<h3 id="prova-algoritmos-grafos">7.5 Escolhendo o algoritmo correto</h3>
+<div class="card">
+  <table>
+    <tr><th>Problema</th><th>Algoritmo/ideia</th><th>Condição importante</th></tr>
+    <tr><td>Alcançabilidade e componentes</td><td>BFS ou DFS</td><td>Ambos percorrem em O(V + E) com lista</td></tr>
+    <tr><td>Menor caminho por quantidade de arestas</td><td>BFS</td><td>Grafo sem pesos ou pesos iguais</td></tr>
+    <tr><td>Menor caminho com pesos não negativos</td><td>Dijkstra</td><td>Não aceita pesos negativos</td></tr>
+    <tr><td>Detectar ciclo / ordenação topológica</td><td>DFS</td><td>Ordenação topológica exige DAG</td></tr>
+    <tr><td>Árvore geradora mínima</td><td>Prim ou Kruskal</td><td>Minimiza custo para conectar todos</td></tr>
+  </table>
+  <div class="warn"><strong>Não confunda:</strong> Dijkstra encontra menores caminhos partindo de uma origem. Prim e Kruskal encontram uma árvore de custo total mínimo. Uma árvore geradora mínima não garante o menor caminho entre cada par de vértices.</div>
+</div>
+
+<h3 id="prova-euler-hamilton">7.6 Euler, Hamilton e árvores</h3>
+<div class="card">
+  <table>
+    <tr><th>Problema</th><th>Foco</th><th>Critério útil</th></tr>
+    <tr><td>Trilha/circuito de Euler</td><td>Passar por cada aresta exatamente uma vez</td><td>Em grafo conexo: 0 ímpares = circuito; 2 ímpares = trilha aberta</td></tr>
+    <tr><td>Caminho/ciclo Hamiltoniano</td><td>Visitar cada vértice exatamente uma vez</td><td>Não há critério simples equivalente ao de Euler</td></tr>
+    <tr><td>Árvore</td><td>Conectar sem ciclos</td><td>Conexa com n − 1 arestas</td></tr>
+    <tr><td>Árvore geradora</td><td>Subgrafo que inclui todos os vértices e é árvore</td><td>Remove ciclos mantendo conectividade</td></tr>
+  </table>
+  <p>Se um grafo conexo possui n vértices e n − 1 arestas, ele é árvore. Se uma árvore ganhar uma nova aresta, surge exatamente um ciclo. Se perder uma aresta, fica desconexa.</p>
+</div>
+
+<h3 id="prova-exercicios-grafos">7.7 Exercícios resolvidos — nível prova</h3>
+<details class="exercise">
+  <summary>1. Um grafo não dirigido possui graus 3, 3, 2, 2, 2 e 2. Quantas arestas possui?</summary>
+  <div class="exercise-answer"><strong>Resposta:</strong> a soma dos graus é 14. Pelo lema do aperto de mãos, 2|E| = 14, então |E| = 7. Há dois vértices ímpares, quantidade que confirma a regra de paridade.</div>
+</details>
+<details class="exercise">
+  <summary>2. Quantas arestas faltam para um grafo simples com 6 vértices e 11 arestas tornar-se completo?</summary>
+  <div class="exercise-answer"><strong>Resposta:</strong> K<sub>6</sub> possui 6×5/2 = 15 arestas. Faltam 15 − 11 = 4 arestas.</div>
+</details>
+<details class="exercise">
+  <summary>3. Um grafo possui um ciclo de comprimento 5. Ele pode ser bipartido?</summary>
+  <div class="exercise-answer"><strong>Resposta:</strong> não. Um ciclo de comprimento ímpar impede a coloração consistente com apenas duas cores, portanto o grafo não é bipartido.</div>
+</details>
+<details class="exercise">
+  <summary>4. Um grafo não dirigido possui 8 vértices distribuídos em 3 componentes. Qual o número mínimo de arestas a adicionar para torná-lo conexo?</summary>
+  <div class="exercise-answer"><strong>Resposta:</strong> 2. Cada nova aresta pode unir duas componentes; para unir c componentes são necessárias no mínimo c − 1 arestas.</div>
+</details>
+<details class="exercise">
+  <summary>5. Por que BFS encontra menor caminho em grafo não ponderado, mas DFS não garante?</summary>
+  <div class="exercise-answer"><strong>Resposta:</strong> BFS visita por camadas de distância: primeiro todos a uma aresta, depois a duas e assim por diante. A primeira vez que alcança um vértice usa o menor número de arestas. DFS pode seguir profundamente por uma rota longa antes de encontrar uma rota curta.</div>
+</details>
+<details class="exercise">
+  <summary>6. Um grafo ponderado tem uma aresta de peso negativo. Qual problema existe ao usar Dijkstra?</summary>
+  <div class="exercise-answer"><strong>Resposta:</strong> Dijkstra considera definitiva a menor distância de um vértice quando o remove da fila de prioridade. Uma aresta negativa descoberta depois pode reduzir essa distância, invalidando a decisão. Para pesos negativos, considere Bellman-Ford.</div>
 </details>
 
+<div class="warn">
+  <strong>Checklist de armadilhas:</strong>
+  <ul class="trap-list">
+    <li>Componente conexa é maximal; qualquer caminho isolado dentro dela não é outra componente.</li>
+    <li>Grafo completo conecta todo par; grafo conexo exige apenas algum caminho entre os pares.</li>
+    <li>Bipartido não significa “ter dois vértices”; significa dividir os vértices em duas partes sem arestas internas.</li>
+    <li>Caminho mínimo, árvore geradora mínima e percurso de Euler resolvem problemas diferentes.</li>
+    <li>Em dígrafos, grau de entrada e grau de saída devem ser analisados separadamente.</li>
+  </ul>
+</div>
 
 
-<h2 id="simulado">7. Simulado</h2>
+<h2 id="simulado">8. Simulado — Verificação dos Fundamentos</h2>
 <div class="card">
 <p>Clique na alternativa que julgar correta. Acertos ficam em <strong style="color:green">verde</strong>, erros em <strong style="color:red">vermelho</strong>. A resposta correta será sempre destacada em verde.</p>
 
