@@ -76,6 +76,7 @@ details.slides[open] summary{border-bottom:1px solid #ddd;background:#f5f7fa;bor
   <a href="#aula4">Aula 4 – Caminhos</a>
   <a href="#aula5">Aula 5 – Árvores Geradoras</a>
   <a href="#aula6">Aula 6 – Aplicações</a>
+  <a href="#simulado">Simulado</a>
 </nav>
 <div class="container">
 <div class="toc">
@@ -97,6 +98,7 @@ details.slides[open] summary{border-bottom:1px solid #ddd;background:#f5f7fa;bor
     <li><a href="#aula5-kruskal">5.1 Algoritmo de Kruskal</a></li>
     <li><a href="#aula5-prim">5.2 Algoritmo de Prim</a></li>
     <li><a href="#aula6">6. Aplicações e Coloração</a></li>
+    <li><a href="#simulado">7. Simulado</a></li>
   </ul>
 </div>
 
@@ -650,6 +652,224 @@ void topoSort(GrafoLista g, int v, boolean[] vis, Stack&lt;Integer&gt; pilha) {
       <img src="imgs/teoria-de-grafos__aula-06-teoria-de-grafos__p024.png" alt="Slide 24" loading="lazy">
   </div>
 </details>
+
+
+
+<h2 id="simulado">7. Simulado</h2>
+<div class="card">
+<p>Clique na alternativa que julgar correta. Acertos ficam em <strong style="color:green">verde</strong>, erros em <strong style="color:red">vermelho</strong>. A resposta correta será sempre destacada em verde.</p>
+
+<div id="quiz-container">
+
+<!-- Questão 1 -->
+<div class="questao" data-resposta="C">
+  <h4>Questão 1</h4>
+  <p>Uma componente conexa é:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Um ciclo do grafo.</div>
+    <div class="alt" data-alt="B">B) Um subgrafo completo.</div>
+    <div class="alt" data-alt="C">C) Um subgrafo conexo.</div>
+    <div class="alt" data-alt="D">D) Um conjunto de arestas.</div>
+    <div class="alt" data-alt="E">E) Um caminho mínimo.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 2 -->
+<div class="questao" data-resposta="B">
+  <h4>Questão 2</h4>
+  <p>Um grafo é dito conexo quando:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Possui pelo menos uma aresta.</div>
+    <div class="alt" data-alt="B">B) Todos os vértices estão ligados entre si por algum caminho.</div>
+    <div class="alt" data-alt="C">C) Não possui ciclos.</div>
+    <div class="alt" data-alt="D">D) Todos os vértices têm o mesmo grau.</div>
+    <div class="alt" data-alt="E">E) É direcionado.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 3 -->
+<div class="questao" data-resposta="C">
+  <h4>Questão 3</h4>
+  <p>O que caracteriza um grafo completo?</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Possui apenas um vértice.</div>
+    <div class="alt" data-alt="B">B) Não possui arestas.</div>
+    <div class="alt" data-alt="C">C) Todo par de vértices distintos está conectado por uma aresta.</div>
+    <div class="alt" data-alt="D">D) Possui ciclos apenas.</div>
+    <div class="alt" data-alt="E">E) É sempre direcionado.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 4 -->
+<div class="questao" data-resposta="B">
+  <h4>Questão 4</h4>
+  <p>Um caminho em um grafo é:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Um conjunto de vértices isolados.</div>
+    <div class="alt" data-alt="B">B) Uma sequência de vértices onde cada par consecutivo está ligado por uma aresta.</div>
+    <div class="alt" data-alt="C">C) Um tipo de matriz.</div>
+    <div class="alt" data-alt="D">D) Um ciclo fechado apenas.</div>
+    <div class="alt" data-alt="E">E) Um conjunto de arestas desconectadas.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 5 -->
+<div class="questao" data-resposta="C">
+  <h4>Questão 5</h4>
+  <p>Em um grafo não direcionado, a soma dos graus de todos os vértices é:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Igual ao número de vértices.</div>
+    <div class="alt" data-alt="B">B) Igual ao número de arestas.</div>
+    <div class="alt" data-alt="C">C) Igual ao dobro do número de arestas.</div>
+    <div class="alt" data-alt="D">D) Sempre zero.</div>
+    <div class="alt" data-alt="E">E) Sempre ímpar.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 6 -->
+<div class="questao" data-resposta="B">
+  <h4>Questão 6</h4>
+  <p>Um subgrafo de um grafo G é:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Um grafo com mais vértices que G.</div>
+    <div class="alt" data-alt="B">B) Um grafo formado por subconjuntos de vértices e arestas de G.</div>
+    <div class="alt" data-alt="C">C) Um grafo completo.</div>
+    <div class="alt" data-alt="D">D) Um grafo sem arestas.</div>
+    <div class="alt" data-alt="E">E) Um grafo desconexo.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 7 -->
+<div class="questao" data-resposta="B">
+  <h4>Questão 7</h4>
+  <p>Em um grafo não direcionado, o número de vértices de grau ímpar é:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Sempre zero.</div>
+    <div class="alt" data-alt="B">B) Sempre par.</div>
+    <div class="alt" data-alt="C">C) Sempre ímpar.</div>
+    <div class="alt" data-alt="D">D) Igual ao número de arestas.</div>
+    <div class="alt" data-alt="E">E) Igual ao número de vértices.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 8 -->
+<div class="questao" data-resposta="B">
+  <h4>Questão 8</h4>
+  <p>O que é um ciclo em um grafo?</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Um caminho que começa e termina em vértices diferentes.</div>
+    <div class="alt" data-alt="B">B) Um caminho fechado onde o vértice inicial é igual ao final.</div>
+    <div class="alt" data-alt="C">C) Um conjunto de vértices sem arestas.</div>
+    <div class="alt" data-alt="D">D) Um tipo de grafo direcionado.</div>
+    <div class="alt" data-alt="E">E) Um vértice com grau zero.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 9 -->
+<div class="questao" data-resposta="B">
+  <h4>Questão 9</h4>
+  <p>Um grafo é bipartido quando:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Possui exatamente dois vértices.</div>
+    <div class="alt" data-alt="B">B) Seus vértices podem ser divididos em dois conjuntos disjuntos, sem arestas dentro do mesmo conjunto.</div>
+    <div class="alt" data-alt="C">C) Possui duas arestas.</div>
+    <div class="alt" data-alt="D">D) É sempre completo.</div>
+    <div class="alt" data-alt="E">E) Não possui ciclos.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 10 -->
+<div class="questao" data-resposta="A">
+  <h4>Questão 10</h4>
+  <p>Em um grafo simples com n vértices e m arestas, a matriz de adjacência é:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Uma matriz n×n.</div>
+    <div class="alt" data-alt="B">B) Uma matriz n×m.</div>
+    <div class="alt" data-alt="C">C) Sempre triangular.</div>
+    <div class="alt" data-alt="D">D) Sempre diagonal.</div>
+    <div class="alt" data-alt="E">E) Uma lista de arestas.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+</div><!-- /quiz-container -->
+
+<div id="quiz-placar" style="display:none; margin-top:1.5rem; padding:1rem 1.4rem; border-radius:8px; font-size:1.1rem; font-weight:600; text-align:center;"></div>
+</div>
+
+<style>
+.questao{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid #eee}
+.questao:last-child{border-bottom:none}
+.alternativas{display:flex;flex-direction:column;gap:.5rem;margin:.8rem 0}
+.alt{padding:.7rem 1rem;border:2px solid #ccc;border-radius:8px;cursor:pointer;transition:all .2s;font-size:.97rem}
+.alt:hover{border-color:var(--c2);background:#f0f7ff}
+.alt.selecionada-correta{border-color:#4caf50;background:#e8f5e9;color:#2e7d32;font-weight:600}
+.alt.selecionada-incorreta{border-color:#e53935;background:#ffebee;color:#c62828;font-weight:600}
+.alt.resposta-certa{border-color:#4caf50;background:#e8f5e9;color:#2e7d32;font-weight:600}
+.alt.desabilitada{pointer-events:none;opacity:.7}
+.resultado-questao{margin-top:.6rem;font-weight:600;font-size:.95rem}
+</style>
+
+<script>
+(function(){
+  const container = document.getElementById('quiz-container');
+  const questoes = container.querySelectorAll('.questao');
+  const placar = document.getElementById('quiz-placar');
+  let acertos = 0;
+  let respondidas = 0;
+
+  questoes.forEach(q => {
+    const correta = q.dataset.resposta;
+    const alternativas = q.querySelectorAll('.alt');
+    const resultadoDiv = q.querySelector('.resultado-questao');
+
+    alternativas.forEach(alt => {
+      alt.addEventListener('click', function(){
+        if(q.dataset.respondida === 'true') return;
+        q.dataset.respondida = 'true';
+        respondidas++;
+
+        const escolhida = this.dataset.alt;
+        alternativas.forEach(a => a.classList.add('desabilitada'));
+
+        if(escolhida === correta){
+          this.classList.add('selecionada-correta');
+          resultadoDiv.innerHTML = '<span style="color:#4caf50">✔ Você acertou!</span>';
+          acertos++;
+        } else {
+          this.classList.add('selecionada-incorreta');
+          alternativas.forEach(a => {
+            if(a.dataset.alt === correta) a.classList.add('resposta-certa');
+          });
+          resultadoDiv.innerHTML = '<span style="color:#e53935">✘ Você errou! A resposta correta é <strong>' + correta + '</strong>.</span>';
+        }
+
+        if(respondidas === questoes.length){
+          placar.style.display = 'block';
+          const pct = Math.round((acertos / questoes.length) * 100);
+          if(acertos === questoes.length){
+            placar.style.background = '#e8f5e9';
+            placar.style.color = '#2e7d32';
+            placar.innerHTML = '🎉 Parabéns! Você acertou todas as ' + questoes.length + ' questões!';
+          } else {
+            placar.style.background = '#fff8e1';
+            placar.style.color = '#f57f17';
+            placar.innerHTML = 'Você acertou <strong>' + acertos + ' de ' + questoes.length + '</strong> questões (' + pct + '%).';
+          }
+        }
+      });
+    });
+  });
+})();
+</script>
 
 </div><!-- .container -->
 </body>

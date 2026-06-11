@@ -75,6 +75,7 @@ details.slides[open] summary{border-bottom:1px solid #ddd;background:#f5f7fa;bor
   <a href="#aula2">Aula 2 – Vetores &amp; Listas</a>
   <a href="#aula3">Aula 3 – Pilhas &amp; Filas</a>
   <a href="#aula4">Aula 4 – Árvores</a>
+  <a href="#simulado">Simulado</a>
 </nav>
 <div class="container">
 <div class="toc">
@@ -91,6 +92,7 @@ details.slides[open] summary{border-bottom:1px solid #ddd;background:#f5f7fa;bor
     <li><a href="#aula4">4. Árvores</a></li>
     <li><a href="#aula4-bin">4.1 Árvore Binária de Busca</a></li>
     <li><a href="#aula4-avl">4.2 Árvore AVL</a></li>
+    <li><a href="#simulado">5. Simulado</a></li>
   </ul>
 </div>
 
@@ -475,6 +477,224 @@ NoAVL rotDir(NoAVL y) {
       <img src="imgs/estrutura-de-dados__aula-04-estruturas-de-dados__p022.png" alt="Slide 22" loading="lazy">
   </div>
 </details>
+
+
+
+<h2 id="simulado">5. Simulado</h2>
+<div class="card">
+<p>Clique na alternativa que julgar correta. Acertos ficam em <strong style="color:green">verde</strong>, erros em <strong style="color:red">vermelho</strong>. A resposta correta será sempre destacada em verde.</p>
+
+<div id="quiz-container">
+
+<!-- Questão 1 -->
+<div class="questao" data-resposta="C">
+  <h4>Questão 1</h4>
+  <p>Uma vantagem da lista duplamente encadeada é:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Menor uso de memória.</div>
+    <div class="alt" data-alt="B">B) Acesso direto por índice.</div>
+    <div class="alt" data-alt="C">C) Navegação em ambas as direções.</div>
+    <div class="alt" data-alt="D">D) Inserção apenas no final.</div>
+    <div class="alt" data-alt="E">E) Estrutura estática.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 2 -->
+<div class="questao" data-resposta="C">
+  <h4>Questão 2</h4>
+  <p>Quais são as operações principais de uma pilha?</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Enqueue e Dequeue</div>
+    <div class="alt" data-alt="B">B) Insert e Delete</div>
+    <div class="alt" data-alt="C">C) Push e Pop</div>
+    <div class="alt" data-alt="D">D) Add e RemoveAt</div>
+    <div class="alt" data-alt="E">E) Sort e Search</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 3 -->
+<div class="questao" data-resposta="C">
+  <h4>Questão 3</h4>
+  <p>Qual é a complexidade de acesso a um elemento em um vetor por índice?</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) O(n)</div>
+    <div class="alt" data-alt="B">B) O(log n)</div>
+    <div class="alt" data-alt="C">C) O(1)</div>
+    <div class="alt" data-alt="D">D) O(n²)</div>
+    <div class="alt" data-alt="E">E) O(n log n)</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 4 -->
+<div class="questao" data-resposta="C">
+  <h4>Questão 4</h4>
+  <p>Em matrizes (arrays bidimensionais), o acesso a um elemento é feito por:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Apenas um índice.</div>
+    <div class="alt" data-alt="B">B) Um ponteiro para o próximo elemento.</div>
+    <div class="alt" data-alt="C">C) Dois índices (linha e coluna).</div>
+    <div class="alt" data-alt="D">D) Um hash.</div>
+    <div class="alt" data-alt="E">E) Um iterador.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 5 -->
+<div class="questao" data-resposta="B">
+  <h4>Questão 5</h4>
+  <p>Sobre pilhas (stacks), é correto afirmar que seguem o princípio:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) FIFO (First In, First Out)</div>
+    <div class="alt" data-alt="B">B) LIFO (Last In, First Out)</div>
+    <div class="alt" data-alt="C">C) Ordenação crescente automática.</div>
+    <div class="alt" data-alt="D">D) Acesso aleatório.</div>
+    <div class="alt" data-alt="E">E) Estrutura bidirecional.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 6 -->
+<div class="questao" data-resposta="C">
+  <h4>Questão 6</h4>
+  <p>Qual estrutura é mais eficiente para inserções e remoções frequentes no início?</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Vetor</div>
+    <div class="alt" data-alt="B">B) Matriz</div>
+    <div class="alt" data-alt="C">C) Lista encadeada</div>
+    <div class="alt" data-alt="D">D) Pilha</div>
+    <div class="alt" data-alt="E">E) Array estático</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 7 -->
+<div class="questao" data-resposta="B">
+  <h4>Questão 7</h4>
+  <p>Sobre vetores (arrays), é correto afirmar que:</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Possuem tamanho dinâmico por padrão.</div>
+    <div class="alt" data-alt="B">B) Permitem acesso aleatório direto aos elementos.</div>
+    <div class="alt" data-alt="C">C) São implementados com ponteiros encadeados.</div>
+    <div class="alt" data-alt="D">D) Não permitem acesso por índice.</div>
+    <div class="alt" data-alt="E">E) Só armazenam números inteiros.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 8 -->
+<div class="questao" data-resposta="C">
+  <h4>Questão 8</h4>
+  <p>Em listas simplesmente encadeadas, qual é a complexidade para acessar um elemento por posição?</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) O(1)</div>
+    <div class="alt" data-alt="B">B) O(log n)</div>
+    <div class="alt" data-alt="C">C) O(n)</div>
+    <div class="alt" data-alt="D">D) O(n²)</div>
+    <div class="alt" data-alt="E">E) O(1) amortizado</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 9 -->
+<div class="questao" data-resposta="C">
+  <h4>Questão 9</h4>
+  <p>Qual das opções descreve corretamente uma lista simplesmente encadeada?</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) Cada nó aponta para o anterior e o próximo.</div>
+    <div class="alt" data-alt="B">B) Os elementos são armazenados em posições contíguas de memória.</div>
+    <div class="alt" data-alt="C">C) Cada nó contém um valor e uma referência para o próximo nó.</div>
+    <div class="alt" data-alt="D">D) Possui acesso direto por índice.</div>
+    <div class="alt" data-alt="E">E) Não permite inserções dinâmicas.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+
+<!-- Questão 10 -->
+<div class="questao" data-resposta="C">
+  <h4>Questão 10</h4>
+  <p>Qual é a principal diferença entre lista simplesmente encadeada e duplamente encadeada?</p>
+  <div class="alternativas">
+    <div class="alt" data-alt="A">A) A lista duplamente encadeada não possui nós.</div>
+    <div class="alt" data-alt="B">B) A lista simplesmente encadeada usa índices.</div>
+    <div class="alt" data-alt="C">C) A lista duplamente encadeada possui ponteiros para o próximo e o anterior.</div>
+    <div class="alt" data-alt="D">D) A lista simplesmente encadeada é mais rápida em todos os casos.</div>
+    <div class="alt" data-alt="E">E) Não há diferença.</div>
+  </div>
+  <div class="resultado-questao"></div>
+</div>
+</div><!-- /quiz-container -->
+
+<div id="quiz-placar" style="display:none; margin-top:1.5rem; padding:1rem 1.4rem; border-radius:8px; font-size:1.1rem; font-weight:600; text-align:center;"></div>
+</div>
+
+<style>
+.questao{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid #eee}
+.questao:last-child{border-bottom:none}
+.alternativas{display:flex;flex-direction:column;gap:.5rem;margin:.8rem 0}
+.alt{padding:.7rem 1rem;border:2px solid #ccc;border-radius:8px;cursor:pointer;transition:all .2s;font-size:.97rem}
+.alt:hover{border-color:var(--c2);background:#f0f7ff}
+.alt.selecionada-correta{border-color:#4caf50;background:#e8f5e9;color:#2e7d32;font-weight:600}
+.alt.selecionada-incorreta{border-color:#e53935;background:#ffebee;color:#c62828;font-weight:600}
+.alt.resposta-certa{border-color:#4caf50;background:#e8f5e9;color:#2e7d32;font-weight:600}
+.alt.desabilitada{pointer-events:none;opacity:.7}
+.resultado-questao{margin-top:.6rem;font-weight:600;font-size:.95rem}
+</style>
+
+<script>
+(function(){
+  const container = document.getElementById('quiz-container');
+  const questoes = container.querySelectorAll('.questao');
+  const placar = document.getElementById('quiz-placar');
+  let acertos = 0;
+  let respondidas = 0;
+
+  questoes.forEach(q => {
+    const correta = q.dataset.resposta;
+    const alternativas = q.querySelectorAll('.alt');
+    const resultadoDiv = q.querySelector('.resultado-questao');
+
+    alternativas.forEach(alt => {
+      alt.addEventListener('click', function(){
+        if(q.dataset.respondida === 'true') return;
+        q.dataset.respondida = 'true';
+        respondidas++;
+
+        const escolhida = this.dataset.alt;
+        alternativas.forEach(a => a.classList.add('desabilitada'));
+
+        if(escolhida === correta){
+          this.classList.add('selecionada-correta');
+          resultadoDiv.innerHTML = '<span style="color:#4caf50">✔ Você acertou!</span>';
+          acertos++;
+        } else {
+          this.classList.add('selecionada-incorreta');
+          alternativas.forEach(a => {
+            if(a.dataset.alt === correta) a.classList.add('resposta-certa');
+          });
+          resultadoDiv.innerHTML = '<span style="color:#e53935">✘ Você errou! A resposta correta é <strong>' + correta + '</strong>.</span>';
+        }
+
+        if(respondidas === questoes.length){
+          placar.style.display = 'block';
+          const pct = Math.round((acertos / questoes.length) * 100);
+          if(acertos === questoes.length){
+            placar.style.background = '#e8f5e9';
+            placar.style.color = '#2e7d32';
+            placar.innerHTML = '🎉 Parabéns! Você acertou todas as ' + questoes.length + ' questões!';
+          } else {
+            placar.style.background = '#fff8e1';
+            placar.style.color = '#f57f17';
+            placar.innerHTML = 'Você acertou <strong>' + acertos + ' de ' + questoes.length + '</strong> questões (' + pct + '%).';
+          }
+        }
+      });
+    });
+  });
+})();
+</script>
 
 </div><!-- .container -->
 </body>
