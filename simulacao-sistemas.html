@@ -53,6 +53,23 @@ tr:hover td{background:#f5f5f5}
 .professor-content{border-top:2px dashed #d6dee8;margin:2.2rem 0;padding-top:.2rem}
 .professor-content>h3{background:#eef4fa;border-left:4px solid var(--c2);padding:.7rem 1rem;border-radius:4px}
 .professor-content .card h4:first-child{margin-top:0}
+.flashcards-intro{margin-bottom:1rem;color:#52606b}
+.flashcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:1rem 0 2rem}
+.flashcard{align-self:start;perspective:1000px;cursor:pointer;outline:none}
+.flashcard:focus-visible .flash-front,.flashcard:focus-visible .flash-back{outline:3px solid var(--acc);outline-offset:3px}
+.flashcard-inner{position:relative;width:100%;transition:transform .5s;transform-style:preserve-3d}
+.flashcard.flipped .flashcard-inner{transform:rotateY(180deg)}
+.flash-front,.flash-back{position:relative;display:flex;flex-direction:column;justify-content:center;min-height:145px;padding:18px;border:1px solid #d8e1e8;border-radius:12px;backface-visibility:hidden;box-shadow:0 4px 14px rgba(26,58,92,.12)}
+.flash-front{color:#fff;background:var(--c1)}
+.flash-front strong{color:#fff;font-size:1.02rem;line-height:1.4}
+.flash-front small{color:var(--acc)}
+.flash-back{position:absolute;inset:0;justify-content:flex-start;background:#fff;transform:rotateY(180deg)}
+.flashcard.flipped .flash-front{position:absolute;inset:0}
+.flashcard.flipped .flash-back{position:relative;inset:auto;min-height:215px}
+.flash-back p{margin:0;overflow-wrap:anywhere}
+.flashcard small{display:block;margin-bottom:9px;font-size:.7rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
+@media(max-width:900px){.flashcards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.flashcards{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -65,6 +82,7 @@ tr:hover td{background:#f5f5f5}
   <a href="#estat">Estatística Aplicada</a>
   <a href="#simul">Simulação de Sistemas</a>
   <a href="#filas">Teoria das Filas</a>
+  <a href="#flashcards">Flashcards</a>
 </nav>
 <div class="container">
 <div class="toc">
@@ -85,6 +103,7 @@ tr:hover td{background:#f5f5f5}
     <li><a href="#filas-mmc">3.2 Modelo M/M/c</a></li>
     <li><a href="#filas-python">3.3 Simulação em Python</a></li>
     <li><a href="#slides-simulacao-filas">3.4 Análise completa de filas — slides integrados</a></li>
+    <li><a href="#flashcards">4. Flashcards de revisão</a></li>
   </ul>
 </div>
 
@@ -525,6 +544,106 @@ print(f"Wq teórico M/M/1:    {Wq_teorico:.3f} min")</code></pre>
 </div>
 </section>
 
+<h2 id="flashcards">4. Flashcards de revisão</h2>
+<p class="flashcards-intro">Clique em um card para conferir a resposta. Fechado, ele mostra apenas o tópico; aberto, cresce conforme o conteúdo.</p>
+<div class="flashcards">
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Estatística</small><strong>Quando preferir mediana em vez de média?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Quando os dados possuem outliers ou forte assimetria. A mediana depende da posição dos valores ordenados e sofre menos influência de extremos.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Dispersão</small><strong>Qual é a relação entre variância e desvio padrão?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>A variância mede o espalhamento quadrático. O desvio padrão é sua raiz quadrada e volta para a mesma unidade dos dados.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Comparação</small><strong>Para que serve o coeficiente de variação?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>CV = desvio padrão / média × 100%. Ele compara a dispersão relativa de conjuntos medidos em escalas ou unidades diferentes.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Inferência</small><strong>Como interpretar um p-valor?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>É a probabilidade de observar um resultado tão extremo quanto o obtido, assumindo H₀ verdadeira. Se p &lt; α, rejeita-se H₀; caso contrário, apenas não há evidência suficiente para rejeitá-la.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Inferência</small><strong>O que informa um intervalo de confiança?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Ele apresenta uma faixa plausível para o parâmetro estimado. Aumentar a amostra normalmente reduz a margem de erro e estreita o intervalo.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Distribuições</small><strong>Poisson e exponencial modelam o quê?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Poisson modela a quantidade de eventos em um intervalo. Exponencial modela o tempo entre eventos quando eles seguem um processo de Poisson.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Modelagem</small><strong>Qual é a diferença entre modelo e simulação?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>O modelo é uma representação simplificada do sistema real. A simulação executa esse modelo ao longo do tempo ou de cenários para analisar seu comportamento.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Classificação</small><strong>Determinístico ou estocástico?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Um modelo determinístico sempre produz o mesmo resultado para as mesmas entradas. Um modelo estocástico inclui variáveis aleatórias e pode produzir resultados diferentes.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Classificação</small><strong>Simulação contínua ou por eventos discretos?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Na contínua, o estado varia continuamente no tempo. Em eventos discretos, o estado muda apenas quando eventos específicos ocorrem.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Método</small><strong>Como funciona o método de Monte Carlo?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Executa muitas amostragens aleatórias para estimar probabilidades, riscos ou resultados difíceis de calcular diretamente. A precisão melhora com mais repetições.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Eventos discretos</small><strong>Quais elementos formam uma DES?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Entidades, recursos, filas, variáveis de estado, relógio de simulação e uma lista de eventos futuros que determina a próxima mudança.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Qualidade</small><strong>Verificação e validação são iguais?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Não. Verificação pergunta se o modelo foi implementado corretamente. Validação pergunta se o modelo representa adequadamente o sistema real para o objetivo definido.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Experimento</small><strong>Por que executar várias replicações?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Uma única execução estocástica pode ser atípica. Replicações independentes permitem estimar médias, variabilidade e intervalos de confiança.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Experimento</small><strong>Para que serve o período de aquecimento?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Serve para reduzir o viés causado pelo estado inicial artificial, descartando observações até que o sistema se aproxime do regime estável.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Filas</small><strong>O que descreve a notação de Kendall?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>A/S/c/K/N/D descreve distribuições de chegada e serviço, quantidade de servidores, capacidade, população e disciplina da fila.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>M/M/1</small><strong>Qual é a condição de estabilidade?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>É necessário λ &lt; μ, portanto ρ = λ/μ &lt; 1. Se a chegada média alcança ou supera o atendimento, a fila tende a crescer sem limite.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Utilização</small><strong>O que significa ρ próximo de 1?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>O recurso está ocupado quase todo o tempo. Mesmo antes de atingir 100%, pequenas variações podem causar crescimento não linear da fila e da espera.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Lei de Little</small><strong>Como relacionar quantidade, taxa e tempo?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>L = λW. Em equilíbrio, o número médio de clientes no sistema é igual à taxa média de chegada multiplicada pelo tempo médio no sistema.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Métricas</small><strong>Qual é a diferença entre L, Lq, W e Wq?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>L é a quantidade média no sistema; Lq, apenas na fila; W é o tempo médio total no sistema; Wq, apenas o tempo médio aguardando atendimento.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>M/M/c</small><strong>Como muda a utilização com vários servidores?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Com c servidores idênticos, ρ = λ/(cμ). A estabilidade ainda exige ρ &lt; 1, e Erlang C calcula a probabilidade de uma chegada precisar esperar.</p></div>
+  </div></div>
+</div>
+
 </div><!-- .container -->
+<script>
+document.querySelectorAll('.flashcard').forEach(card => {
+  const flip = () => {
+    const flipped = card.classList.toggle('flipped');
+    card.setAttribute('aria-expanded', String(flipped));
+  };
+  card.addEventListener('click', flip);
+  card.addEventListener('keydown', event => {
+    if(event.key === 'Enter' || event.key === ' '){
+      event.preventDefault();
+      flip();
+    }
+  });
+});
+</script>
 </body>
 </html>

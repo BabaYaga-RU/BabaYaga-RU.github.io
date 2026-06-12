@@ -68,6 +68,23 @@ details.exercise[open] summary{border-bottom:1px solid #e0e5e9}
 .professor-content{border-top:2px dashed #d6dee8;margin:2.2rem 0;padding-top:.2rem}
 .professor-content>h3{background:#eef4fa;border-left:4px solid var(--c2);padding:.7rem 1rem;border-radius:4px}
 .professor-content .card h4:first-child{margin-top:0}
+.flashcards-intro{margin-bottom:1rem;color:#52606b}
+.flashcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:1rem 0 2rem}
+.flashcard{align-self:start;perspective:1000px;cursor:pointer;outline:none}
+.flashcard:focus-visible .flash-front,.flashcard:focus-visible .flash-back{outline:3px solid var(--acc);outline-offset:3px}
+.flashcard-inner{position:relative;width:100%;transition:transform .5s;transform-style:preserve-3d}
+.flashcard.flipped .flashcard-inner{transform:rotateY(180deg)}
+.flash-front,.flash-back{position:relative;display:flex;flex-direction:column;justify-content:center;min-height:145px;padding:18px;border:1px solid #d8e1e8;border-radius:12px;backface-visibility:hidden;box-shadow:0 4px 14px rgba(26,58,92,.12)}
+.flash-front{color:#fff;background:var(--c1)}
+.flash-front strong{color:#fff;font-size:1.02rem;line-height:1.4}
+.flash-front small{color:var(--acc)}
+.flash-back{position:absolute;inset:0;justify-content:flex-start;background:#fff;transform:rotateY(180deg)}
+.flashcard.flipped .flash-front{position:absolute;inset:0}
+.flashcard.flipped .flash-back{position:relative;inset:auto;min-height:215px}
+.flash-back p{margin:0;overflow-wrap:anywhere}
+.flashcard small{display:block;margin-bottom:9px;font-size:.7rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
+@media(max-width:900px){.flashcards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.flashcards{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -84,6 +101,7 @@ details.exercise[open] summary{border-bottom:1px solid #e0e5e9}
   <a href="#aula5">Aula 5 – Árvores Geradoras</a>
   <a href="#aula6">Aula 6 – Aplicações</a>
   <a href="#nivel-prova">Nível prova</a>
+  <a href="#flashcards">Flashcards</a>
   <a href="#simulado">Simulado</a>
 </nav>
 <div class="container">
@@ -113,6 +131,7 @@ details.exercise[open] summary{border-bottom:1px solid #e0e5e9}
     <li><a href="#aula6">6. Aplicações e Coloração</a></li>
     <li><a href="#slides-grafos-aula6">6.4 Propriedades de árvores — slides integrados</a></li>
     <li><a href="#nivel-prova">7. Preparação para a Prova</a></li>
+    <li><a href="#flashcards">Flashcards de revisão</a></li>
     <li><a href="#simulado">8. Simulado</a></li>
   </ul>
 </div>
@@ -793,6 +812,91 @@ para cada vértice v:
 </div>
 
 
+<h2 id="flashcards">Flashcards de revisão</h2>
+<p class="flashcards-intro">Clique em um card para conferir a resposta. Fechado, ele mostra apenas o tópico; aberto, cresce conforme o conteúdo.</p>
+<div class="flashcards">
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Fundamento</small><strong>O que define um grafo G = (V, E)?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Um conjunto de vértices V, que representam entidades, e um conjunto de arestas E, que representam relações entre pares de vértices.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Fórmula</small><strong>Qual é a relação entre graus e arestas?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Em um grafo não direcionado, a soma dos graus de todos os vértices é igual a 2|E|. Cada aresta contribui com duas incidências.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Fórmula</small><strong>Quantas arestas possui o grafo completo K<sub>n</sub>?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>K<sub>n</sub> possui n(n − 1)/2 arestas, pois todo par de vértices distintos está conectado.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Conceito</small><strong>Qual é a diferença entre passeio, trilha e caminho?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Um passeio pode repetir vértices e arestas. Uma trilha não repete arestas. Um caminho não repete vértices.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Euler</small><strong>Quando existe trilha ou circuito euleriano?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Em um grafo conexo, existe circuito euleriano quando todos os vértices têm grau par. Existe trilha euleriana aberta quando exatamente dois vértices têm grau ímpar.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Comparação</small><strong>Euler e Hamilton tratam do quê?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Euler busca percorrer cada aresta exatamente uma vez. Hamilton busca visitar cada vértice exatamente uma vez.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Bipartição</small><strong>Como reconhecer um grafo bipartido?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Seus vértices podem ser divididos em dois conjuntos sem arestas dentro do mesmo conjunto. Equivalentemente, o grafo não possui ciclo de comprimento ímpar.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Representação</small><strong>Quando usar matriz de adjacência?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>É adequada para grafos densos ou quando verificar rapidamente a existência de uma aresta é prioridade. Usa espaço O(V²).</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Representação</small><strong>Quando usar lista de adjacência?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>É adequada para grafos esparsos e para percorrer os vizinhos de um vértice. Usa espaço O(V + E).</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Algoritmo</small><strong>Quando a BFS encontra o menor caminho?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Em grafos não ponderados, ou quando todas as arestas têm o mesmo custo. Ela explora os vértices por níveis usando uma fila.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Algoritmo</small><strong>Para que a DFS é especialmente útil?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Para explorar profundamente um ramo, detectar ciclos, identificar componentes e apoiar ordenação topológica. Normalmente usa pilha ou recursão.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Menor caminho</small><strong>Qual é a limitação principal do Dijkstra?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Dijkstra não deve ser usado quando há arestas com peso negativo, pois sua escolha gulosa pode consolidar uma distância incorreta.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Árvore geradora</small><strong>Como funciona o algoritmo de Kruskal?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Ordena as arestas por peso e adiciona as menores que não formam ciclo, normalmente usando Union-Find, até obter V − 1 arestas.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Árvore geradora</small><strong>Como funciona o algoritmo de Prim?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Parte de um vértice e expande uma única árvore escolhendo sempre a aresta de menor peso que conecta a árvore a um novo vértice.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Árvore</small><strong>Quais propriedades caracterizam uma árvore?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>É um grafo conexo e sem ciclos. Com n vértices, possui n − 1 arestas e existe exatamente um caminho simples entre cada par de vértices.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>DAG</small><strong>Quando existe ordenação topológica?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Somente em grafos dirigidos acíclicos. A ordenação coloca cada vértice antes de todos os vértices que dependem dele.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Planaridade</small><strong>Qual é a fórmula de Euler para grafos planares?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Para um grafo planar conexo, V − E + F = 2, considerando também a face externa.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Estrutura</small><strong>O que significa dois grafos serem isomorfos?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>Eles possuem a mesma estrutura de adjacências, embora os nomes e o desenho dos vértices possam ser diferentes.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Conectividade</small><strong>O que é uma componente conexa?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>É um subgrafo conexo maximal: dentro dele há caminho entre quaisquer dois vértices, e não é possível adicionar outro vértice mantendo essa propriedade.</p></div>
+  </div></div>
+  <div class="flashcard" tabindex="0" role="button" aria-expanded="false"><div class="flashcard-inner">
+    <div class="flash-front"><small>Coloração</small><strong>O que é o número cromático?</strong></div>
+    <div class="flash-back"><small>Resposta</small><p>É a menor quantidade de cores necessária para colorir os vértices de modo que vértices adjacentes tenham cores diferentes.</p></div>
+  </div></div>
+</div>
+
 <h2 id="simulado">8. Simulado — Verificação dos Fundamentos</h2>
 <div class="card">
 <p>Clique na alternativa que julgar correta. Acertos ficam em <strong style="color:green">verde</strong>, erros em <strong style="color:red">vermelho</strong>. A resposta correta será sempre destacada em verde.</p>
@@ -1007,6 +1111,20 @@ para cada vértice v:
     });
   });
 })();
+
+document.querySelectorAll('.flashcard').forEach(card => {
+  const flip = () => {
+    const flipped = card.classList.toggle('flipped');
+    card.setAttribute('aria-expanded', String(flipped));
+  };
+  card.addEventListener('click', flip);
+  card.addEventListener('keydown', event => {
+    if(event.key === 'Enter' || event.key === ' '){
+      event.preventDefault();
+      flip();
+    }
+  });
+});
 </script>
 
 </div><!-- .container -->
