@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Simulação de Sistemas Computacionais – Apostila Completa</title>
 <style>
-:root{--c1:#1a3a5c;--c2:#2a6496;--acc:#e67e22;--bg:#f9f9f9;--code:#2d2d2d}
+:root{--c1:#1a3a5c;--c2:#2a6496;--acc:#e67e22;--bg:#f9f9f9;--code:#2d2d2d;--sidebar:300px}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:#222;line-height:1.7}
-header{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;padding:2rem 2rem 1.5rem;text-align:center}
+header{width:calc(100% - var(--sidebar));margin-left:var(--sidebar);background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;padding:2rem 2rem 1.5rem;text-align:center;transition:width .25s ease,margin-left .25s ease}
 header h1{font-size:2rem;margin-bottom:.4rem}
 header p{opacity:.85;font-size:.95rem}
 nav{background:var(--c1);padding:.6rem 2rem;display:flex;flex-wrap:wrap;gap:.5rem}
 nav a{color:#fff;text-decoration:none;font-size:.85rem;padding:.25rem .7rem;border-radius:4px;background:rgba(255,255,255,.1)}
 nav a:hover{background:var(--acc)}
-.container{max-width:960px;margin:0 auto;padding:2rem 1.5rem}
+.container{width:min(1200px,calc(100% - var(--sidebar)));max-width:none;margin:0 0 0 var(--sidebar);padding:2rem 1.5rem;transition:width .25s ease,margin-left .25s ease}
 h2{color:var(--c1);border-left:4px solid var(--acc);padding-left:.8rem;margin:2rem 0 1rem;font-size:1.4rem}
 h3{color:var(--c2);margin:1.5rem 0 .6rem;font-size:1.1rem}
 h4{color:#444;margin:1rem 0 .4rem;font-size:1rem}
@@ -37,12 +37,30 @@ tr:hover td{background:#f5f5f5}
 .toc li{padding:.2rem 0}
 .toc a{color:var(--c2);text-decoration:none}
 .toc a:hover{color:var(--acc)}
+.study-sidebar{position:fixed;z-index:30;inset:0 auto 0 0;width:var(--sidebar);padding:1.1rem .9rem 1.5rem;overflow-y:auto;color:#fff;background:var(--c1);box-shadow:4px 0 18px rgba(0,0,0,.12);transition:transform .25s ease}
+.sidebar-brand{margin-bottom:.8rem;padding:.35rem .55rem 1rem;border-bottom:1px solid rgba(255,255,255,.16)}
+.sidebar-brand a{display:inline-block;margin-bottom:.65rem;color:var(--acc);font-size:.82rem;font-weight:700;text-decoration:none}
+.sidebar-brand strong{display:block;color:#fff;font-size:1.05rem}
+.sidebar-brand small{display:block;color:rgba(255,255,255,.64)}
+.study-sidebar .toc{margin:0;padding:0;background:transparent;border-radius:0;box-shadow:none}
+.study-sidebar .toc h3{margin:.7rem .55rem;color:rgba(255,255,255,.55);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase}
+.study-sidebar .toc li{padding:0}
+.study-sidebar .toc a{display:block;margin:2px 0;padding:.42rem .55rem;border-radius:6px;color:rgba(255,255,255,.76);font-size:.78rem;line-height:1.35}
+.study-sidebar .toc a:hover,.study-sidebar .toc a.active{color:#fff;background:rgba(255,255,255,.12)}
+.sidebar-toggle{position:fixed;z-index:40;top:18px;left:calc(var(--sidebar) - 18px);display:grid;width:36px;height:36px;padding:0;place-items:center;border:1px solid rgba(255,255,255,.35);border-radius:50%;color:var(--c1);background:var(--acc);box-shadow:0 5px 16px rgba(0,0,0,.22);cursor:pointer;font-size:1.35rem;font-weight:800;transition:left .25s ease,transform .2s ease}
+.sidebar-toggle:hover{transform:scale(1.08)}
+body.sidebar-collapsed .study-sidebar{transform:translateX(-100%)}
+body.sidebar-collapsed .sidebar-toggle{left:14px}
+body.sidebar-collapsed header{width:100%;margin-left:0}
+body.sidebar-collapsed .container{width:min(1200px,100%);margin:0 auto}
 @media(max-width:768px){
+  .study-sidebar{transform:translateX(-100%)}
+  body.sidebar-mobile-open .study-sidebar{transform:translateX(0)}
+  .sidebar-toggle,body.sidebar-collapsed .sidebar-toggle{left:14px}
+  header,body.sidebar-collapsed header{width:100%;margin-left:0}
   header{padding:1.2rem 1rem}
   header h1{font-size:1.4rem}
-  nav{padding:.5rem .8rem;gap:.4rem}
-  nav a{font-size:.78rem;padding:.2rem .5rem}
-  .container{padding:1rem .8rem}
+  .container,body.sidebar-collapsed .container{width:100%;margin:0;padding:1rem .8rem}
   h2{font-size:1.2rem}
   h3{font-size:1rem}
   pre{font-size:.78rem;padding:.8rem}
@@ -77,14 +95,13 @@ tr:hover td{background:#f5f5f5}
   <h1>Simulação de Sistemas Computacionais</h1>
   <p>Apostila integrada de Estatística, Modelagem, Simulação e Teoria das Filas</p>
 </header>
-<nav>
+<button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Recolher menu lateral" aria-controls="studySidebar" aria-expanded="true">&lsaquo;</button>
+<aside class="study-sidebar" id="studySidebar">
+<div class="sidebar-brand">
   <a href="index.html">← Início</a>
-  <a href="#estat">Estatística Aplicada</a>
-  <a href="#simul">Simulação de Sistemas</a>
-  <a href="#filas">Teoria das Filas</a>
-  <a href="#flashcards">Flashcards</a>
-</nav>
-<div class="container">
+  <strong>Simulação de Sistemas</strong>
+  <small>Navegação da apostila</small>
+</div>
 <div class="toc">
   <h3>Índice</h3>
   <ul>
@@ -106,6 +123,8 @@ tr:hover td{background:#f5f5f5}
     <li><a href="#flashcards">4. Flashcards de revisão</a></li>
   </ul>
 </div>
+</aside>
+<div class="container">
 
 <!-- ══════════════════════════ ESTATÍSTICA ══════════════════════════ -->
 <h2 id="estat">1. Estatística Aplicada</h2>
@@ -644,6 +663,48 @@ document.querySelectorAll('.flashcard').forEach(card => {
     }
   });
 });
+
+const sidebarToggle = document.getElementById('sidebarToggle');
+const sidebarLinks = [...document.querySelectorAll('.study-sidebar .toc a')];
+const sidebarSections = sidebarLinks
+  .map(link => document.querySelector(link.getAttribute('href')))
+  .filter(Boolean);
+
+function updateSidebarButton(){
+  const mobile = window.matchMedia('(max-width: 768px)').matches;
+  const open = mobile
+    ? document.body.classList.contains('sidebar-mobile-open')
+    : !document.body.classList.contains('sidebar-collapsed');
+  sidebarToggle.innerHTML = open ? '&lsaquo;' : '&rsaquo;';
+  sidebarToggle.setAttribute('aria-expanded', String(open));
+  sidebarToggle.setAttribute('aria-label', open ? 'Recolher menu lateral' : 'Abrir menu lateral');
+}
+
+if(localStorage.getItem('simulacaoSidebarCollapsed') === 'true'){
+  document.body.classList.add('sidebar-collapsed');
+}
+sidebarToggle.addEventListener('click', () => {
+  if(window.matchMedia('(max-width: 768px)').matches){
+    document.body.classList.toggle('sidebar-mobile-open');
+  } else {
+    document.body.classList.toggle('sidebar-collapsed');
+    localStorage.setItem('simulacaoSidebarCollapsed', String(document.body.classList.contains('sidebar-collapsed')));
+  }
+  updateSidebarButton();
+});
+sidebarLinks.forEach(link => link.addEventListener('click', () => {
+  document.body.classList.remove('sidebar-mobile-open');
+  updateSidebarButton();
+}));
+window.addEventListener('resize', updateSidebarButton);
+window.addEventListener('scroll', () => {
+  let current = sidebarSections[0]?.id;
+  sidebarSections.forEach(section => {
+    if(window.scrollY >= section.offsetTop - 100) current = section.id;
+  });
+  sidebarLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${current}`));
+}, {passive:true});
+updateSidebarButton();
 </script>
 </body>
 </html>
