@@ -1,44 +1,923 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Material de Estudo</title>
-<style>
-    :root{--c1:#1a3a5c;--c2:#2a6496;--acc:#e67e22;--bg:#f9f9f9;--card:#fff;--code:#2d2d2d;}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:#333;line-height:1.75;font-size:16px}
-    header{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;padding:2.5rem 3rem;border-bottom:5px solid var(--acc)}
-    header h1{font-size:2.2rem;margin-bottom:.4rem} header p{opacity:.85;font-size:1.05rem}
-    nav{background:var(--c1);padding:.6rem 3rem;display:flex;flex-wrap:wrap;gap:.8rem}
-    nav a{color:#cde;text-decoration:none;font-size:.9rem;padding:.2rem .6rem;border-radius:4px}
-    nav a:hover{background:rgba(255,255,255,.2);color:#fff}
-    .container{max-width:1000px;margin:0 auto;padding:2.5rem 1.5rem}
-    .card{background:var(--card);border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.07);padding:1.8rem 2rem;margin-bottom:2rem}
-    footer{text-align:center;padding:2.5rem;color:#777;font-size:.87rem;margin-top:4rem;border-top:1px solid #ddd;background:#f0f0f0}
-    @media(max-width:768px){header{padding:1.2rem 1rem}header h1{font-size:1.4rem}nav{padding:.5rem .8rem;gap:.4rem}nav a{font-size:.78rem;padding:.2rem .5rem}.container{padding:1rem .8rem}.card{padding:1rem .8rem}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulação de Sistemas | Revisão para a prova</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #0d1b2d;
+      --panel-2: #12243a;
+      --line: #263d57;
+      --text: #eaf2fb;
+      --muted: #9fb2c6;
+      --accent: #58d6b3;
+      --accent-2: #70a9ff;
+      --warn: #ffc86b;
+      --danger: #ff7d8c;
+      --sidebar: 252px;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 82% 8%, rgba(112, 169, 255, .12), transparent 28rem),
+        radial-gradient(circle at 20% 70%, rgba(88, 214, 179, .08), transparent 32rem),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 20;
+      width: var(--sidebar);
+      padding: 20px 14px;
+      border-right: 1px solid var(--line);
+      background: rgba(7, 17, 31, .96);
+      transition: width .25s ease;
+      overflow: hidden;
+    }
+
+    .brand {
+      display: flex;
+      gap: 11px;
+      align-items: center;
+      min-width: 220px;
+      margin-bottom: 24px;
+      padding: 4px 8px;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      flex: 0 0 40px;
+      place-items: center;
+      border-radius: 12px;
+      color: #04130f;
+      background: var(--accent);
+      font-weight: 900;
+    }
+
+    .brand strong, .brand small { display: block; }
+    .brand small { color: var(--muted); }
+
+    .nav-link, .sidebar-toggle {
+      display: flex;
+      width: 100%;
+      min-width: 220px;
+      gap: 12px;
+      align-items: center;
+      margin: 7px 0;
+      padding: 11px 12px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      color: var(--muted);
+      background: transparent;
+      text-align: left;
+      text-decoration: none;
+      transition: .2s ease;
+    }
+
+    .nav-link:hover, .nav-link.active, .sidebar-toggle:hover {
+      color: var(--text);
+      border-color: var(--line);
+      background: var(--panel-2);
+    }
+
+    .nav-icon {
+      display: grid;
+      width: 28px;
+      flex: 0 0 28px;
+      place-items: center;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .sidebar-toggle {
+      position: absolute;
+      bottom: 16px;
+      left: 14px;
+      border-color: var(--line);
+    }
+
+    body.sidebar-closed .sidebar { width: 72px; }
+    body.sidebar-closed .content { margin-left: 72px; }
+    body.sidebar-closed .nav-label,
+    body.sidebar-closed .brand-copy { opacity: 0; pointer-events: none; }
+
+    .content {
+      margin-left: var(--sidebar);
+      padding: 0 30px 70px;
+      transition: margin-left .25s ease;
+    }
+
+    .hero, .section { width: min(1280px, 100%); margin-inline: auto; }
+    .hero { padding: 54px 0 30px; }
+
+    .eyebrow, .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid rgba(88, 214, 179, .38);
+      border-radius: 999px;
+      color: var(--accent);
+      background: rgba(88, 214, 179, .08);
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow { padding: 7px 11px; }
+    .tag { padding: 4px 8px; }
+    .tag.blue { color: var(--accent-2); border-color: rgba(112,169,255,.4); background: rgba(112,169,255,.08); }
+    .tag.yellow { color: var(--warn); border-color: rgba(255,200,107,.4); background: rgba(255,200,107,.08); }
+
+    h1 {
+      max-width: 850px;
+      margin: 18px 0 10px;
+      font-size: clamp(2.3rem, 6vw, 4.8rem);
+      line-height: .98;
+      letter-spacing: -.06em;
+    }
+
+    .hero p { max-width: 760px; color: var(--muted); font-size: 1.05rem; }
+    .stats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .stat {
+      min-width: 150px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: rgba(13, 27, 45, .8);
+    }
+    .stat strong { display: block; color: var(--accent); font-size: 1.35rem; }
+    .stat span { color: var(--muted); font-size: .78rem; }
+
+    .section { padding: 48px 0 18px; scroll-margin-top: 20px; }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: end;
+      margin-bottom: 22px;
+    }
+    .section-head h2 { margin: 7px 0 0; font-size: clamp(1.8rem, 4vw, 3rem); letter-spacing: -.04em; }
+    .section-head p { max-width: 620px; margin: 0; color: var(--muted); }
+
+    .quiz-toolbar {
+      position: sticky;
+      top: 10px;
+      z-index: 8;
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto auto;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(7, 17, 31, .94);
+      backdrop-filter: blur(12px);
+    }
+
+    .search {
+      width: 100%;
+      padding: 11px 13px;
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      outline: none;
+      background: var(--panel);
+    }
+    .search:focus { border-color: var(--accent-2); }
+    .filters { display: flex; flex-wrap: wrap; gap: 6px; }
+    .filter, .button {
+      padding: 9px 12px;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel);
+      font-weight: 750;
+    }
+    .filter.active, .filter:hover, .button:hover {
+      color: #04130f;
+      border-color: var(--accent);
+      background: var(--accent);
+    }
+    .button.secondary:hover { color: var(--text); border-color: var(--accent-2); background: var(--panel-2); }
+    .score { min-width: 134px; color: var(--muted); text-align: right; font-size: .88rem; }
+    .score strong { color: var(--text); }
+
+    .quiz-list { display: grid; gap: 14px; }
+    .question-card {
+      padding: 19px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(18,36,58,.92), rgba(13,27,45,.92));
+    }
+    .question-meta { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; margin-bottom: 10px; }
+    .question-number { color: var(--accent); font-weight: 900; }
+    .question-card h3 { margin: 0 0 14px; font-size: 1.04rem; line-height: 1.5; }
+    .options { display: grid; gap: 8px; }
+    .option {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      align-items: start;
+      width: 100%;
+      padding: 10px 11px;
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: rgba(7,17,31,.65);
+      text-align: left;
+    }
+    .option:hover:not(:disabled) { border-color: var(--accent-2); transform: translateY(-1px); }
+    .letter {
+      display: grid;
+      width: 25px;
+      height: 25px;
+      place-items: center;
+      border-radius: 8px;
+      color: var(--accent-2);
+      background: rgba(112,169,255,.12);
+      font-size: .78rem;
+      font-weight: 900;
+    }
+    .option.correct { border-color: var(--accent); background: rgba(88,214,179,.12); }
+    .option.correct .letter { color: #04130f; background: var(--accent); }
+    .option.wrong { border-color: var(--danger); background: rgba(255,125,140,.10); }
+    .option.wrong .letter { color: #21060a; background: var(--danger); }
+    .explanation {
+      display: none;
+      margin-top: 13px;
+      padding: 11px 12px;
+      border-left: 3px solid var(--accent);
+      border-radius: 0 9px 9px 0;
+      color: var(--muted);
+      background: rgba(88,214,179,.07);
+    }
+    .question-card.answered .explanation { display: block; }
+    .empty { padding: 30px; color: var(--muted); border: 1px dashed var(--line); border-radius: var(--radius); text-align: center; }
+
+    .flash-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 12px;
+    }
+    .flashcard {
+      min-height: 112px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: var(--text);
+      background: var(--panel);
+      text-align: left;
+      overflow: hidden;
+      transition: .2s ease;
+    }
+    .flashcard:hover { border-color: var(--accent-2); transform: translateY(-2px); }
+    .flashcard.open { grid-column: span 2; border-color: var(--accent); background: var(--panel-2); }
+    .flash-front { padding: 15px; }
+    .flash-front small { display: block; margin-bottom: 6px; color: var(--muted); font-weight: 800; text-transform: uppercase; }
+    .flash-front strong { color: var(--accent); font-size: 1.06rem; }
+    .flash-back { display: none; padding: 0 15px 15px; color: var(--text); }
+    .flashcard.open .flash-back { display: block; }
+
+    .print-actions { display: flex; gap: 8px; }
+    .a4-sheet {
+      width: min(100%, 1120px);
+      margin: 0 auto;
+      padding: 16px;
+      columns: 3 280px;
+      column-gap: 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: #17202a;
+      background: #fffdf7;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10px;
+      line-height: 1.25;
+    }
+    .cheat-title {
+      column-span: all;
+      margin: 0 0 7px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #17202a;
+      font-size: 17px;
+      line-height: 1;
+    }
+    .cheat-block {
+      break-inside: avoid;
+      margin: 0 0 7px;
+      padding: 5px 6px;
+      border: 1px solid #aab4bd;
+      border-radius: 4px;
+      background: #fff;
+    }
+    .cheat-block h3 { margin: 0 0 3px; font-size: 11px; line-height: 1.15; text-transform: uppercase; }
+    .cheat-block p { margin: 2px 0; }
+    .cheat-block ul { margin: 2px 0; padding-left: 14px; }
+    .cheat-block li { margin: 1px 0; }
+    .formula { font-family: "Courier New", monospace; font-weight: 700; }
+    .marker { background: #fff2a8; font-weight: 700; }
+
+    @media (max-width: 900px) {
+      .sidebar { width: 72px; }
+      .content, body.sidebar-closed .content { margin-left: 72px; padding-inline: 16px; }
+      .nav-label, .brand-copy { display: none; }
+      .quiz-toolbar { position: static; grid-template-columns: 1fr; }
+      .score { text-align: left; }
+      .section-head { align-items: start; flex-direction: column; }
+      .flashcard.open { grid-column: span 1; }
+    }
+
+    @media print {
+      @page { size: A4 portrait; margin: 5mm; }
+      body { background: #fff; }
+      .sidebar, .hero, #simulado, #flashcards, .section-head, .print-actions { display: none !important; }
+      .content { margin: 0; padding: 0; }
+      #cola { display: block !important; padding: 0; }
+      .a4-sheet {
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        columns: 3;
+        column-gap: 3mm;
+        border: 0;
+        border-radius: 0;
+        font-size: 6.7pt;
+        line-height: 1.12;
+      }
+      .cheat-title { margin-bottom: 1.5mm; font-size: 11pt; }
+      .cheat-block { margin-bottom: 1.3mm; padding: 1mm; border-color: #777; }
+      .cheat-block h3 { font-size: 7.3pt; }
+      .marker { background: transparent; text-decoration: underline; }
+    }
+  </style>
 </head>
 <body>
-<header>
-  <h1>Material de Estudo</h1>
-  <p>Resumos e conteúdo das aulas para preparação para prova</p>
-</header>
-<nav><a href="index.html">&#8962; Início</a><a href="teoria-de-grafos.html">Teoria de Grafos</a><a href="simulacao-sistemas.html">Simulação de Sistemas</a></nav>
-<div class="container">
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-top:2rem">
-    <div class="card" style="border-top:4px solid #2e7d32">
-      <h3>Teoria de Grafos</h3>
-      <p>Grafos, vértices, arestas, representações, árvores, isomorfismo, indução.</p>
-      <a href="teoria-de-grafos.html" style="color:#2e7d32;font-weight:600">Estudar &rarr;</a>
+  <aside class="sidebar" aria-label="Navegação principal">
+    <div class="brand">
+      <div class="brand-mark">SS</div>
+      <div class="brand-copy">
+        <strong>Simulação</strong>
+        <small>Revisão objetiva</small>
+      </div>
     </div>
-    <div class="card" style="border-top:4px solid #6a1b9a">
-      <h3>Simulação de Sistemas</h3>
-      <p>Modelagem, estatística, teoria das filas, M/M/1, M/M/k, indução.</p>
-      <a href="simulacao-sistemas.html" style="color:#6a1b9a;font-weight:600">Estudar &rarr;</a>
-    </div>
-  </div>
-</div>
-<footer>Material de estudo elaborado a partir das aulas — Newton Paiva</footer>
+    <nav>
+      <a class="nav-link active" href="#simulado"><span class="nav-icon">01</span><span class="nav-label">Simulado consolidado</span></a>
+      <a class="nav-link" href="#flashcards"><span class="nav-icon">02</span><span class="nav-label">Flashcards</span></a>
+      <a class="nav-link" href="#cola"><span class="nav-icon">03</span><span class="nav-label">Folha A4 de cola</span></a>
+    </nav>
+    <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Recolher menu">
+      <span class="nav-icon" id="toggleIcon">&lt;</span><span class="nav-label">Recolher menu</span>
+    </button>
+  </aside>
+
+  <main class="content">
+    <header class="hero">
+      <span class="eyebrow">Revisão baseada nas provas e nos materiais RF</span>
+      <h1>Simulação de Sistemas</h1>
+      <p>Treine as questões que realmente apareceram, revise os conceitos cobrados e imprima uma folha A4 organizada por palavras-chave para localizar a resposta rapidamente durante a prova.</p>
+      <div class="stats">
+        <div class="stat"><strong>23</strong><span>questões únicas</span></div>
+        <div class="stat"><strong>40</strong><span>questões analisadas</span></div>
+        <div class="stat"><strong>4</strong><span>versões da última prova</span></div>
+        <div class="stat"><strong>2 RF</strong><span>materiais prioritários</span></div>
+      </div>
+    </header>
+
+    <section class="section" id="simulado">
+      <div class="section-head">
+        <div>
+          <span class="tag">Parte 1</span>
+          <h2>Simulado consolidado</h2>
+        </div>
+        <p>Todas as questões únicas das quatro versões. Questões repetidas aparecem uma vez e indicam quantas versões as cobraram.</p>
+      </div>
+      <div class="quiz-toolbar">
+        <input class="search" id="quizSearch" type="search" placeholder="Buscar por Kendall, overfitting, Little...">
+        <div class="filters" id="quizFilters"></div>
+        <div class="score"><strong id="scoreValue">0 / 0</strong><br><span id="scoreLabel">nenhuma respondida</span></div>
+      </div>
+      <div class="quiz-list" id="quizContainer"></div>
+      <button class="button secondary" id="resetQuiz" type="button" style="margin-top:14px">Limpar respostas</button>
+    </section>
+
+    <section class="section" id="flashcards">
+      <div class="section-head">
+        <div>
+          <span class="tag blue">Parte 2</span>
+          <h2>Flashcards</h2>
+        </div>
+        <p>Clique em um card para revelar a resposta. Os tópicos misturam os materiais RF e as pegadinhas recorrentes das provas.</p>
+      </div>
+      <div class="flash-grid" id="flashGrid"></div>
+    </section>
+
+    <section class="section" id="cola">
+      <div class="section-head">
+        <div>
+          <span class="tag yellow">Parte 3</span>
+          <h2>Folha A4 de cola</h2>
+        </div>
+        <div class="print-actions">
+          <button class="button" type="button" onclick="window.print()">Imprimir folha A4</button>
+        </div>
+      </div>
+
+      <article class="a4-sheet">
+        <h2 class="cheat-title">SIMULAÇÃO DE SISTEMAS | MAPA RÁPIDO PARA A PROVA</h2>
+
+        <div class="cheat-block">
+          <h3>Onde procurar pela palavra da questão</h3>
+          <p><span class="marker">Kendall, M/M/1, servidor, fila, atendimento</span> → Filas.</p>
+          <p><span class="marker">média, mediana, p-valor, H0, amostra</span> → Estatística.</p>
+          <p><span class="marker">rótulo, métrica, overfitting, modelo</span> → ML/IA.</p>
+          <p><span class="marker">SimPy, semente, evento discreto, validar</span> → Simulação.</p>
+        </div>
+
+        <div class="cheat-block">
+          <h3>Kendall: A/B/c/K/m/Z</h3>
+          <ul>
+            <li><b>A</b> chegada; <b>B</b> serviço; <b>c</b> servidores.</li>
+            <li><b>K</b> capacidade total; <b>m</b> população; <b>Z</b> disciplina.</li>
+            <li><b>M</b> Markov/exponencial; <b>D</b> determinístico; <b>G</b> geral; <b>E<sub>k</sub></b> Erlang-k.</li>
+            <li>K/m omitidos = infinitos; Z omitida = FIFO.</li>
+            <li><b>M/D/3/10</b>: chegada exponencial, serviço constante, 3 servidores, capacidade total 10.</li>
+          </ul>
+        </div>
+
+        <div class="cheat-block">
+          <h3>Símbolos e condição de estabilidade</h3>
+          <p><span class="formula">λ</span> taxa de chegada; <span class="formula">μ</span> taxa de serviço de 1 servidor; <span class="formula">ρ</span> utilização.</p>
+          <p><b>M/M/1:</b> <span class="formula">λ&lt;μ; ρ=λ/μ&lt;1</span>.</p>
+          <p><b>M/M/k:</b> <span class="formula">λ&lt;kμ; ρ=λ/(kμ)&lt;1</span>.</p>
+          <p>Quando <span class="formula">ρ→1</span>, fila e espera explodem. <span class="marker">λ≥capacidade = instável.</span></p>
+        </div>
+
+        <div class="cheat-block">
+          <h3>M/M/1: fórmulas</h3>
+          <p class="formula">L = ρ/(1−ρ) = λ/(μ−λ)</p>
+          <p class="formula">Lq = ρ²/(1−ρ) = λ²/[μ(μ−λ)]</p>
+          <p class="formula">W = 1/(μ−λ)</p>
+          <p class="formula">Wq = λ/[μ(μ−λ)] = W−1/μ</p>
+          <p class="formula">P0=1−ρ; Pn=(1−ρ)ρⁿ</p>
+          <p><b>L/W</b> incluem fila + serviço. <b>Lq/Wq</b> contam somente a fila/espera.</p>
+        </div>
+
+        <div class="cheat-block">
+          <h3>Lei de Little e M/M/k</h3>
+          <p class="formula">L=λW | Lq=λWq</p>
+          <p>Little vale para qualquer sistema <b>estável</b>, não apenas M/M/1.</p>
+          <p>M/M/k: k servidores idênticos em paralelo e normalmente <b>uma fila compartilhada</b>. Erlang C = probabilidade de esperar.</p>
+        </div>
+
+        <div class="cheat-block">
+          <h3>Disciplina e aplicação</h3>
+          <ul>
+            <li><b>FCFS/FIFO:</b> primeiro a chegar, primeiro atendido.</li>
+            <li><b>LIFO:</b> último a chegar, primeiro atendido.</li>
+            <li><b>PS:</b> processador dividido; aproxima Round Robin.</li>
+            <li><b>Prioridade preemptiva:</b> urgente interrompe serviço.</li>
+            <li>Teoria criada por <b>A. K. Erlang</b>; dimensiona e otimiza recursos.</li>
+          </ul>
+        </div>
+
+        <div class="cheat-block">
+          <h3>Simulação de eventos discretos</h3>
+          <ul>
+            <li><b>SimPy:</b> biblioteca Python para eventos discretos.</li>
+            <li><b>Seed/semente:</b> reproduz a mesma sequência aleatória.</li>
+            <li><b>Validação:</b> verifica se o modelo representa o sistema real.</li>
+            <li>Modelo analítico pode ser <b>benchmark</b>; simulação não o substitui obrigatoriamente.</li>
+            <li>Simular ajuda quando o sistema é complexo, variável ou difícil de experimentar no real.</li>
+          </ul>
+        </div>
+
+        <div class="cheat-block">
+          <h3>Estatística descritiva RF</h3>
+          <ul>
+            <li><b>Média:</b> simétrica/sem outlier; sensível a extremos.</li>
+            <li><b>Mediana:</b> robusta; melhor com assimetria/outlier.</li>
+            <li><b>Moda:</b> valor/categoria mais frequente.</li>
+            <li><b>Variância amostral:</b> divide por <span class="formula">n−1</span>; Python <span class="formula">ddof=1</span>.</li>
+            <li><b>DP:</b> √variância, mesma unidade dos dados.</li>
+            <li><b>Amplitude:</b> max−min, muito sensível a extremos.</li>
+            <li><b>CV:</b> <span class="formula">DP/média ×100%</span>; compara dispersão relativa, média &gt; 0.</li>
+            <li><b>Q2</b>=mediana; <span class="formula">IQR=Q3−Q1</span>.</li>
+          </ul>
+        </div>
+
+        <div class="cheat-block">
+          <h3>Poisson e exponencial</h3>
+          <p><b>Poisson:</b> conta eventos independentes em intervalo fixo com taxa constante λ.</p>
+          <p class="formula">P(X=k)=e^(−λ)λᵏ/k! | média=variância=λ</p>
+          <p><b>Exponencial:</b> modela tempo entre eventos; sem memória. Em Kendall, <b>M</b> representa chegadas/serviços exponenciais.</p>
+        </div>
+
+        <div class="cheat-block">
+          <h3>Inferência RF</h3>
+          <ul>
+            <li><b>População</b> → parâmetro; <b>amostra</b> → estatística.</li>
+            <li><b>H0:</b> sem diferença/efeito; <b>H1:</b> existe diferença/efeito.</li>
+            <li><span class="formula">p&lt;α</span> (geralmente .05) → rejeita H0.</li>
+            <li><span class="formula">p&gt;α</span> → evidência insuficiente para rejeitar H0. Não prova H0.</li>
+            <li><b>Erro I:</b> rejeitar H0 verdadeira. <b>Erro II:</b> não rejeitar H0 falsa.</li>
+            <li><b>t Student:</b> n pequeno, variância populacional desconhecida, caudas mais pesadas.</li>
+            <li><b>IC:</b> confiança no método/intervalo conter o parâmetro; parâmetro é fixo.</li>
+          </ul>
+        </div>
+
+        <div class="cheat-block">
+          <h3>Paradigmas de ML</h3>
+          <ul>
+            <li><b>Supervisionado:</b> aprende com rótulos. Ex.: phishing rotulado.</li>
+            <li><b>Não supervisionado:</b> busca padrões sem rótulos.</li>
+            <li><b>Reforço:</b> aprende por ações e recompensas.</li>
+            <li><b>Tom Mitchell:</b> desempenho <b>P</b> na tarefa <b>T</b> melhora com experiência <b>E</b>.</li>
+          </ul>
+        </div>
+
+        <div class="cheat-block">
+          <h3>Métricas de classificação</h3>
+          <p class="formula">Acurácia=(TP+TN)/total</p>
+          <p class="formula">Precisão=TP/(TP+FP)</p>
+          <p class="formula">Recall=TP/(TP+FN)</p>
+          <p class="formula">F1=2·Precisão·Recall/(Precisão+Recall)</p>
+          <p><b>Precisão</b> quando falso positivo custa caro. <b>Recall</b> quando deixar passar um positivo custa caro. <b>F1</b> equilibra os dois.</p>
+        </div>
+
+        <div class="cheat-block">
+          <h3>ML: preparação e modelos</h3>
+          <ul>
+            <li><b>Overfitting:</b> memoriza treino/ruído, piora fora dele. <b>Underfitting:</b> modelo simples demais.</li>
+            <li><b>Scaling:</b> importante para distância, KNN e SVM.</li>
+            <li><b>Leakage:</b> informação do teste vaza para o treino.</li>
+            <li><b>One-hot:</b> categoria vira indicadores binários.</li>
+            <li><b>Imputação:</b> média/mediana calculada somente no treino.</li>
+            <li><b>Árvore:</b> interpretável. <b>Random Forest:</b> conjunto de árvores, reduz overfitting; não exige normalização.</li>
+          </ul>
+        </div>
+
+        <div class="cheat-block">
+          <h3>Pegadinhas recorrentes</h3>
+          <ul>
+            <li>Validar simulação <b>não</b> significa abandonar modelos analíticos.</li>
+            <li>M/M/k usa capacidade <span class="formula">kμ</span>, não somente μ.</li>
+            <li>W inclui serviço; Wq só espera. L inclui atendimento; Lq só fila.</li>
+            <li>Fila compartilhada reduz desequilíbrio, mas estabilidade não é a justificativa direta disso.</li>
+            <li>Acurácia pode enganar em classes desbalanceadas.</li>
+            <li>One-hot não transforma número contínuo em categoria ordenada.</li>
+            <li>Dados sintéticos podem ser experiência E se melhorarem P na tarefa T.</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const questions = [
+      {
+        topic: "Filas", repeat: 2,
+        question: "Na notação de Kendall, qual símbolo representa tempos de serviço constantes?",
+        options: ["M (Markovian)", "D (Deterministic)", "G (General)", "Eₖ (Erlang-k)", "K (capacidade)"],
+        answer: 1,
+        why: "D significa determinístico: cada atendimento dura um tempo constante."
+      },
+      {
+        topic: "Simulação", repeat: 1,
+        question: "Qual biblioteca Python é voltada à simulação de eventos discretos?",
+        options: ["NumPy", "Pandas", "Matplotlib", "Scikit-learn", "SimPy"],
+        answer: 4,
+        why: "SimPy modela processos, recursos, eventos e passagem de tempo em simulações de eventos discretos."
+      },
+      {
+        topic: "ML/IA", repeat: 2,
+        question: "Um sistema aprende a detectar phishing usando exemplos previamente rotulados como phishing ou legítimos. Qual paradigma foi usado?",
+        options: ["Aprendizado não supervisionado", "Aprendizado por reforço", "Aprendizado supervisionado", "Algoritmo genético", "Simulação estocástica"],
+        answer: 2,
+        why: "Quando cada exemplo de treinamento possui um rótulo conhecido, o aprendizado é supervisionado."
+      },
+      {
+        topic: "Simulação", repeat: 3,
+        question: "Sobre simular o atendimento de uma UBS: I. A simulação permite testar mudanças sem interferir no sistema real. II. Para ser útil, ela deve obrigatoriamente reproduzir cada paciente exatamente. Assinale a correta.",
+        options: ["I e II verdadeiras; II justifica I", "I e II verdadeiras; II não justifica I", "I verdadeira e II falsa", "I falsa e II verdadeira", "I e II falsas"],
+        answer: 2,
+        why: "A simulação permite experimentar com baixo risco, mas representa padrões e distribuições, não cada pessoa de forma exata."
+      },
+      {
+        topic: "Filas", repeat: 4,
+        question: "Sobre um sistema M/M/k: I. Uma fila única alimentando k servidores tende a equilibrar a ocupação. II. O sistema é estável quando λ < kμ. Qual relação está correta?",
+        options: ["I e II verdadeiras; II justifica I", "I e II verdadeiras; II não justifica I", "I verdadeira e II falsa", "I falsa e II verdadeira", "I e II falsas"],
+        answer: 1,
+        why: "As duas afirmações são verdadeiras, mas λ < kμ explica estabilidade, não o melhor balanceamento causado pela fila compartilhada."
+      },
+      {
+        topic: "Simulação", repeat: 2,
+        question: "Considere: I. SimPy é usado em eventos discretos. II. Modelos analíticos podem servir de benchmark. III. Validar significa substituir qualquer análise matemática. IV. Definir uma seed ajuda a reproduzir resultados. Quais estão corretas?",
+        options: ["I e II apenas", "I, II e IV apenas", "II e III apenas", "I, III e IV apenas", "Todas"],
+        answer: 1,
+        why: "I, II e IV estão corretas. Validar compara o modelo com referências e dados; não exige substituir análises matemáticas."
+      },
+      {
+        topic: "ML/IA", repeat: 4,
+        question: "Sobre overfitting: I. O modelo sempre melhora em dados novos. II. Ele pode memorizar ruídos do treino. III. Pode ser reduzido com validação, regularização ou mais dados. IV. É sinônimo de underfitting. Quais estão corretas?",
+        options: ["I e II apenas", "I e III apenas", "II e III apenas", "II, III e IV apenas", "Todas"],
+        answer: 2,
+        why: "Overfitting é bom no treino e ruim na generalização; memoriza ruído e pode ser combatido com validação, regularização e dados."
+      },
+      {
+        topic: "ML/IA", repeat: 3,
+        question: "Em detecção de intrusão: I. Acurácia sempre é suficiente. II. Precisão mede a proporção dos alertas positivos que eram corretos. III. Recall mede quantas intrusões reais foram detectadas. IV. F1 equilibra precisão e recall. Quais estão corretas?",
+        options: ["I e II apenas", "I e III apenas", "II e III apenas", "I, II e IV apenas", "II, III e IV apenas"],
+        answer: 4,
+        why: "Classes desbalanceadas tornam acurácia insuficiente. Precisão, recall e F1 têm exatamente os significados descritos."
+      },
+      {
+        topic: "Filas", repeat: 3,
+        question: "Sobre Teoria das Filas: I. Surgiu com estudos de A. K. Erlang. II. É aplicada em telecomunicações, hospitais e computação. III. Ajuda a dimensionar recursos. IV. Busca equilibrar espera e custo. Quais estão corretas?",
+        options: ["I e II apenas", "I e III apenas", "II e IV apenas", "I, II e III apenas", "Todas"],
+        answer: 4,
+        why: "Todas descrevem corretamente a origem, as aplicações e o objetivo da Teoria das Filas."
+      },
+      {
+        topic: "Filas", repeat: 1,
+        question: "No M/M/1: I. λ ≥ μ garante estabilidade. II. ρ = λ/μ e deve ser menor que 1. III. Quando ρ se aproxima de 1, filas e tempos crescem muito. IV. W conta apenas o tempo na fila. Quais estão corretas?",
+        options: ["I e II apenas", "I e IV apenas", "II e III apenas", "II, III e IV apenas", "Todas"],
+        answer: 2,
+        why: "A estabilidade exige λ < μ. W inclui espera e atendimento; Wq é que mede somente a espera."
+      },
+      {
+        topic: "Filas", repeat: 1,
+        question: "Qual disciplina atende primeiro o cliente que chegou primeiro?",
+        options: ["LIFO", "FCFS/FIFO", "Prioridade preemptiva", "Processor Sharing", "Aleatória"],
+        answer: 1,
+        why: "FCFS, também chamada FIFO, significa primeiro a chegar, primeiro a ser atendido."
+      },
+      {
+        topic: "Filas", repeat: 1,
+        question: "Qual é a condição de estabilidade de um sistema M/M/1?",
+        options: ["λ > μ", "λ = μ", "λ < μ", "λ = 0", "μ = 0"],
+        answer: 2,
+        why: "O servidor precisa atender, em média, mais rápido do que os clientes chegam: λ < μ."
+      },
+      {
+        topic: "Filas", repeat: 1,
+        question: "Sobre a utilização de um M/M/1: I. ρ = λ/μ. II. Quando λ ≥ μ, o sistema permanece estável. Assinale a correta.",
+        options: ["I e II verdadeiras; II justifica I", "I e II verdadeiras; II não justifica I", "I verdadeira e II falsa", "I falsa e II verdadeira", "I e II falsas"],
+        answer: 2,
+        why: "ρ = λ/μ está correto, mas λ ≥ μ torna a fila instável porque a demanda alcança ou supera a capacidade."
+      },
+      {
+        topic: "ML/IA", repeat: 2,
+        question: "Sobre métricas: I. Acurácia é a proporção total de acertos. II. Precisão considera os positivos previstos. III. Recall considera os positivos reais. IV. F1 é a média harmônica entre precisão e recall. Quais estão corretas?",
+        options: ["I e II apenas", "II e III apenas", "I, II e III apenas", "II, III e IV apenas", "Todas"],
+        answer: 4,
+        why: "As quatro definições estão corretas."
+      },
+      {
+        topic: "ML/IA", repeat: 1,
+        question: "No pré-processamento de ML: I. Escalonamento importa para métodos baseados em distância. II. Leakage ocorre quando informação do teste chega ao treino. III. One-hot converte variáveis numéricas em categorias ordenadas. IV. Imputação deve aprender valores apenas no treino. Quais estão corretas?",
+        options: ["I e II apenas", "II e III apenas", "I, III e IV apenas", "I, II e IV apenas", "Todas"],
+        answer: 3,
+        why: "I, II e IV estão corretas. One-hot transforma categorias em indicadores binários, não números contínuos em categorias ordenadas."
+      },
+      {
+        topic: "ML/IA", repeat: 1,
+        question: "Random Forest e Árvore de Decisão: I. Random Forest combina várias árvores e tende a reduzir overfitting. II. Uma árvore isolada costuma ser mais interpretável. III. Random Forest sempre exige normalização. Quais estão corretas?",
+        options: ["I apenas", "I e II apenas", "II e III apenas", "I e III apenas", "Todas"],
+        answer: 1,
+        why: "I e II são verdadeiras. Árvores dividem por limiares e normalmente não exigem normalização."
+      },
+      {
+        topic: "Filas", repeat: 2,
+        question: "Filas em sistemas operacionais: I. Processos aguardam CPU e recursos. II. Processor Sharing aproxima o Round Robin. III. LIFO sempre garante justiça. IV. Prioridade preemptiva pode interromper uma tarefa menos urgente. Quais estão corretas?",
+        options: ["I e II apenas", "II e III apenas", "I, II e IV apenas", "I, III e IV apenas", "Todas"],
+        answer: 2,
+        why: "I, II e IV são corretas. LIFO pode causar espera excessiva e não garante justiça."
+      },
+      {
+        topic: "Filas", repeat: 1,
+        question: "Em uma central M/M/k: I. Há k servidores idênticos em paralelo. II. A estabilidade exige λ < kμ. III. ρ = λ/(kμ). IV. Uma fila compartilhada pode alimentar os servidores. Quais estão corretas?",
+        options: ["I e II apenas", "II e III apenas", "I, II e III apenas", "I, III e IV apenas", "Todas"],
+        answer: 4,
+        why: "As quatro afirmações caracterizam corretamente um sistema M/M/k comum."
+      },
+      {
+        topic: "Filas", repeat: 1,
+        question: "Qual métrica representa o número médio de clientes apenas na fila, sem contar quem está em atendimento?",
+        options: ["Lq", "L", "Wq", "W", "ρ"],
+        answer: 0,
+        why: "Lq é o número médio na fila. L conta todo o sistema; Wq e W são tempos; ρ é utilização."
+      },
+      {
+        topic: "Filas", repeat: 1,
+        question: "Em um roteador M/M/1: I. Se λ se aproxima de μ, o tempo médio no sistema cresce rapidamente. II. Isso ocorre porque ρ se aproxima de 1 e W = 1/(μ−λ). Assinale a correta.",
+        options: ["I e II verdadeiras; II justifica I", "I e II verdadeiras; II não justifica I", "I verdadeira e II falsa", "I falsa e II verdadeira", "I e II falsas"],
+        answer: 0,
+        why: "As duas são verdadeiras e a fórmula mostra diretamente por que o tempo cresce quando μ−λ se aproxima de zero."
+      },
+      {
+        topic: "Filas", repeat: 1,
+        question: "Na notação M/D/3/10: I. O primeiro M indica serviço exponencial. II. D indica serviço determinístico. III. 3 é a capacidade total. IV. 10 é o número de servidores. Quais estão corretas?",
+        options: ["I apenas", "II apenas", "I e II apenas", "II e III apenas", "Todas"],
+        answer: 1,
+        why: "Somente II está correta. M indica chegadas exponenciais, 3 é o número de servidores e 10 é a capacidade total."
+      },
+      {
+        topic: "Filas", repeat: 1,
+        question: "Sobre a Lei de Little: I. L = λW. II. Só vale para M/M/1. III. Lq = λWq. IV. Exige um sistema estável. Quais estão corretas?",
+        options: ["I e II apenas", "II e III apenas", "I, II e IV apenas", "I, III e IV apenas", "Todas"],
+        answer: 3,
+        why: "Little relaciona médias em qualquer sistema estável: L = λW e Lq = λWq."
+      },
+      {
+        topic: "ML/IA", repeat: 1,
+        question: "Na definição de aprendizado de Tom Mitchell: I. T é a tarefa. II. E é a experiência. III. P é a medida de desempenho. IV. Há aprendizado quando o desempenho P em T melhora com E. Quais estão corretas?",
+        options: ["I e II apenas", "I e III apenas", "II e IV apenas", "I, II e III apenas", "Todas"],
+        answer: 4,
+        why: "Todas compõem a definição clássica: um programa aprende com E em relação a T e P quando seu desempenho em T, medido por P, melhora com E."
+      }
+    ];
+
+    const flashcards = [
+      ["Filas", "O que cada posição de A/B/c/K/m/Z significa?", "Chegada / serviço / servidores / capacidade total / população / disciplina."],
+      ["Filas", "M, D e G em Kendall", "M = Markoviano/exponencial; D = determinístico/constante; G = distribuição geral."],
+      ["Filas", "Como ler M/D/3/10?", "Chegadas exponenciais, serviço constante, 3 servidores e capacidade total de 10 clientes."],
+      ["Filas", "Condição de estabilidade M/M/1", "λ < μ, portanto ρ = λ/μ < 1."],
+      ["Filas", "Condição de estabilidade M/M/k", "λ < kμ, portanto ρ = λ/(kμ) < 1."],
+      ["Filas", "Diferença entre L e Lq", "L é o número médio no sistema; Lq é o número médio somente na fila."],
+      ["Filas", "Diferença entre W e Wq", "W é tempo médio no sistema; Wq é tempo médio somente esperando."],
+      ["Filas", "Lei de Little", "L = λW e Lq = λWq. Vale para qualquer sistema estável."],
+      ["Filas", "O que acontece quando ρ → 1?", "Tempos e tamanhos médios de fila crescem muito e tendem ao infinito."],
+      ["Filas", "FCFS, LIFO, PS e prioridade preemptiva", "Primeiro a chegar; último a chegar; compartilhamento do processador; tarefa urgente interrompe outra."],
+      ["Filas", "O que é Erlang C?", "Probabilidade de um cliente precisar esperar em uma fila M/M/k."],
+      ["Simulação", "Para que serve uma seed?", "Para repetir a mesma sequência pseudoaleatória e reproduzir o experimento."],
+      ["Simulação", "O que é SimPy?", "Biblioteca Python para modelar simulação de eventos discretos."],
+      ["Simulação", "O que significa validar uma simulação?", "Verificar se o modelo representa adequadamente o sistema real para o objetivo definido."],
+      ["Estatística", "Quando usar média ou mediana?", "Média em dados aproximadamente simétricos e sem outliers; mediana quando há assimetria ou extremos."],
+      ["Estatística", "Variância amostral e desvio padrão", "Variância amostral divide por n−1; desvio padrão é sua raiz e mantém a unidade original."],
+      ["Estatística", "O que é CV?", "Coeficiente de variação = DP/média × 100%; compara dispersão relativa entre escalas."],
+      ["Estatística", "Quartis e IQR", "Q2 é a mediana; IQR = Q3−Q1 e mede a dispersão central, resistindo a outliers."],
+      ["Estatística", "Poisson: quando e quais propriedades?", "Conta eventos independentes com taxa constante; média = variância = λ."],
+      ["Estatística", "p < α e p > α", "p < α: rejeite H0. p > α: evidência insuficiente para rejeitar H0."],
+      ["Estatística", "Erro tipo I e tipo II", "Tipo I: rejeitar H0 verdadeira. Tipo II: não rejeitar H0 falsa."],
+      ["Estatística", "Quando usar t de Student?", "Amostra pequena e variância populacional desconhecida; tem caudas mais pesadas que a normal."],
+      ["ML/IA", "Supervisionado, não supervisionado e reforço", "Rótulos conhecidos; padrões sem rótulos; ações guiadas por recompensa."],
+      ["ML/IA", "Overfitting versus underfitting", "Overfitting memoriza e não generaliza; underfitting é simples demais até para aprender o treino."],
+      ["ML/IA", "Precisão versus recall", "Precisão reduz falsos positivos; recall reduz falsos negativos."],
+      ["ML/IA", "Para que serve F1?", "Equilibrar precisão e recall usando a média harmônica."],
+      ["ML/IA", "O que é leakage?", "Vazamento de informação indisponível no treino real, geralmente do teste, para a etapa de treinamento."],
+      ["ML/IA", "Scaling, one-hot e imputação", "Ajustar escalas; transformar categorias em indicadores; preencher ausentes usando estatísticas do treino."],
+      ["ML/IA", "Random Forest versus Árvore", "Forest combina árvores e reduz overfitting; árvore isolada costuma ser mais interpretável."],
+      ["ML/IA", "Definição de Tom Mitchell", "P melhora na tarefa T com a experiência E."],
+      ["Pegadinha", "Estabilidade explica a vantagem da fila compartilhada?", "Não. λ < kμ garante estabilidade; a fila compartilhada melhora o balanceamento por outro motivo."],
+      ["Pegadinha", "Acurácia alta sempre significa modelo bom?", "Não. Em classes desbalanceadas, o modelo pode ignorar a classe rara e ainda ter acurácia alta."]
+    ];
+
+    const letters = ["A", "B", "C", "D", "E"];
+    const answers = new Map();
+    let activeTopic = "Todos";
+    let searchTerm = "";
+
+    const quizContainer = document.getElementById("quizContainer");
+    const filters = document.getElementById("quizFilters");
+
+    function updateScore() {
+      const correct = [...answers.entries()].filter(([index, option]) => questions[index].answer === option).length;
+      document.getElementById("scoreValue").textContent = `${correct} / ${answers.size}`;
+      document.getElementById("scoreLabel").textContent = answers.size ? `${answers.size} de ${questions.length} respondidas` : "nenhuma respondida";
+    }
+
+    function renderFilters() {
+      const topics = ["Todos", ...new Set(questions.map(q => q.topic))];
+      filters.innerHTML = topics.map(topic =>
+        `<button class="filter ${topic === activeTopic ? "active" : ""}" type="button" data-topic="${topic}">${topic}</button>`
+      ).join("");
+      filters.querySelectorAll(".filter").forEach(button => {
+        button.addEventListener("click", () => {
+          activeTopic = button.dataset.topic;
+          renderFilters();
+          renderQuestions();
+        });
+      });
+    }
+
+    function renderQuestions() {
+      const normalized = searchTerm.toLocaleLowerCase("pt-BR");
+      const visible = questions
+        .map((question, index) => ({...question, index}))
+        .filter(q => activeTopic === "Todos" || q.topic === activeTopic)
+        .filter(q => !normalized || `${q.question} ${q.options.join(" ")} ${q.why}`.toLocaleLowerCase("pt-BR").includes(normalized));
+
+      if (!visible.length) {
+        quizContainer.innerHTML = `<div class="empty">Nenhuma questão encontrada para esse filtro.</div>`;
+        return;
+      }
+
+      quizContainer.innerHTML = visible.map(q => {
+        const chosen = answers.get(q.index);
+        const answered = answers.has(q.index);
+        const options = q.options.map((option, optionIndex) => {
+          let state = "";
+          if (answered && optionIndex === q.answer) state = "correct";
+          if (answered && optionIndex === chosen && chosen !== q.answer) state = "wrong";
+          return `<button class="option ${state}" type="button" data-question="${q.index}" data-option="${optionIndex}" ${answered ? "disabled" : ""}>
+            <span class="letter">${letters[optionIndex]}</span><span>${option}</span>
+          </button>`;
+        }).join("");
+        return `<article class="question-card ${answered ? "answered" : ""}">
+          <div class="question-meta">
+            <span class="question-number">Questão ${q.index + 1}</span>
+            <span class="tag blue">${q.topic}</span>
+            ${q.repeat > 1 ? `<span class="tag yellow">apareceu em ${q.repeat} versões</span>` : ""}
+          </div>
+          <h3>${q.question}</h3>
+          <div class="options">${options}</div>
+          <div class="explanation"><b>Por quê:</b> ${q.why}</div>
+        </article>`;
+      }).join("");
+
+      quizContainer.querySelectorAll(".option:not(:disabled)").forEach(option => {
+        option.addEventListener("click", () => {
+          answers.set(Number(option.dataset.question), Number(option.dataset.option));
+          renderQuestions();
+          updateScore();
+        });
+      });
+    }
+
+    function renderFlashcards() {
+      const grid = document.getElementById("flashGrid");
+      grid.innerHTML = flashcards.map(([topic, front, back], index) =>
+        `<button class="flashcard" type="button" aria-expanded="false" data-card="${index}">
+          <span class="flash-front"><small>${topic}</small><strong>${front}</strong></span>
+          <span class="flash-back">${back}</span>
+        </button>`
+      ).join("");
+      grid.querySelectorAll(".flashcard").forEach(card => {
+        card.addEventListener("click", () => {
+          card.classList.toggle("open");
+          card.setAttribute("aria-expanded", card.classList.contains("open"));
+        });
+      });
+    }
+
+    document.getElementById("quizSearch").addEventListener("input", event => {
+      searchTerm = event.target.value.trim();
+      renderQuestions();
+    });
+
+    document.getElementById("resetQuiz").addEventListener("click", () => {
+      answers.clear();
+      renderQuestions();
+      updateScore();
+    });
+
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const sidebarClosed = localStorage.getItem("ss-sidebar-closed") === "true";
+    document.body.classList.toggle("sidebar-closed", sidebarClosed);
+
+    function updateSidebarLabel() {
+      const closed = document.body.classList.contains("sidebar-closed");
+      document.getElementById("toggleIcon").textContent = closed ? ">" : "<";
+      sidebarToggle.setAttribute("aria-label", closed ? "Expandir menu" : "Recolher menu");
+    }
+    updateSidebarLabel();
+
+    sidebarToggle.addEventListener("click", () => {
+      document.body.classList.toggle("sidebar-closed");
+      localStorage.setItem("ss-sidebar-closed", document.body.classList.contains("sidebar-closed"));
+      updateSidebarLabel();
+    });
+
+    const navLinks = document.querySelectorAll(".nav-link");
+    const observedSections = [...document.querySelectorAll("main > section")];
+    const observer = new IntersectionObserver(entries => {
+      const current = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!current) return;
+      navLinks.forEach(link => link.classList.toggle("active", link.getAttribute("href") === `#${current.target.id}`));
+    }, { rootMargin: "-20% 0px -65% 0px", threshold: [0, .2, .5] });
+    observedSections.forEach(section => observer.observe(section));
+
+    renderFilters();
+    renderQuestions();
+    renderFlashcards();
+    updateScore();
+  </script>
 </body>
 </html>
