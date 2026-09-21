@@ -1,30 +1,35 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Central de materiais de estudo das disciplinas de Engenharia.">
-	<title>Materiais de estudo</title>
-	<link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Matérias</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { display: grid; min-height: 100vh; place-items: center; padding: 24px; }
+    main { display: grid; width: min(100%, 520px); grid-template-columns: repeat(3, 1fr); gap: 24px 16px; }
+    a { display: flex; min-width: 0; flex-direction: column; align-items: center; gap: 9px; color: var(--dark); font: 700 .78rem/1.2 Arial, sans-serif; text-align: center; text-decoration: none; }
+    a::before { content: ""; display: grid; width: 82px; height: 82px; place-items: center; border: 1px solid var(--line); border-radius: 21px; color: var(--dark); background: var(--card); box-shadow: 0 8px 18px rgba(21,51,40,.1); transition: transform .2s, background .2s; }
+    a:nth-child(1)::before { content: "RN"; color: #fff; background: #0d765d; }
+    a:nth-child(2)::before { content: "NET"; color: #fff; background: #e5755f; }
+    a:nth-child(3)::before { content: "SD"; color: #fff; background: #4c7890; }
+    a:nth-child(4)::before { content: "DIG"; color: #fff; background: #c38a28; }
+    a:nth-child(5)::before { content: "SO"; color: #fff; background: #765b8d; }
+    a:nth-child(6)::before { content: "ED"; color: #fff; background: #2f8b78; }
+    a:nth-child(7)::before { content: "PE"; color: #fff; background: #c35e4e; }
+    a:hover::before { transform: translateY(-4px); background: var(--dark); }
+    @media (max-width: 430px) { main { grid-template-columns: repeat(2, 1fr); gap: 22px 12px; } }
+  </style>
 </head>
 <body>
-	<header class="site-header home-header">
-		<div class="eyebrow">Biblioteca de revisão</div>
-		<h1>Materiais de estudo.</h1>
-		<p>Escolha uma disciplina para abrir o guia, revisar os conceitos e consultar o material original em PDF.</p>
-	</header>
-	<main class="home-main">
-		<section class="section-head"><div><span class="kicker">Disciplinas</span><h2>Uma trilha para cada matéria</h2></div><p>Os simulados estão organizados por questão, resposta correta e justificativa. Os laboratórios reúnem objetivos, procedimentos e o que observar em cada prática.</p></section>
-		<div class="subject-grid">
-			<a class="subject" href="Programacao-mobile/index.html"><span class="subject-number">01</span><h3>Programação Mobile</h3><p>React Native, Expo, TypeScript, componentes e hooks.</p><span class="subject-link">Abrir guia →</span></a>
-			<a class="subject" href="Protocolos-De-Redes-De-Computadores/index.html"><span class="subject-number">02</span><h3>Protocolos de Redes</h3><p>SMTP, DNS, HTTP, FTP, POP, IMAP e análise com nslookup e Wireshark.</p><span class="subject-link">Abrir guia →</span></a>
-			<a class="subject" href="Sistema- Distribuidos-e-Processamento-Paralelo/index.html"><span class="subject-number">03</span><h3>Sistemas Distribuídos</h3><p>Arquiteturas, bancos distribuídos, replicação, particionamento e virtualização.</p><span class="subject-link">Abrir guia →</span></a>
-			<a class="subject" href="Sistemas-Digitais-Para-Computacao/index.html"><span class="subject-number">04</span><h3>Sistemas Digitais</h3><p>Conversão de bases, álgebra booleana, portas lógicas e circuitos combinacionais.</p><span class="subject-link">Abrir guia →</span></a>
-			<a class="subject" href="Sistemas-Operacionais/index.html"><span class="subject-number">05</span><h3>Sistemas Operacionais</h3><p>Kernel, processos, threads, multiprogramação e escalonamento.</p><span class="subject-link">Abrir guia →</span></a>
-			<a class="subject lab" href="Laboratorio-de-Eletronica-Digital/index.html"><span class="subject-number">06</span><h3>Laboratório de Eletrônica Digital</h3><p>Portas, flip-flops, contadores, conversores, memórias e microcontroladores.</p><span class="subject-link">Abrir práticas →</span></a>
-			<a class="subject lab" href="Laboratorio-de-Projetos-Eletronicos/index.html"><span class="subject-number">07</span><h3>Laboratório de Projetos Eletrônicos</h3><p>Retificadores, TBJ, diodos, MOSFET, amplificadores e filtros ativos.</p><span class="subject-link">Abrir práticas →</span></a>
-		</div>
-	</main>
-	<footer class="footer">Material de revisão organizado a partir dos PDFs disponíveis neste repositório.</footer>
+  <main aria-label="Matérias">
+    <a href="Programacao-mobile/index.html">Programação Mobile</a>
+    <a href="Protocolos-De-Redes-De-Computadores/index.html">Protocolos de Redes</a>
+    <a href="Sistema- Distribuidos-e-Processamento-Paralelo/index.html">Sistemas Distribuídos</a>
+    <a href="Sistemas-Digitais-Para-Computacao/index.html">Sistemas Digitais</a>
+    <a href="Sistemas-Operacionais/index.html">Sistemas Operacionais</a>
+    <a href="Laboratorio-de-Eletronica-Digital/index.html">Laboratório de Eletrônica Digital</a>
+    <a href="Laboratorio-de-Projetos-Eletronicos/index.html">Laboratório de Projetos Eletrônicos</a>
+  </main>
 </body>
 </html>
