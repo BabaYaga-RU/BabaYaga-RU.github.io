@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Guia de estudos de Programacao Mobile com React Native, Expo e TypeScript.">
+  <title>Programação Mobile | Guia de estudos</title>
+  <style>
+    :root {
+      --ink: #17221f;
+      --muted: #65736e;
+      --paper: #f6f7f1;
+      --card: #ffffff;
+      --line: #d8e0d8;
+      --green: #0d765d;
+      --green-dark: #075140;
+      --mint: #dff3e9;
+      --yellow: #f3c75f;
+      --coral: #e5755f;
+      --shadow: 0 14px 35px rgba(21, 51, 40, .09);
+      --nav: 265px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: Georgia, "Times New Roman", serif; line-height: 1.6; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .layout { display: grid; grid-template-columns: var(--nav) minmax(0, 1fr); min-height: 100vh; }
+    .sidebar { position: sticky; top: 0; height: 100vh; padding: 28px 20px; color: #edf7f0; background: var(--green-dark); }
+    .brand { display: flex; gap: 11px; align-items: center; margin-bottom: 38px; }
+    .brand-mark { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 12px; color: var(--green-dark); background: var(--yellow); font-family: Arial, sans-serif; font-weight: 900; }
+    .brand strong, .brand small { display: block; }
+    .brand small { color: #b8d7c6; font-size: .8rem; }
+    .nav-title { margin: 0 0 8px; color: #8fb9a8; font: 700 .72rem Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+    nav a { display: block; margin: 4px 0; padding: 10px 12px; border-left: 3px solid transparent; border-radius: 0 8px 8px 0; color: #cce6d8; text-decoration: none; font-family: Arial, sans-serif; font-size: .92rem; }
+    nav a:hover, nav a.active { border-left-color: var(--yellow); color: #fff; background: rgba(255,255,255,.1); }
+    .source-note { position: absolute; right: 20px; bottom: 25px; left: 20px; color: #91b8a8; font: .75rem/1.45 Arial, sans-serif; }
+    main { min-width: 0; padding: 0 6vw 80px; }
+    .hero { display: grid; grid-template-columns: 1fr 290px; gap: 45px; align-items: end; max-width: 1120px; margin: 0 auto; padding: 80px 0 65px; }
+    .eyebrow { color: var(--green); font: 800 .77rem Arial, sans-serif; letter-spacing: .13em; text-transform: uppercase; }
+    h1, h2, h3 { line-height: 1.1; }
+    h1 { max-width: 740px; margin: 16px 0; color: var(--green-dark); font-size: clamp(3rem, 7vw, 6.5rem); letter-spacing: -.07em; }
+    .hero p { max-width: 650px; margin: 0; color: var(--muted); font-size: 1.1rem; }
+    .hero-card { padding: 22px; border: 1px solid var(--line); border-top: 5px solid var(--coral); background: var(--card); box-shadow: var(--shadow); }
+    .hero-card strong { display: block; margin-bottom: 8px; color: var(--coral); font: 800 .8rem Arial, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+    .hero-card span { color: var(--muted); font-size: .95rem; }
+    .section { max-width: 1120px; margin: 0 auto; padding: 58px 0 15px; scroll-margin-top: 20px; }
+    .section-head { display: flex; justify-content: space-between; gap: 25px; align-items: end; margin-bottom: 22px; border-bottom: 1px solid var(--line); }
+    .kicker { color: var(--coral); font: 800 .72rem Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+    h2 { margin: 7px 0 15px; color: var(--green-dark); font-size: clamp(2rem, 4vw, 3.35rem); letter-spacing: -.045em; }
+    .section-head p { max-width: 500px; margin: 0 0 20px; color: var(--muted); }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .card { min-width: 0; padding: 23px; border: 1px solid var(--line); background: var(--card); box-shadow: 0 5px 18px rgba(21,51,40,.04); }
+    .card h3 { margin: 0 0 10px; color: var(--green); font-size: 1.35rem; }
+    .card h4 { margin: 20px 0 6px; color: var(--green-dark); font-family: Arial, sans-serif; font-size: .9rem; text-transform: uppercase; }
+    .card p { margin: 8px 0; }
+    .card ul, .card ol { margin: 8px 0; padding-left: 22px; }
+    .wide { grid-column: 1 / -1; }
+    .tip { margin-top: 16px; padding: 13px 16px; border-left: 4px solid var(--yellow); background: #fff8dd; }
+    .tip strong { color: #76570d; font-family: Arial, sans-serif; font-size: .8rem; text-transform: uppercase; }
+    pre { max-width: 100%; overflow-x: auto; margin: 14px 0 0; padding: 16px; border-radius: 8px; color: #e9f8ef; background: #182b27; font: .84rem/1.55 Consolas, "Courier New", monospace; }
+    code { font-family: Consolas, "Courier New", monospace; }
+    :not(pre) > code { padding: 2px 5px; color: var(--green-dark); background: var(--mint); }
+    .command { color: #ffe29b; }
+    .steps { counter-reset: step; display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .steps li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; align-items: start; }
+    .steps li > span { min-width: 0; }
+    .steps li > span code { white-space: nowrap; }
+    .steps li::before { counter-increment: step; content: counter(step); display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; color: white; background: var(--green); font: 800 .85rem Arial, sans-serif; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: .9rem; }
+    th, td { padding: 11px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--green-dark); background: var(--mint); }
+    .flash-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .flashcard { min-height: 145px; padding: 17px; border: 1px solid var(--line); color: var(--ink); background: var(--card); text-align: left; transition: transform .2s, border-color .2s; }
+    .flashcard:hover { border-color: var(--green); transform: translateY(-3px); }
+    .flashcard small { display: block; margin-bottom: 8px; color: var(--coral); font: 800 .68rem Arial, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+    .flashcard strong { display: block; color: var(--green-dark); font-size: 1.05rem; }
+    .flashcard span:last-child { display: none; margin-top: 12px; color: var(--muted); font-size: .92rem; }
+    .flashcard.open span:last-child { display: block; }
+    .quiz { display: grid; gap: 12px; }
+    .quiz details { padding: 16px 18px; border: 1px solid var(--line); background: var(--card); }
+    .quiz summary { color: var(--green-dark); cursor: pointer; font-weight: 700; }
+    .quiz p { margin: 10px 0 0; color: var(--muted); }
+    .footer { max-width: 1120px; margin: 75px auto 0; padding-top: 22px; border-top: 1px solid var(--line); color: var(--muted); font: .8rem Arial, sans-serif; }
+    @media (max-width: 850px) { .layout { display: block; } .sidebar { position: static; height: auto; min-width: 0; overflow: hidden; padding: 18px; } .brand { margin-bottom: 16px; } nav { display: flex; width: 100%; min-width: 0; gap: 4px; overflow-x: auto; } nav a { flex: 0 0 auto; white-space: nowrap; } .nav-title, .source-note { display: none; } main { overflow: hidden; padding: 0 18px 55px; } .hero { grid-template-columns: 1fr; gap: 25px; padding: 55px 0 38px; } .grid, .flash-grid { grid-template-columns: 1fr; } .section-head { display: block; } }
+    @media print { .sidebar, .hero-card, .flash-grid, .quiz, .footer { display: none; } .layout { display: block; } main { padding: 0; } .section { padding-top: 20px; } .card { break-inside: avoid; box-shadow: none; } }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">RN</div><div><strong>Programação Mobile</strong><small>Guia de revisão</small></div></div>
+      <div class="nav-title">Conteúdo</div>
+      <nav aria-label="Seções do material">
+        <a class="active" href="#ambiente">01 · Ambiente</a>
+        <a href="#typescript">02 · TypeScript</a>
+        <a href="#componentes">03 · Componentes e props</a>
+        <a href="#hooks">04 · Hooks</a>
+        <a href="#consulta">05 · Consulta rápida</a>
+      </nav>
+      <p class="source-note">Material consolidado das Aulas 2, 3 e 4 de Desenvolvimento Mobile.</p>
+    </aside>
+
+    <main>
+      <header class="hero">
+        <div><span class="eyebrow">React Native · Expo · TypeScript</span><h1>Programação Mobile.</h1><p>Material consolidado das Aulas 2, 3 e 4: ambiente de desenvolvimento, TypeScript, componentes, props, estado e efeitos no React Native.</p></div>
+        <div class="hero-card"><strong>Conteúdo das aulas</strong><span>Aula 2: ambiente Expo e TypeScript. Aula 3: componentes e props. Aula 4: hooks, useState e useEffect.</span></div>
+      </header>
+
+      <section class="section" id="ambiente">
+        <div class="section-head"><div><span class="kicker">Aula 2 · Fundamentos</span><h2>Prepare o ambiente</h2></div><p>O Expo reúne ferramentas que tornam o desenvolvimento React Native mais rápido, desde a criação até a execução do aplicativo.</p></div>
+        <div class="grid">
+          <article class="card"><h3>Instalação passo a passo</h3><ol class="steps"><li><span>Instale a versão LTS do <strong>Node.js</strong> em nodejs.org.</span></li><li><span>Confirme no terminal com <code>node --version</code> e <code>npm --version</code>.</span></li><li><span>Instale o VS Code e as extensões recomendadas pelo professor.</span></li><li><span>Abra o terminal na pasta em que o app será criado.</span></li><li><span>Crie o projeto com o template Blank do Expo.</span></li><li><span>Entre na pasta do projeto e inicie com <code>npx expo start</code>.</span></li></ol></article>
+          <article class="card"><h3>Comandos essenciais</h3><pre><code><span class="command"># criar um projeto Expo</span>
+npx create-expo-app meuApp
+
+<span class="command"># entrar no projeto</span>
+cd meuApp
+
+<span class="command"># iniciar o servidor</span>
+npx expo start
+
+<span class="command"># executar no navegador</span>
+<span class="command"># pressione W no terminal do Expo</span></code></pre><div class="tip"><strong>Erro no modo web?</strong><br>Interrompa com <code>Ctrl+C</code> e execute <code>npx expo install react-dom react-native-web</code>. Depois rode o Expo novamente.</div></article>
+          <article class="card wide"><h3>Arquitetura básica do projeto</h3><div class="table-wrap"><table><thead><tr><th>Item</th><th>Para que serve</th></tr></thead><tbody><tr><td><code>App.tsx</code></td><td>Componente raiz e tela inicial do aplicativo.</td></tr><tr><td><code>app.json</code></td><td>Configura nome, slug, ícone, splash, orientação e permissões do Expo.</td></tr><tr><td><code>assets/</code></td><td>Imagens, ícones, fontes e sons usados pelo app.</td></tr><tr><td><code>node_modules/</code></td><td>Dependências instaladas automaticamente pelo npm. Não edite manualmente.</td></tr><tr><td><code>.expo/</code></td><td>Configurações e cache do ambiente Expo.</td></tr><tr><td><code>.gitignore</code></td><td>Lista arquivos e pastas que o Git deve ignorar, como dependências e caches.</td></tr></tbody></table></div></article>
+          <article class="card wide"><h3>Componentes nativos mais usados</h3><div class="table-wrap"><table><thead><tr><th>Componente</th><th>Função</th><th>Exemplo de uso</th></tr></thead><tbody><tr><td><code>View</code></td><td>Container visual, semelhante a uma <code>div</code>.</td><td>Organizar elementos da tela.</td></tr><tr><td><code>Text</code></td><td>Exibe textos.</td><td>Títulos, mensagens e valores.</td></tr><tr><td><code>StyleSheet</code></td><td>Organiza estilos do aplicativo.</td><td>Estilos reutilizáveis.</td></tr><tr><td><code>TouchableOpacity</code></td><td>Área pressionável com feedback de opacidade.</td><td>Botões personalizados.</td></tr><tr><td><code>Button</code></td><td>Botão nativo simples.</td><td>Ações com <code>title</code> e <code>onPress</code>.</td></tr><tr><td><code>Switch</code></td><td>Controle liga/desliga.</td><td>Alternar o modo escuro.</td></tr></tbody></table></div></article>
+        </div>
+      </section>
+
+      <section class="section" id="typescript">
+        <div class="section-head"><div><span class="kicker">Aula 2 · Linguagem</span><h2>TypeScript sem medo</h2></div><p>TypeScript é um superset do JavaScript: código JavaScript válido também funciona nele, mas com tipagem estática e verificação antes da execução.</p></div>
+        <div class="grid">
+          <article class="card"><h3>Por que tipar?</h3><p>O tipo esperado de uma variável, parâmetro ou retorno fica explícito. O editor oferece autocomplete melhor e muitos erros aparecem antes de o app rodar.</p><pre><code><span class="command">// JavaScript: concatena e resulta em "53"</span>
+function soma(a, b) { return a + b; }
+soma(5, "3");
+
+<span class="command">// TypeScript: o erro aparece no editor</span>
+function soma(a: number, b: number): number {
+  return a + b;
+}
+soma(5, "3");</code></pre></article>
+          <article class="card"><h3>Tipos básicos</h3><pre><code>let nome: string = "Maria";
+let idade: number = 25;
+let ativo: boolean = true;
+
+let notas: number[] = [8, 9.5, 7];
+let nomes: Array&lt;string&gt; = ["Ana", "Bia"];
+
+<span class="command">// any aceita tudo, mas deve ser evitado</span>
+let dado: any = "texto";</code></pre><p><code>number</code> cobre inteiros e decimais. O tipo <code>any</code> desliga a verificação e remove o principal benefício da linguagem.</p></article>
+          <article class="card wide"><h3>Funções, interfaces e types</h3><pre><code>function apresentar(nome: string, idade: number): string {
+  return `${nome} tem ${idade} anos.`;
+}
+
+interface Usuario {
+  nome: string;
+  idade: number;
+  email?: string; <span class="command">// opcional</span>
+}
+
+type Status = "ativo" | "inativo";
+let usuario: Usuario = { nome: "Ana", idade: 25 };
+function mostrar(usuario: Usuario) {
+  console.log(`${usuario.nome} tem ${usuario.idade} anos.`);
+}</code></pre><p>Interfaces descrevem a estrutura de objetos e são muito usadas para tipar props. <code>type</code> também descreve objetos, mas é mais flexível e pode representar uniões, como <code>Status</code>.</p></article>
+        </div>
+      </section>
+
+      <section class="section" id="componentes">
+        <div class="section-head"><div><span class="kicker">Aula 3 · Reutilização</span><h2>Componentes e props</h2></div><p>Um componente filho recebe informações do componente pai por meio de props, como uma função recebe parâmetros.</p></div>
+        <div class="grid">
+          <article class="card"><h3>Crie uma pasta de componentes</h3><p>Na raiz, crie <code>src/Components/Title.tsx</code>. Um único componente pode ser usado várias vezes com valores diferentes.</p><pre><code>import { Text } from "react-native";
+
+interface TitleProps {
+  texto: string;
+  tamanho?: number;
+}
+
+export function Title({ texto, tamanho = 24 }: TitleProps) {
+  return &lt;Text style={{ fontSize: tamanho }}&gt;{texto}&lt;/Text&gt;;
+}</code></pre></article>
+          <article class="card"><h3>O pai passa os valores</h3><pre><code>import { View } from "react-native";
+import { Title } from "./src/Components/Title";
+
+export default function App() {
+  return (
+    &lt;View&gt;
+      &lt;Title texto="Programação Mobile" /&gt;
+      &lt;Title texto="React Native" tamanho={30} /&gt;
+      &lt;Title texto="TypeScript" tamanho={20} /&gt;
+    &lt;/View&gt;
+  );
+}</code></pre><p>O pai usa o filho; o filho recebe as props e só se preocupa em renderizar com os dados recebidos.</p></article>
+          <article class="card wide"><h3>Props também podem carregar ações</h3><pre><code>interface BotaoProps {
+  texto: string;
+  aoClicar: () =&gt; void;
+}
+
+function Botao({ texto, aoClicar }: BotaoProps) {
+  return (
+    &lt;Button title={texto} onPress={aoClicar} /&gt;
+  );
+}
+
+&lt;Botao texto="Salvar" aoClicar={() =&gt; console.log("salvou")} /&gt;</code></pre><p>Uma função passada por prop permite que o filho avise o pai quando algo acontece. No navegador, observe a mensagem pelo console do DevTools (F12). O <code>Alert</code> do React Native é voltado ao ambiente nativo.</p></article>
+        </div>
+      </section>
+
+      <section class="section" id="hooks">
+        <div class="section-head"><div><span class="kicker">Aula 4 · Estado e efeitos</span><h2>Hooks que dão vida à tela</h2></div><p>Hooks permitem estado e efeitos em componentes funcionais, além de favorecer o reuso de lógica por meio de hooks customizados.</p></div>
+        <div class="grid">
+          <article class="card"><h3>useState: memória local</h3><p><code>useState(valorInicial)</code> devolve um par: o valor atual e a função que o atualiza. Ao chamar o setter, o componente renderiza novamente.</p><pre><code>import { useState } from "react";
+
+export default function Contador() {
+  const [contador, setContador] = useState(0);
+
+  return (
+    &lt;View&gt;
+      &lt;Text&gt;Você clicou {contador} vezes&lt;/Text&gt;
+      &lt;Button
+        title="Incrementar"
+        onPress={() =&gt; setContador(prev =&gt; prev + 1)}
+      /&gt;
+      &lt;Button title="Zerar" onPress={() =&gt; setContador(0)} /&gt;
+    &lt;/View&gt;
+  );
+}</code></pre><p>Prefira <code>prev =&gt; prev + 1</code> quando o novo valor depende do anterior: assim a atualização usa sempre o estado mais recente.</p></article>
+          <article class="card"><h3>Estado pode controlar a interface</h3><pre><code>const [darkMode, setDarkMode] = useState(false);
+
+&lt;View style={{
+  flex: 1,
+  backgroundColor: darkMode ? "#000" : "#fff",
+  alignItems: "center",
+  justifyContent: "center"
+}}&gt;
+  &lt;Text style={{ color: darkMode ? "#fff" : "#000" }}&gt;
+    Modo escuro: {darkMode ? "Ativado" : "Desativado"}
+  &lt;/Text&gt;
+  &lt;Switch value={darkMode} onValueChange={setDarkMode} /&gt;
+&lt;/View&gt;</code></pre><p>O operador ternário escolhe o conteúdo ou estilo conforme o estado: condição verdadeira ? resultado verdadeiro : resultado falso.</p></article>
+          <article class="card"><h3>useEffect: efeitos colaterais</h3><p>Use-o para dizer ao React: “depois de renderizar, execute esta ação”. Exemplos: buscar dados, assinar eventos, iniciar timer ou sincronizar com armazenamento.</p><pre><code>import { useEffect } from "react";
+
+useEffect(() =&gt; {
+  console.log("executa quando o componente monta");
+
+  return () =&gt; {
+    console.log("cleanup antes de desmontar");
+  };
+}, []);</code></pre><p>A função de cleanup é opcional e libera recursos antes da próxima execução ou quando o componente desmonta.</p></article>
+          <article class="card"><h3>Os três modos do useEffect</h3><pre><code><span class="command">// toda renderização</span>
+useEffect(() =&gt; { ... });
+
+<span class="command">// uma vez, ao montar</span>
+useEffect(() =&gt; { ... }, []);
+
+<span class="command">// quando userId mudar</span>
+useEffect(() =&gt; {
+  buscarDados(userId);
+}, [userId]);</code></pre></article>
+          <article class="card wide"><h3>Regras de ouro dos Hooks</h3><ul><li>Chame hooks sempre no topo do componente.</li><li>Não chame <code>useState</code> ou <code>useEffect</code> dentro de <code>if</code>, <code>for</code> ou funções comuns.</li><li>A ordem de chamadas precisa ser a mesma em todas as renderizações.</li><li>Hooks só devem ser chamados em componentes funcionais React ou em hooks customizados.</li></ul><div class="tip"><strong>Por que isso importa?</strong><br>Quebrar a ordem pode causar o erro “Rendered fewer hooks than expected”.</div></article>
+        </div>
+      </section>
+
+      <section class="section" id="consulta">
+        <div class="section-head"><div><span class="kicker">Revisão</span><h2>Consulta rápida</h2></div><p>Clique nos cartões para revelar a resposta e abra as perguntas para conferir seu raciocínio.</p></div>
+        <div class="flash-grid">
+          <button class="flashcard" type="button"><small>Expo</small><strong>Como iniciar um projeto?</strong><span><code>npx create-expo-app nome</code>, depois <code>cd nome</code> e <code>npx expo start</code>.</span></button>
+          <button class="flashcard" type="button"><small>TypeScript</small><strong>O que é uma interface?</strong><span>Um contrato que descreve propriedades e tipos esperados de um objeto.</span></button>
+          <button class="flashcard" type="button"><small>React</small><strong>O que são props?</strong><span>Dados passados do componente pai para o componente filho, como parâmetros de uma função.</span></button>
+          <button class="flashcard" type="button"><small>useState</small><strong>O que acontece ao chamar o setter?</strong><span>O valor é atualizado e o componente é renderizado novamente.</span></button>
+          <button class="flashcard" type="button"><small>useEffect</small><strong>Para que serve o array vazio?</strong><span>Faz o efeito rodar uma vez, quando o componente monta.</span></button>
+          <button class="flashcard" type="button"><small>Hooks</small><strong>Onde hooks podem ser chamados?</strong><span>No topo de componentes funcionais ou dentro de hooks customizados.</span></button>
+        </div>
+        <div class="quiz" style="margin-top: 18px">
+          <details><summary>1. Qual a diferença entre pai e filho?</summary><p>O pai utiliza o componente e envia props; o filho recebe essas props e renderiza sua parte da interface.</p></details>
+          <details><summary>2. Por que evitar o tipo any?</summary><p>Porque ele aceita qualquer valor e desliga a verificação estática, anulando a segurança que o TypeScript oferece.</p></details>
+          <details><summary>3. Quando usar cleanup no useEffect?</summary><p>Quando o efeito cria algo que precisa ser liberado, como listener, timer, conexão ou inscrição.</p></details>
+          <details><summary>4. Qual a diferença entre useState e useEffect?</summary><p>useState guarda e altera dados que afetam a tela; useEffect executa efeitos colaterais depois da renderização.</p></details>
+        </div>
+      </section>
+      <footer class="footer">Conteúdo consolidado diretamente no index.html · Aulas 2, 3 e 4 de Desenvolvimento Mobile · React Native, Expo e TypeScript.</footer>
+    </main>
+  </div>
+  <script>
+    document.querySelectorAll('.flashcard').forEach(card => {
+      card.addEventListener('click', () => card.classList.toggle('open'));
+    });
+    const links = [...document.querySelectorAll('nav a')];
+    const sections = links.map(link => document.querySelector(link.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${visible.target.id}`));
+    }, { rootMargin: '-20% 0px -65% 0px' });
+    sections.forEach(section => observer.observe(section));
+  </script>
+</body>
+</html>
