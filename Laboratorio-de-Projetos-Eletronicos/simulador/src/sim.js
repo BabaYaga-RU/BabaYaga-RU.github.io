@@ -189,7 +189,7 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
       host.append(button);
     }
   }
-  function beginPan(event) { event.preventDefault(); pan = { start: worldPoint(event), x: view.x, y: view.y }; }
+  function beginPan(event) { event.preventDefault(); pan = { start: worldPoint(event), x: view.x, y: view.y }; svg.style.cursor = 'grabbing'; }
   function applyView() { svg.setAttribute('viewBox', `${view.x} ${view.y} ${view.w} ${view.h}`); }
   function zoom(factor, at = { x: view.x + view.w / 2, y: view.y + view.h / 2 }) {
     const nextW = Math.max(250, Math.min(5000, view.w * factor)), nextH = nextW * (view.h / view.w);
@@ -209,7 +209,7 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
     const pin = event.target.closest?.('.pin');
     if (pin) { wireStart = pin.dataset.pin; selection = null; const p = worldPoint(event); previewLayer.replaceChildren(svgEl('path', { class: 'wire-preview', d: `M${p.x} ${p.y}L${p.x} ${p.y}` })); $('canvasTip').textContent = `Ligando terminal ${pin.querySelector('title')?.textContent || ''}… solte no terminal de destino`; event.preventDefault(); return; }
     if (event.button === 1 || spaceDown) { beginPan(event); return; }
-    if (event.target === svg || event.target.id === 'gridBackground') { selection = null; renderProperties(); }
+    if (event.button === 0 && (event.target === svg || event.target.id === 'gridBackground' || event.target === scene)) { selection = null; renderProperties(); beginPan(event); svg.style.cursor = 'grabbing'; }
   });
   svg.addEventListener('pointermove', event => {
     if (activeDrag) { const current = worldPoint(event), part = circuit.components.find(item => item.id === activeDrag.id); if (!part) return; const dx = current.x - activeDrag.start.x, dy = current.y - activeDrag.start.y; activeDrag.moved ||= Math.hypot(dx, dy) > 2; if (activeDrag.moved) { part.x = activeDrag.x + dx; part.y = activeDrag.y + dy; const group = partsLayer.querySelector(`[data-id="${part.id}"]`); group?.setAttribute('transform', componentTransform(part)); renderWires(); } }
@@ -224,10 +224,12 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
       else setStatus('Para concluir, solte sobre um terminal destacado.');
       wireStart = null; previewLayer.replaceChildren(); $('canvasTip').textContent = 'Arraste de um terminal para outro; espaço + arraste move a folha.';
     }
-    pan = null;
+    pan = null; svg.style.cursor = spaceDown ? 'grab' : '';
   });
+  svg.addEventListener('pointercancel', () => { activeDrag = null; wireStart = null; pan = null; previewLayer.replaceChildren(); svg.style.cursor = spaceDown ? 'grab' : ''; });
   svg.addEventListener('wheel', event => { event.preventDefault(); zoom(event.deltaY < 0 ? .85 : 1.18, worldPoint(event)); }, { passive: false });
   window.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && document.body.classList.contains('canvas-expanded')) { event.preventDefault(); setCanvasExpanded(false); return; }
     if (event.code === 'Space' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { spaceDown = true; svg.style.cursor = 'grab'; event.preventDefault(); }
     if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z') { event.preventDefault(); restoreSnapshot(event.shiftKey ? redoHistory : history, event.shiftKey ? history : redoHistory); }
     else if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'y') { event.preventDefault(); restoreSnapshot(redoHistory, history); }
@@ -553,6 +555,44 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
   $('toggleLibrary').onclick = event => { $('layout').classList.toggle('library-collapsed'); event.currentTarget.setAttribute('aria-expanded', String(!$('layout').classList.contains('library-collapsed'))); };
   $('toggleProperties').onclick = event => { $('layout').classList.toggle('properties-collapsed'); event.currentTarget.setAttribute('aria-expanded', String(!$('layout').classList.contains('properties-collapsed'))); };
   $('toggleResults').onclick = event => { $('layout').classList.toggle('results-collapsed'); event.currentTarget.setAttribute('aria-expanded', String(!$('layout').classList.contains('results-collapsed'))); };
+
+  let enteredNativeFullscreen = false;
+  function setCanvasExpanded(expanded, syncFullscreen = true) {
+    document.body.classList.toggle('canvas-expanded', expanded);
+    const button = $('toggleCanvasExpanded');
+    button.setAttribute('aria-pressed', String(expanded));
+    button.textContent = expanded ? '⤢ Sair do modo expandido' : '⛶ Expandir esquema';
+    $('canvasTip').textContent = expanded
+      ? 'Terminais: arraste para ligar · Espaço ou botão do meio + arraste move · roda do mouse dá zoom · Esc sai'
+      : 'Arraste entre terminais para ligar · Espaço + arraste, botão do meio ou arraste no fundo para mover · roda dá zoom · “Expandir esquema” ocupa a tela';
+    if (!syncFullscreen) return;
+    if (expanded && !document.fullscreenElement && document.documentElement.requestFullscreen) {
+      try { document.documentElement.requestFullscreen().catch(() => {}); } catch {}
+    } else if (!expanded && document.fullscreenElement && document.exitFullscreen) {
+      try { document.exitFullscreen().catch(() => {}); } catch {}
+    }
+    requestAnimationFrame(() => { if (expanded) $('toggleCanvasExpanded').focus({ preventScroll: true }); });
+  }
+  $('toggleCanvasExpanded').onclick = () => setCanvasExpanded(!document.body.classList.contains('canvas-expanded'));
+  document.addEventListener('fullscreenchange', () => {
+    if (document.fullscreenElement) enteredNativeFullscreen = true;
+    else if (enteredNativeFullscreen) {
+      enteredNativeFullscreen = false;
+      if (document.body.classList.contains('canvas-expanded')) setCanvasExpanded(false, false);
+    }
+  });
+  $('expandedTools').addEventListener('click', event => {
+    const action = event.target.closest('[data-view]')?.dataset.view;
+    if (action === 'in') zoom(.8); else if (action === 'out') zoom(1.25); else if (action === 'fit') fitView(); else if (action === 'reset') fitView(true);
+  });
+  for (const [id, label, shown] of [['toggleLibrary', 'biblioteca', 'library-collapsed'], ['toggleProperties', 'propriedades', 'properties-collapsed'], ['toggleResults', 'resultados', 'results-collapsed']]) {
+    const button = $(id), update = () => {
+      const collapsed = $('layout').classList.contains(shown);
+      button.textContent = `${collapsed ? 'Mostrar' : 'Ocultar'} ${label}`;
+      button.setAttribute('aria-expanded', String(!collapsed));
+    };
+    button.addEventListener('click', update); update();
+  }
 
   renderPalette(); renderSaved(); renderAll(); renderProperties(); applyView(); updateHistoryButtons();
 })();

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#101923">
   <title>Simulador analógico | Laboratório</title>
-  <script type="module" crossorigin src="./assets/index-B0je84rs.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-CIpUj62q.css">
+  <script type="module" crossorigin src="./assets/index-RBarE8ta.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-c-dd4JbV.css">
 </head>
 <body data-mode="analog">
   <header class="topbar">
@@ -18,9 +18,9 @@
     <button id="tbjExample" class="primary" title="Carrega o circuito da prática de transistor bipolar">Preset TBJ</button>
     <button id="rectifierExample" title="Carrega o exemplo de retificador">Retificador</button>
     <span class="separator"></span>
-    <button id="toggleLibrary" aria-expanded="true">Biblioteca</button>
-    <button id="toggleProperties" aria-expanded="true">Propriedades</button>
-    <button id="toggleResults" aria-expanded="true">Resultados</button>
+    <button id="toggleLibrary" aria-expanded="true" aria-controls="libraryPanel">Ocultar biblioteca</button>
+    <button id="toggleProperties" aria-expanded="true" aria-controls="propertiesPanel">Ocultar propriedades</button>
+    <button id="toggleResults" aria-expanded="true" aria-controls="resultsPanel">Ocultar resultados</button>
     <span class="separator"></span>
     <button id="zoomOut" title="Diminuir zoom">−</button><button id="zoomIn" title="Aumentar zoom">+</button>
     <button id="fitView">Ajustar à tela</button><button id="resetView">Resetar vista</button>
@@ -39,14 +39,15 @@
     </aside>
 
     <section class="canvas-panel panel" id="canvasPanel">
-      <div class="canvas-heading"><div><h2>Esquema</h2><span id="selectionHint">Solte componentes na grade ou clique na biblioteca</span></div><div class="canvas-actions"><button id="undo" title="Desfazer">↶</button><button id="redo" title="Refazer">↷</button><button id="clearWires">Apagar ligações</button><button id="deleteSelected">Excluir selecionado</button></div></div>
+      <div class="canvas-heading"><div><h2>Esquema</h2><span id="selectionHint">Solte componentes na grade ou clique na biblioteca</span></div><div class="canvas-actions"><button id="toggleCanvasExpanded" class="expand-canvas" aria-pressed="false" title="Expandir esquema para ocupar a viewport">⛶ Expandir esquema</button><button id="undo" title="Desfazer">↶</button><button id="redo" title="Refazer">↷</button><button id="clearWires">Apagar ligações</button><button id="deleteSelected">Excluir selecionado</button></div></div>
       <div class="canvas-wrap" id="canvasWrap">
         <svg id="circuit" viewBox="0 0 1600 1000" role="application" aria-label="Canvas de montagem do circuito">
           <defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#273744" stroke-width="1"/></pattern></defs>
           <rect id="gridBackground" x="-6000" y="-6000" width="12000" height="12000" fill="url(#grid)"/>
           <g id="scene"><g id="wires"></g><g id="parts"></g><g id="wirePreview"></g></g>
         </svg>
-        <div id="canvasTip" class="canvas-tip">Arraste de C, B, E ou outro terminal. Espaço + arraste move a folha.</div>
+        <div class="expanded-tools" id="expandedTools" aria-label="Navegação do esquema"><button type="button" data-view="out" title="Diminuir zoom">−</button><button type="button" data-view="in" title="Aumentar zoom">+</button><button type="button" data-view="fit">Ajustar à tela</button><button type="button" data-view="reset">Resetar vista</button><span>Espaço + arraste move · roda do mouse dá zoom · Esc sai</span></div>
+        <div id="canvasTip" class="canvas-tip">Arraste entre terminais para ligar · arraste no fundo para mover · roda do mouse dá zoom · use “Expandir esquema” para ocupar a tela</div>
       </div>
     </section>
 
