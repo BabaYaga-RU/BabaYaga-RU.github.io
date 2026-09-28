@@ -46,7 +46,12 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
     if (part.type === 'JUNCTION') return [[64, 0], [128, 64], [64, 128], [0, 64]][index];
     return index === 0 ? [0, 36] : [128, 36];
   }
-  function pinWorld(part, index) { const [x, y] = pinLocal(part, index); return { x: part.x + x, y: part.y + y }; }
+  function componentTransform(part) { const angle = Number(part.rotation) || 0; return `translate(${part.x} ${part.y})${angle ? ` rotate(${angle} 64 36)` : ''}`; }
+  function pinWorld(part, index) {
+    const [x, y] = pinLocal(part, index), angle = (Number(part.rotation) || 0) * Math.PI / 180;
+    const dx = x - 64, dy = y - 36;
+    return { x: part.x + 64 + dx * Math.cos(angle) - dy * Math.sin(angle), y: part.y + 36 + dx * Math.sin(angle) + dy * Math.cos(angle) };
+  }
   function checkpoint() { history.push(JSON.stringify(circuit)); if (history.length > 60) history.shift(); redoHistory = []; updateHistoryButtons(); }
   function updateHistoryButtons() { $('undo').disabled = !history.length; $('redo').disabled = !redoHistory.length; }
   function restoreSnapshot(from, to) { if (!from.length) return; to.push(JSON.stringify(circuit)); circuit = JSON.parse(from.pop()); selection = null; lastRun = null; renderAll(); updateHistoryButtons(); }
@@ -105,8 +110,13 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
     return pins(part)[index] || '';
   }
   function renderPart(part) {
-    const g = svgEl('g', { class: `component${selection === part.id ? ' selected' : ''}`, transform: `translate(${part.x} ${part.y})`, 'data-id': part.id, tabindex: 0 });
+    const g = svgEl('g', { class: `component${selection === part.id ? ' selected' : ''}`, transform: componentTransform(part), 'data-id': part.id, tabindex: 0 });
     g.append(partSymbol(part));
+    const angle = Number(part.rotation) || 0;
+    if (angle) for (const text of g.querySelectorAll('text')) {
+      const x = text.getAttribute('x') || 0, y = text.getAttribute('y') || 0;
+      text.setAttribute('transform', `rotate(${-angle} ${x} ${y})`);
+    }
     pins(part).forEach((pin, index) => {
       const [x, y] = pinLocal(part, index);
       const circle = svgEl('circle', { class: 'pin', cx: x, cy: y, r: 6, 'data-pin': pinKey(part.id, index) });
@@ -135,7 +145,20 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
     if (!startPart || !endPart) return;
     const a = pinWorld(startPart, Number(wire.a.split(':')[1])), b = pinWorld(endPart, Number(wire.b.split(':')[1]));
     const mid = Math.round((a.x + b.x) / 2);
-    const path = svgEl('path', { class: `wire${selection === wire.id ? ' selected' : ''}`, d: `M${a.x} ${a.y}H${mid}V${b.y}H${b.x}`, 'data-wire': wire.id });
+    let d;
+    if (wire.points?.length) {
+      const vertices = [a];
+      for (const [x, y] of wire.points) {
+        const previous = vertices[vertices.length - 1];
+        if (previous.x !== x && previous.y !== y) vertices.push({ x, y: previous.y });
+        vertices.push({ x, y });
+      }
+      const previous = vertices[vertices.length - 1];
+      if (previous.x !== b.x && previous.y !== b.y) vertices.push({ x: b.x, y: previous.y });
+      vertices.push(b);
+      d = vertices.map(({ x, y }, index) => `${index ? 'L' : 'M'}${x} ${y}`).join('');
+    } else d = `M${a.x} ${a.y}H${mid}V${b.y}H${b.x}`;
+    const path = svgEl('path', { class: `wire${selection === wire.id ? ' selected' : ''}`, d, 'data-wire': wire.id });
     path.addEventListener('click', event => { event.stopPropagation(); selection = wire.id; renderProperties(); renderWires(); });
     wiresLayer.append(path);
   }
@@ -176,7 +199,7 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
   function fitView(reset = false) {
     if (reset || !circuit.components.length) { view = { x: 0, y: 0, w: 1600, h: 1000 }; applyView(); return; }
     const xs = circuit.components.map(part => part.x), ys = circuit.components.map(part => part.y);
-    const minX = Math.min(...xs) - 180, minY = Math.min(...ys) - 160, maxX = Math.max(...xs) + 360, maxY = Math.max(...ys) + 240;
+    const minX = Math.min(...xs) - 100, minY = Math.min(...ys) - 60, maxX = Math.max(...xs) + 150, maxY = Math.max(...ys) + 80;
     view = { x: minX, y: minY, w: Math.max(900, maxX - minX), h: Math.max(650, maxY - minY) }; applyView();
   }
   svg.addEventListener('dragover', event => { event.preventDefault(); $('canvasWrap').classList.add('drop-active'); });
@@ -189,7 +212,7 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
     if (event.target === svg || event.target.id === 'gridBackground') { selection = null; renderProperties(); }
   });
   svg.addEventListener('pointermove', event => {
-    if (activeDrag) { const current = worldPoint(event), part = circuit.components.find(item => item.id === activeDrag.id); if (!part) return; const dx = current.x - activeDrag.start.x, dy = current.y - activeDrag.start.y; activeDrag.moved ||= Math.hypot(dx, dy) > 2; if (activeDrag.moved) { part.x = activeDrag.x + dx; part.y = activeDrag.y + dy; const group = partsLayer.querySelector(`[data-id="${part.id}"]`); group?.setAttribute('transform', `translate(${part.x} ${part.y})`); renderWires(); } }
+    if (activeDrag) { const current = worldPoint(event), part = circuit.components.find(item => item.id === activeDrag.id); if (!part) return; const dx = current.x - activeDrag.start.x, dy = current.y - activeDrag.start.y; activeDrag.moved ||= Math.hypot(dx, dy) > 2; if (activeDrag.moved) { part.x = activeDrag.x + dx; part.y = activeDrag.y + dy; const group = partsLayer.querySelector(`[data-id="${part.id}"]`); group?.setAttribute('transform', componentTransform(part)); renderWires(); } }
     if (wireStart) { const source = wireStart.split(':').map(Number), part = circuit.components.find(item => item.id === source[0]), start = pinWorld(part, source[1]), p = worldPoint(event), mid = Math.round((start.x + p.x) / 2); previewLayer.replaceChildren(svgEl('path', { class: 'wire-preview', d: `M${start.x} ${start.y}H${mid}V${p.y}H${p.x}` })); }
     if (pan) { const now = worldPoint(event); view.x = pan.x - (now.x - pan.start.x); view.y = pan.y - (now.y - pan.start.y); applyView(); }
   });

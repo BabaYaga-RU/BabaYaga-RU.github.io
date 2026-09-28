@@ -71,6 +71,7 @@ test('ngspice generates 1 V peak, 1 kHz sine with 2 Vpp and 1 ms period', async 
 
 test('preset BC548C executes with correct Q C/B/E order and collector responds to V1', async () => {
   const circuit = createTbjPreset();
+  for (const name of ['V1', 'RB', 'RSIG', 'R2', 'VSIG', 'V2', 'RC']) assert.equal(circuit.components.find(part => part.name === name).rotation, 90, `${name} should follow the vertical reference layout`);
   assert.match(BUILTIN_MODELS.BC548C, /^\.MODEL BC548C NPN\(/i);
   const { built: offNet, result: off } = await run(circuit);
   assert.match(offNet.netlist, /Q1 C B 0 BC548C/i);
