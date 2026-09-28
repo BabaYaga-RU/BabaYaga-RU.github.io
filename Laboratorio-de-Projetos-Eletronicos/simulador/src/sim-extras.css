@@ -1,0 +1,5 @@
+.saved-list{display:flex;flex-wrap:wrap;gap:6px;padding:8px}
+.saved-list button{border:1px solid #3a4c5a;background:#192630;color:var(--text);border-radius:5px;padding:6px 9px;cursor:pointer}
+.saved-list button:hover{border-color:var(--cyan);color:var(--cyan)}
+.local-saves{font-size:11px}
+.local-saves summary{cursor:pointer;color:var(--cyan);padding:7px}

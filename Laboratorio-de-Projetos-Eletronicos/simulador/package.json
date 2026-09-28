@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "dev": "vite --host 127.0.0.1"
+    "dev": "vite --host 127.0.0.1",
+    "test": "node --test src/spice-core.test.js"
   },
   "dependencies": {
     "eecircuit-engine": "1.8.0",

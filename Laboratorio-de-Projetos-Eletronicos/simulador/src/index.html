@@ -1,1 +1,90 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Projetos Eletrônicos | Simulador</title><link rel="stylesheet" href="sim.css"></head><body data-mode="analog"><header><a href="../../index.html">← Voltar ao roteiro</a><span>LABORATÓRIO · PROJETOS ELETRÔNICOS</span><h1>Bancada analógica</h1><p>Monte o circuito arrastando componentes e ligando terminais. Clique para selecionar e editar.</p></header><main><nav class="toolbar"><button id="newCircuit">Novo circuito</button><button id="example">Exemplo: retificador</button><button id="deleteSelected">Excluir selecionado</button><button id="clearWires">Apagar ligações</button><button id="importModel">Importar .MODEL</button><button id="run" class="primary">▶ Simular</button><button id="save">Salvar</button><button id="import">Abrir</button><button id="connect">Pasta salvos</button><span id="runStatus">Arraste os terminais para montar.</span></nav><section class="bench"><aside class="palette panel"><h2>Componentes</h2><p>Arraste para a folha ou clique para inserir.</p><div id="palette"></div><hr><b>Ligações</b><ol><li>Arraste de um terminal ao outro.</li><li>Arraste o corpo para mover.</li><li>Selecione para editar; duplo clique foca o valor.</li></ol></aside><section class="workarea panel"><div class="workhead"><h2>Esquema</h2><span id="selectionHint">Folha de montagem</span></div><div class="canvaswrap"><svg id="circuit" viewBox="0 0 1200 720"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#182735"/></pattern></defs><rect width="1200" height="720" fill="url(#grid)"/><g id="wires"></g><g id="parts"></g><g id="wirePreview"></g></svg></div></section><aside class="inspector panel"><h2>Propriedades</h2><div id="properties"></div><div class="analysis-tabs"><button data-tab="dc" class="active">DC</button><button data-tab="transient">Transient</button><button data-tab="scope">Osciloscópio</button></div><section id="dcPanel"><p>Ponto de operação.</p><table id="dcTable"></table></section><section id="transientPanel" hidden><canvas id="transientPlot" width="640" height="300"></canvas></section><section id="scopePanel" hidden><label>Canal 1<select id="probe1"><option value="">Selecionar</option></select></label><label>Canal 2<select id="probe2"><option value="">Desligado</option></select></label><canvas id="scope" width="640" height="300"></canvas><div id="readings"></div></section><details><summary>Netlist SPICE</summary><pre id="netlistText"></pre></details></aside></section><section class="panel saves"><h2>Circuitos salvos</h2><p>Conecte a pasta simulador/salvos para gravar neste repositório. Também é possível exportar/importar JSON.</p><div id="savedList"></div><p id="saveStatus"></p><input id="fileInput" type="file" accept=".json" hidden></section><p class="disclaimer">ngspice em WebAssembly; confira pinagem e valores do manual antes de montar fisicamente.</p><input id="modelFile" type="file" accept=".model,.mod,.lib,.txt" hidden></main><script type="module" src="sim.js"></script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101923">
+  <title>Simulador analógico | Laboratório</title>
+  <link rel="stylesheet" href="./sim.css">
+  <link rel="stylesheet" href="./sim-extras.css">
+</head>
+<body data-mode="analog">
+  <header class="topbar">
+    <a class="back" href="../../index.html">← Laboratório de Projetos Eletrônicos</a>
+    <div><span class="eyebrow">BANCADA DE ELETRÔNICA ANALÓGICA</span><h1>Montagem e simulação SPICE</h1></div>
+    <span id="engineStatus" class="engine-status">ngspice WebAssembly pronto para iniciar</span>
+  </header>
+  <nav class="toolbar" aria-label="Ferramentas do circuito">
+    <button id="tbjExample" class="primary" title="Carrega o circuito da prática de transistor bipolar">Preset TBJ</button>
+    <button id="rectifierExample" title="Carrega o exemplo de retificador">Retificador</button>
+    <span class="separator"></span>
+    <button id="toggleLibrary" aria-expanded="true">Biblioteca</button>
+    <button id="toggleProperties" aria-expanded="true">Propriedades</button>
+    <button id="toggleResults" aria-expanded="true">Resultados</button>
+    <span class="separator"></span>
+    <button id="zoomOut" title="Diminuir zoom">−</button><button id="zoomIn" title="Aumentar zoom">+</button>
+    <button id="fitView">Ajustar à tela</button><button id="resetView">Resetar vista</button>
+    <span class="separator"></span>
+    <button id="saveCircuit">Salvar JSON</button><button id="openCircuit">Abrir JSON</button>
+    <button id="importModel">Importar .MODEL</button>
+    <input id="circuitFile" type="file" accept=".json,application/json" hidden>
+    <input id="modelFile" type="file" accept=".lib,.mod,.model,.spice,.txt" hidden>
+  </nav>
+
+  <main class="layout" id="layout">
+    <aside class="library panel" id="libraryPanel">
+      <div class="panel-heading"><h2>Componentes</h2><span>Arraste para a folha</span></div>
+      <div id="palette" class="palette"></div>
+      <div class="quick-help"><b>Montagem</b><ol><li>Arraste um componente para a folha.</li><li>Arraste um terminal até outro terminal ou etiqueta.</li><li>Selecione uma peça para editar os valores.</li><li>Roda do mouse aproxima; espaço + arraste move a folha.</li></ol></div>
+    </aside>
+
+    <section class="canvas-panel panel" id="canvasPanel">
+      <div class="canvas-heading"><div><h2>Esquema</h2><span id="selectionHint">Solte componentes na grade ou clique na biblioteca</span></div><div class="canvas-actions"><button id="undo" title="Desfazer">↶</button><button id="redo" title="Refazer">↷</button><button id="clearWires">Apagar ligações</button><button id="deleteSelected">Excluir selecionado</button></div></div>
+      <div class="canvas-wrap" id="canvasWrap">
+        <svg id="circuit" viewBox="0 0 1600 1000" role="application" aria-label="Canvas de montagem do circuito">
+          <defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#273744" stroke-width="1"/></pattern></defs>
+          <rect id="gridBackground" x="-6000" y="-6000" width="12000" height="12000" fill="url(#grid)"/>
+          <g id="scene"><g id="wires"></g><g id="parts"></g><g id="wirePreview"></g></g>
+        </svg>
+        <div id="canvasTip" class="canvas-tip">Arraste de C, B, E ou outro terminal. Espaço + arraste move a folha.</div>
+      </div>
+    </section>
+
+    <aside class="properties-panel panel" id="propertiesPanel">
+      <div class="panel-heading"><h2>Propriedades</h2><span>Editar componente</span></div>
+      <div id="properties" class="properties"><p class="empty-state">Selecione um componente ou uma ligação.</p></div>
+      <div class="preset-tools" id="tbjTools" hidden>
+        <h3>Prática TBJ · ajuste SPICE</h3>
+        <button id="adjustV1">Ajustar V1 para VC ≈ 5 V</button>
+        <button id="adjustVsig">Ajustar VSIG para VC ≈ 1 Vp</button>
+        <p id="adjustStatus" aria-live="polite"></p>
+      </div>
+    </aside>
+
+    <section class="results-panel panel" id="resultsPanel">
+      <div class="results-top">
+        <div class="analysis-tabs" role="tablist" aria-label="Tipo de análise">
+          <button class="active" data-tab="dc" role="tab">DC / Ponto de operação</button>
+          <button data-tab="transient" role="tab">Transient</button>
+          <button data-tab="scope" role="tab">Osciloscópio</button>
+        </div>
+        <div class="run-controls"><label>Tempo total <input id="tranStop" value="2m" aria-label="Tempo total da análise transiente"></label><label>Passo máximo <input id="tranStep" value="2u" aria-label="Passo máximo da análise transiente"></label><button id="run" class="primary run-button">▶ Simular</button></div>
+      </div>
+      <section id="dcPanel" class="analysis-view" role="tabpanel"><div class="result-summary" id="dcSummary">Rode a análise para preencher as medidas deste circuito.</div><div class="table-scroll"><table id="dcTable"><thead><tr><th>Probe</th><th>Nó</th><th>Tensão DC</th></tr></thead><tbody></tbody></table></div></section>
+      <section id="transientPanel" class="analysis-view" role="tabpanel" hidden><canvas id="transientPlot" width="1400" height="520" aria-label="Gráfico de análise transiente"></canvas><button id="exportTransientPng">Exportar PNG do transiente</button></section>
+      <section id="scopePanel" class="analysis-view" role="tabpanel" hidden>
+        <div class="channel-controls">
+          <label class="channel-row channel-one">Canal 1<select id="probe1"></select><select id="coupling1" aria-label="Acoplamento do canal 1"><option>DC</option><option>AC</option></select><span>Escala automática independente</span></label>
+          <label class="channel-row channel-two">Canal 2<select id="probe2"></select><select id="coupling2" aria-label="Acoplamento do canal 2"><option>DC</option><option>AC</option></select><span>Escala automática independente</span></label>
+          <button id="exportScopePng">Exportar PNG (alta resolução)</button>
+        </div>
+        <canvas id="scope" width="1400" height="520" aria-label="Osciloscópio de dois canais"></canvas>
+        <div id="readings" class="readings"></div>
+      </section>
+      <details class="netlist-box"><summary>Netlist SPICE e diagnóstico</summary><div class="netlist-actions"><span id="modelStatus">BC548C interno carregado</span><button id="copyNetlist">Copiar netlist</button></div><pre id="netlistText">Carregue ou monte um circuito; o netlist aparecerá aqui.</pre><details id="technicalDetails"><summary>Saída técnica completa do ngspice</summary><pre id="technicalOutput">Ainda não houve execução.</pre></details></details>
+      <details class="local-saves"><summary>Circuitos salvos neste navegador</summary><div id="savedList" class="saved-list"></div></details>
+    </section>
+  </main>
+  <script type="module" src="./sim.js"></script>
+</body>
+</html>
