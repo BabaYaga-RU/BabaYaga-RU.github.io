@@ -17,7 +17,7 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
     // LTspice standard resistor body, normalized to the editor's 128-unit pins.
     R: 'M0 36H13L26 12 51 60 77 12 102 60 115 36H128',
     C: 'M0 36H54m0-24v48m14-48v48m0-24h60',
-    D: 'M0 36h42m0-20 32 20-32 20zm32-20v40m0-20h54',
+    D: 'M0 36H42M42 16L78 36L42 56V16M78 16V56M78 36H128',
     NPN: 'M0 36H32M32 12V60M32 24L128 0M32 48L128 72M70 47L82 60L69 63',
     VSIN: 'M49 36c6-18 12-18 18 0s12 18 18 0',
     VDC: 'M50 29v14M43 36h14M77 36h14',
@@ -72,7 +72,10 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
     const g = svgEl('g', { class: 'component-symbol' });
     const yOffset = mini ? 0 : 0;
     const circle = ['VDC', 'VSIN'].includes(part.type);
-    if (circle) g.append(svgEl('circle', { class: 'component-body', cx: 64, cy: 36, r: 24 }));
+    if (circle) {
+      g.append(svgEl('circle', { class: 'component-body', cx: 64, cy: 36, r: 24 }));
+      g.append(svgEl('path', { class: 'symbol-line source-leads', d: 'M0 36H40M88 36H128' }));
+    }
     if (part.type === 'SW') g.append(svgEl('rect', { class: 'component-body', x: 30, y: 22, width: 68, height: 28, rx: 4 }));
     if (part.type === 'AND' || part.type === 'OR' || part.type === 'NOT') g.append(svgEl('path', { class: 'component-body', d: symbols[part.type] }));
     if (part.type === 'JUNCTION') g.append(svgEl('circle', { class: 'component-body', cx: 64, cy: 64, r: 7 }));
