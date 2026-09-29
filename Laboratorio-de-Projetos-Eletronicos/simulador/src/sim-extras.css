@@ -18,6 +18,24 @@
 .canvas-actions #rotateSelected{border-color:#59616a;background:#252a30;color:#f2d28d}
 .canvas-actions #rotateSelected:disabled{opacity:.5;cursor:not-allowed}
 .rotation-field select{width:100%;border:1px solid #354957;border-radius:4px;padding:7px;background:#0b141c;color:var(--text);font:12px system-ui}
+.analysis-view canvas#scope,.analysis-view canvas#transientPlot{width:100%;height:auto;max-height:none;image-rendering:auto}
+.readings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:12px 2px}
+.reading.channel-reading{min-width:0;border:1px solid #40515c;border-left:5px solid #f2c96a;border-radius:7px;padding:12px 14px;background:#0d1821;color:#e8eff4}
+.reading.channel-reading.channel-2{border-left-color:#65dbe8}
+.reading.channel-reading h3{margin:0 0 9px;color:#f2c96a;font-size:17px;line-height:1.3}
+.reading.channel-reading.channel-2 h3{color:#65dbe8}
+.reading-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 12px;margin:0}
+.reading-grid>div{min-width:0;display:grid;gap:2px}
+.reading-grid dt{color:#aebec7;font-size:12px}
+.reading-grid dd{margin:0;color:#f2f5f7;font-size:15px;font-weight:650;overflow-wrap:anywhere}
+.report-export{margin:14px 0 8px;padding:16px;border:1px solid #3d5b68;border-radius:8px;background:#0d1922}
+#generateReportImages{display:block;width:100%;min-height:58px;border:1px solid #39a982;border-radius:7px;background:#145b47;color:#e6fff5;font:750 20px/1.25 system-ui,sans-serif;cursor:pointer}
+#generateReportImages:hover{background:#187354;border-color:#69dfad}
+#generateReportImages:disabled{opacity:.65;cursor:wait}
+#reportExportStatus{margin:9px 2px;color:#c1ced5;font-size:14px;line-height:1.45}
+.report-downloads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.report-download{display:block;min-width:0;padding:11px 13px;border:1px solid #3b5c69;border-radius:6px;background:#142631;color:#c7f6fb;font-size:15px;font-weight:650;text-decoration:none;overflow-wrap:anywhere}
+.report-download:hover{border-color:#65dbe8;background:#1a3440}
 
 /* Schematic symbols: LTspice-like bare bodies, labels and terminal interaction. */
 .component-name{fill:#e5edf1!important;font-size:13px;font-weight:600}
@@ -101,6 +119,10 @@ body.canvas-expanded .expanded-tools{position:absolute;z-index:3;top:10px;right:
   .channel-controls{flex-wrap:wrap}
   .channel-row{flex:1 1 100%;grid-template-columns:45px minmax(50px,1fr) 50px}
   .channel-row span{grid-column:2/-1}
+  .readings,.report-downloads{grid-template-columns:minmax(0,1fr)}
+  .reading-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #generateReportImages{font-size:17px}
+  #reportExportStatus{font-size:13px}
   .canvas-panel-tab{top:46px;transform:none;padding:8px 6px;font-size:10px}
   body.canvas-expanded .canvas-heading{align-items:center;flex-wrap:nowrap}
   body.canvas-expanded .canvas-actions{justify-content:flex-end}

@@ -379,6 +379,10 @@ import voltageAsy from './symbols/voltage.asy?raw';
     const modelCards = { ...BUILTIN_MODELS, ...(circuit.models || {}) };
     return makeNetlist({ circuit, analysis: analysisType, transient: { stop: $('tranStop').value, step: $('tranStep').value }, modelCards });
   }
+  function transientKey(netlist) {
+    const probes = circuit.components.filter(part => part.type === 'PROBE').map(part => [String(part.id), part.name]);
+    return JSON.stringify({ netlist, probes, stop: $('tranStop').value, step: $('tranStep').value });
+  }
   function selectedAnalysis() { return document.querySelector('[data-tab].active')?.dataset.tab || 'dc'; }
   function refreshNetlist() {
     try { const { netlist, graph } = graphAndCards(); $('netlistText').textContent = netlist; lastGraph = graph; }
@@ -439,6 +443,7 @@ import voltageAsy from './symbols/voltage.asy?raw';
         else for (let index = 0; index < samples; index++) rows[index][node] = values[index];
       }
       const data = { result, rows, probes, graph, valuesByNode, analysis: analysisType, netlist, info, errors };
+      if (analysisType === 'transient') data.transientKey = transientKey(netlist);
       if (analysisType === 'dc') renderDc(data);
       else { lastRun = data; renderScope(); renderTransient(); }
       lastRun = data; lastGraph = graph; return data;
@@ -475,56 +480,117 @@ import voltageAsy from './symbols/voltage.asy?raw';
     const times = lastRun.rows.map(row => row.time);
     return { id: selectedId, probe, node, coupling, values, times, metrics: measureWave(values, times), rawMetrics: measureWave(raw, times) };
   }
-  function drawChart(canvas, channelData, { exportMode = false } = {}) {
-    const ctx = canvas.getContext('2d'), width = canvas.width, height = canvas.height;
+  function formatAxisVoltage(value) {
+    const magnitude = Math.abs(value);
+    if (!magnitude) return '0 V';
+    if (magnitude >= 1) return `${Number(value.toPrecision(3))} V`;
+    if (magnitude >= 1e-3) return `${Number((value * 1e3).toPrecision(3))} mV`;
+    if (magnitude >= 1e-6) return `${Number((value * 1e6).toPrecision(3))} µV`;
+    return `${Number(value.toPrecision(3))} V`;
+  }
+  function drawChart(canvas, channelData, { exportMode = false, title = '' } = {}) {
+    const rect = canvas.getBoundingClientRect();
+    const logicalWidth = exportMode ? 2800 : Math.max(320, Math.round(rect.width || 1400));
+    const logicalHeight = exportMode ? 1760 : Math.max(480, Math.round(logicalWidth < 700 ? 500 : logicalWidth * .6286));
+    const ratio = exportMode ? 1 : Math.min(2, window.devicePixelRatio || 1), width = logicalWidth, height = logicalHeight;
+    canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio);
+    const ctx = canvas.getContext('2d'); ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
     ctx.clearRect(0, 0, width, height); ctx.fillStyle = '#09141a'; ctx.fillRect(0, 0, width, height);
-    const pad = { l: exportMode ? 130 : 88, r: exportMode ? 110 : 88, t: exportMode ? 105 : 34, b: exportMode ? 115 : 55 };
-    const plotW = width - pad.l - pad.r, plotH = height - pad.t - pad.b;
-    ctx.font = `${exportMode ? 22 : 13}px system-ui`; ctx.fillStyle = '#e9f1f5'; ctx.fillText(exportMode ? 'Osciloscópio · simulação ngspice' : 'Tensão em função do tempo', pad.l, exportMode ? 40 : 18);
-    if (!channelData.some(Boolean)) { ctx.fillStyle = '#9eafbb'; ctx.fillText('Execute a análise transiente e escolha probes para exibir curvas.', pad.l, pad.t + 30); return; }
-    const first = channelData.find(Boolean); const x0 = Math.min(...first.times.filter(Number.isFinite)), x1 = Math.max(...first.times.filter(Number.isFinite));
-    if (!Number.isFinite(x0) || !Number.isFinite(x1) || x1 <= x0) return;
-    ctx.strokeStyle = '#263b47'; ctx.lineWidth = 1;
-    for (let i = 0; i <= 10; i++) { const x = pad.l + plotW * i / 10; ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, pad.t + plotH); ctx.stroke(); }
-    for (let i = 0; i <= 8; i++) { const y = pad.t + plotH * i / 8; ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + plotW, y); ctx.stroke(); }
-    ctx.strokeStyle = '#8ba0ab'; ctx.beginPath(); ctx.rect(pad.l, pad.t, plotW, plotH); ctx.stroke();
-    ctx.textAlign = 'center'; ctx.fillStyle = '#c5d1d7';
-    for (let i = 0; i <= 10; i++) { const time = x0 + (x1 - x0) * i / 10, label = formatTime(time); ctx.fillText(label, pad.l + plotW * i / 10, pad.t + plotH + (exportMode ? 34 : 20)); }
-    ctx.fillText('Tempo (s)', pad.l + plotW / 2, height - (exportMode ? 38 : 12));
-    ctx.textAlign = 'left';
-    const colors = ['#f2c96a', '#65dbe8'];
-    channelData.forEach((channel, index) => {
-      if (!channel) return;
-      const finite = channel.values.filter(Number.isFinite); if (!finite.length) return;
-      let min = Math.min(...finite), max = Math.max(...finite); if (min === max) { const padY = Math.max(Math.abs(min) * .05, 1e-3); min -= padY; max += padY; }
-      const range = max - min, color = colors[index];
-      ctx.strokeStyle = color; ctx.lineWidth = exportMode ? 4 : 2.5; ctx.beginPath(); let started = false;
-      for (let i = 0; i < channel.values.length; i++) {
-        const value = channel.values[i], time = channel.times[i]; if (!Number.isFinite(value) || !Number.isFinite(time)) continue;
-        const x = pad.l + (time - x0) / (x1 - x0) * plotW, y = pad.t + (max - value) / range * plotH;
+    const scale = exportMode ? 2 : 1, colors = ['#f2c96a', '#65dbe8'];
+    const active = channelData.map((channel, slot) => channel ? { channel, slot } : null).filter(Boolean);
+    const paired = active.length > 1, left = (paired ? 142 : 112) * scale, right = (paired ? 142 : 38) * scale;
+    const top = (90 + active.length * 25) * scale, footer = (exportMode ? 180 : 72) * scale;
+    const plotBottom = height - footer, plotW = width - left - right, plotH = plotBottom - top;
+    const titleText = title || (exportMode ? 'Osciloscópio · análise transiente ngspice' : 'Osciloscópio · tensão em função do tempo');
+    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; ctx.fillStyle = '#f2f6f8';
+    ctx.font = `700 ${25 * scale}px system-ui, sans-serif`;
+    ctx.fillText(titleText, left, 32 * scale, width - left - right);
+    if (!active.length) {
+      ctx.font = `${18 * scale}px system-ui, sans-serif`; ctx.fillStyle = '#b5c3cc';
+      ctx.fillText('Execute uma análise transiente e selecione probes para exibir curvas.', left, top + 28 * scale);
+      return;
+    }
+    const first = active[0].channel, finiteTimes = first.times.filter(Number.isFinite);
+    const x0 = Math.min(...finiteTimes), x1 = Math.max(...finiteTimes);
+    if (!Number.isFinite(x0) || !Number.isFinite(x1) || x1 <= x0 || plotW <= 0 || plotH <= 0) {
+      ctx.font = `${18 * scale}px system-ui, sans-serif`; ctx.fillStyle = '#ff9e93'; ctx.fillText('Dados de tempo inválidos; nenhuma imagem foi exportada.', left, top + 30 * scale); return;
+    }
+    active.forEach(({ channel, slot }, row) => {
+      const y = (62 + row * 25) * scale, color = colors[slot];
+      ctx.strokeStyle = color; ctx.lineWidth = 3 * scale; ctx.beginPath(); ctx.moveTo(left, y - 5 * scale); ctx.lineTo(left + 27 * scale, y - 5 * scale); ctx.stroke();
+      ctx.fillStyle = color; ctx.font = `600 ${16 * scale}px system-ui, sans-serif`; ctx.textAlign = 'left';
+      const side = paired ? (slot === 0 ? 'escala à esquerda' : 'escala à direita') : 'escala à esquerda';
+      ctx.fillText(`CH${slot + 1} = ${channel.probe.name} · Acoplamento ${channel.coupling} · ${side}`, left + 37 * scale, y, width - left - right - 37 * scale);
+    });
+    const channels = active.map(({ channel, slot }) => {
+      const finite = channel.values.filter(Number.isFinite);
+      if (!finite.length) return null;
+      let min = Math.min(...finite), max = Math.max(...finite);
+      if (min === max) { const margin = Math.max(Math.abs(min) * .02, 1e-3); min -= margin; max += margin; }
+      const padding = (max - min) * .06;
+      return { channel, slot, min: min - padding, max: max + padding, color: colors[slot] };
+    });
+    if (channels.some(item => !item)) {
+      ctx.font = `${18 * scale}px system-ui, sans-serif`; ctx.fillStyle = '#ff9e93'; ctx.fillText('Um canal não contém valores de tensão válidos.', left, top + 30 * scale); return;
+    }
+    ctx.strokeStyle = '#27404d'; ctx.lineWidth = 1 * scale;
+    const xTicks = width < 700 ? 5 : 10, yTicks = 5;
+    for (let i = 0; i <= xTicks; i++) { const x = left + plotW * i / xTicks; ctx.beginPath(); ctx.moveTo(x, top); ctx.lineTo(x, plotBottom); ctx.stroke(); }
+    for (let i = 0; i <= yTicks; i++) { const y = top + plotH * i / yTicks; ctx.beginPath(); ctx.moveTo(left, y); ctx.lineTo(left + plotW, y); ctx.stroke(); }
+    ctx.strokeStyle = '#aab9c1'; ctx.lineWidth = 1.5 * scale; ctx.strokeRect(left, top, plotW, plotH);
+    ctx.font = `500 ${15 * scale}px system-ui, sans-serif`; ctx.fillStyle = '#d5dfe4'; ctx.textBaseline = 'top';
+    ctx.textAlign = 'center';
+    for (let i = 0; i <= xTicks; i++) {
+      const time = x0 + (x1 - x0) * i / xTicks, x = left + plotW * i / xTicks;
+      ctx.fillText(formatTime(time), x, plotBottom + 8 * scale, Math.max(34 * scale, plotW / xTicks));
+    }
+    ctx.textBaseline = 'alphabetic'; ctx.font = `600 ${17 * scale}px system-ui, sans-serif`; ctx.fillStyle = '#e2eaf0';
+    ctx.fillText('Tempo (s)', left + plotW / 2, plotBottom + 52 * scale);
+    channels.forEach((item, index) => {
+      const { channel, slot, min, max, color } = item, side = paired && slot === 1 ? 'right' : 'left';
+      ctx.fillStyle = color; ctx.font = `500 ${14 * scale}px system-ui, sans-serif`; ctx.textBaseline = 'middle';
+      ctx.textAlign = side === 'left' ? 'right' : 'left';
+      for (let tick = 0; tick <= yTicks; tick++) {
+        const value = max - (max - min) * tick / yTicks, y = top + plotH * tick / yTicks;
+        const x = side === 'left' ? left - 10 * scale : left + plotW + 10 * scale;
+        ctx.fillText(formatAxisVoltage(value), x, y, (side === 'left' ? left - 20 * scale : right - 20 * scale));
+      }
+      const labelX = side === 'left' ? 24 * scale : width - 24 * scale;
+      ctx.save(); ctx.translate(labelX, top + plotH / 2); ctx.rotate(-Math.PI / 2);
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = `650 ${16 * scale}px system-ui, sans-serif`;
+      ctx.fillText(`CH${slot + 1} ${channel.probe.name} · Tensão (V)`, 0, 0); ctx.restore();
+      ctx.strokeStyle = color; ctx.lineWidth = (exportMode ? 3 : 2.5) * scale; ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.beginPath();
+      let started = false, length = Math.min(channel.values.length, channel.times.length);
+      for (let point = 0; point < length; point++) {
+        const value = channel.values[point], time = channel.times[point];
+        if (!Number.isFinite(value) || !Number.isFinite(time)) { started = false; continue; }
+        const x = left + (time - x0) / (x1 - x0) * plotW, y = top + (max - value) / (max - min) * plotH;
         if (started) ctx.lineTo(x, y); else { ctx.moveTo(x, y); started = true; }
       }
       ctx.stroke();
-      ctx.fillStyle = color; ctx.font = `${exportMode ? 20 : 11}px system-ui`; ctx.fillText(`${index + 1}: ${channel.probe.name} · ${channel.coupling} · ${(range / 8).toPrecision(3)} V/div`, pad.l + 8, pad.t + 20 + index * (exportMode ? 30 : 17));
-      ctx.textAlign = 'right'; ctx.fillStyle = color; ctx.font = `${exportMode ? 17 : 10}px system-ui`;
-      for (let t = 0; t <= 4; t++) { const value = max - range * t / 4; ctx.fillText(`${value.toPrecision(3)} V`, pad.l + plotW + pad.r - 4, pad.t + plotH * t / 4 + 4); }
-      ctx.textAlign = 'left';
       if (exportMode) {
-        const m = channel.metrics || measureWave(channel.values, channel.times);
-        const f = m.frequency ? `${(m.frequency / 1000).toPrecision(4)} kHz medidos` : '';
-        ctx.fillStyle = color; ctx.font = '16px system-ui';
-        ctx.fillText(`CH${index + 1} ${channel.probe.name} · Vmax ${m.max.toPrecision(5)} V · Vmin ${m.min.toPrecision(5)} V · Vpp ${m.vpp.toPrecision(5)} V · Vp ${m.peak.toPrecision(5)} V · média ${m.mean.toPrecision(5)} V${f ? ` · ${f}` : ''}`, pad.l + 8, 75 + index * 23);
+        const metrics = channel.metrics || measureWave(channel.values, channel.times), rowY = plotBottom + (104 + index * 25) * scale;
+        ctx.fillStyle = color; ctx.font = `550 ${14 * scale}px system-ui, sans-serif`; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+        const frequency = metrics.frequency ? `f ${formatFrequency(metrics.frequency)} (medida)` : `f —`;
+        const line = `CH${slot + 1} ${channel.probe.name} (${channel.coupling}): Vmáx ${formatAxisVoltage(metrics.max)}  ·  Vmín ${formatAxisVoltage(metrics.min)}  ·  Vpp ${formatAxisVoltage(metrics.vpp)}  ·  Vp ${formatAxisVoltage(metrics.peak)}  ·  Média ${formatAxisVoltage(metrics.mean)}  ·  ${frequency}`;
+        ctx.fillText(line, left, rowY, width - left - right);
       }
     });
-    ctx.textAlign = 'left';
+    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
   }
   function formatTime(seconds) {
     if (!Number.isFinite(seconds)) return '—';
     const abs = Math.abs(seconds);
-    if (abs >= 1) return `${seconds.toFixed(2)}s`;
-    if (abs >= 1e-3) return `${(seconds * 1e3).toPrecision(3)}m`;
-    if (abs >= 1e-6) return `${(seconds * 1e6).toPrecision(3)}µ`;
-    return `${(seconds * 1e9).toPrecision(3)}n`;
+    if (abs >= 1) return `${Number(seconds.toPrecision(3))} s`;
+    if (abs >= 1e-3) return `${Number((seconds * 1e3).toPrecision(3))} ms`;
+    if (abs >= 1e-6) return `${Number((seconds * 1e6).toPrecision(3))} µs`;
+    return `${Number((seconds * 1e9).toPrecision(3))} ns`;
+  }
+  function formatFrequency(hertz) {
+    if (!Number.isFinite(hertz)) return '—';
+    if (hertz >= 1e6) return `${Number((hertz / 1e6).toPrecision(4))} MHz`;
+    if (hertz >= 1e3) return `${Number((hertz / 1e3).toPrecision(4))} kHz`;
+    return `${Number(hertz.toPrecision(4))} Hz`;
   }
   function renderScope() { drawChart($('scope'), [activeChannelData(1), activeChannelData(2)]); renderReadings(); }
   function renderTransient() {
@@ -539,20 +605,76 @@ import voltageAsy from './symbols/voltage.asy?raw';
     const host = $('readings'); host.replaceChildren();
     [activeChannelData(1), activeChannelData(2)].forEach((channel, index) => {
       if (!channel) return;
-      const m = channel.metrics, chip = document.createElement('div'); chip.className = 'reading'; chip.style.color = index ? '#65dbe8' : '#f2c96a';
-      const freq = m.frequency ? `${(m.frequency / 1000).toPrecision(4)} kHz (medida)` : `${parseSpiceNumber(circuit.components.find(part => String(part.id) === channel.id)?.freq, NaN) / 1000} kHz (configurada)`;
-      chip.innerHTML = `<b>CH${index + 1} · ${esc(channel.probe.name)} · ${channel.coupling}</b><br>Vmax ${m.max.toPrecision(5)} V · Vmin ${m.min.toPrecision(5)} V · Vpp ${m.vpp.toPrecision(5)} V · Vp ${m.peak.toPrecision(5)} V · média ${m.mean.toPrecision(5)} V · ${esc(freq)}`;
+      const m = channel.metrics, chip = document.createElement('article'); chip.className = `reading channel-reading channel-${index + 1}`;
+      const source = circuit.components.find(part => part.type === 'VSIN' && Number(parseSpiceNumber(part.amp, 0)) !== 0);
+      const freq = m.frequency ? `${formatFrequency(m.frequency)} medida` : source ? `${formatFrequency(parseSpiceNumber(source.freq, NaN))} configurada` : '—';
+      chip.innerHTML = `<h3>CH${index + 1} · ${esc(channel.probe.name)} · ${channel.coupling}</h3><dl class="reading-grid"><div><dt>Vmax</dt><dd>${esc(formatAxisVoltage(m.max))}</dd></div><div><dt>Vmin</dt><dd>${esc(formatAxisVoltage(m.min))}</dd></div><div><dt>Vpp</dt><dd>${esc(formatAxisVoltage(m.vpp))}</dd></div><div><dt>Vp</dt><dd>${esc(formatAxisVoltage(m.peak))}</dd></div><div><dt>Média</dt><dd>${esc(formatAxisVoltage(m.mean))}</dd></div><div><dt>Frequência</dt><dd>${esc(freq)}</dd></div></dl>`;
       host.append(chip);
     });
   }
-  function exportPng(source) {
+  let reportObjectUrls = [];
+  function releaseReportUrls() { for (const url of reportObjectUrls) URL.revokeObjectURL(url); reportObjectUrls = []; }
+  function reportChannel(data, probeName, coupling) {
+    const probe = data.probes.find(part => part.name.toUpperCase() === probeName.toUpperCase());
+    if (!probe) throw new Error(`O probe ${probeName} não está disponível no circuito atual.`);
+    const node = data.graph.node(`${probe.id}:0`), raw = node === '0' ? data.rows.map(() => 0) : data.rows.map(row => row[node]);
+    if (!raw.length || !raw.some(Number.isFinite)) throw new Error(`O transiente não retornou valores válidos para ${probeName}.`);
+    const times = data.rows.map(row => row.time), values = applyCoupling(raw, coupling);
+    return { id: String(probe.id), probe, node, coupling, values, times, metrics: measureWave(values, times), rawMetrics: measureWave(raw, times) };
+  }
+  function chartBlob(channels, title) {
+    const canvas = document.createElement('canvas'); drawChart(canvas, channels, { exportMode: true, title });
+    return new Promise((resolve, reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('O navegador não conseguiu criar o PNG.')), 'image/png'));
+  }
+  async function exportPng(source) {
     const channels = source === 'scope' ? [activeChannelData(1), activeChannelData(2)] : (() => {
       if (!lastRun || lastRun.analysis !== 'transient') return [null, null];
       const all = lastRun.probes.slice(0, 2).map(probe => { const node = lastRun.graph.node(`${probe.id}:0`), raw = node === '0' ? lastRun.rows.map(() => 0) : lastRun.rows.map(row => row[node]), times = lastRun.rows.map(row => row.time); return { probe, node, coupling: 'DC', values: raw, times, metrics: measureWave(raw, times) }; }); return [all[0] || null, all[1] || null];
     })();
     if (!channels.some(Boolean)) { setStatus('Rode uma análise transiente antes de exportar o gráfico.', 'error'); return; }
-    const canvas = document.createElement('canvas'); canvas.width = 2800; canvas.height = 1120; drawChart(canvas, channels, { exportMode: true });
-    const link = document.createElement('a'); link.download = source === 'scope' ? 'osciloscopio.png' : 'transiente.png'; link.href = canvas.toDataURL('image/png'); link.click();
+    try {
+      const blob = await chartBlob(channels, source === 'scope' ? 'Osciloscópio · exportação' : 'Análise transiente · exportação');
+      const link = document.createElement('a'); link.download = source === 'scope' ? 'osciloscopio.png' : 'transiente.png'; link.href = URL.createObjectURL(blob); link.click();
+      setTimeout(() => URL.revokeObjectURL(link.href), 60000);
+    } catch (error) { setStatus(`Não foi possível exportar o gráfico: ${error.message}`, 'error'); }
+  }
+  async function generateReportImages() {
+    const button = $('generateReportImages'), status = $('reportExportStatus'), downloads = $('reportDownloads');
+    button.disabled = true; downloads.replaceChildren(); releaseReportUrls();
+    try {
+      let data = lastRun, current = false;
+      if (data?.analysis === 'transient') {
+        try { current = data.transientKey === transientKey(graphAndCards('transient').netlist); } catch { current = false; }
+      }
+      if (!current) {
+        status.textContent = 'Executando análise transiente no ngspice com os parâmetros atuais…';
+        data = await runSpice('transient');
+      } else status.textContent = 'Usando a última análise transiente válida do circuito atual…';
+      if (!data || data.analysis !== 'transient') throw new Error('Não há resultado transiente válido para exportar.');
+      const A = reportChannel(data, 'A', 'AC'), B = reportChannel(data, 'B', 'AC'), C = reportChannel(data, 'C', 'AC');
+      const Bdc = reportChannel(data, 'B', 'DC'), Cdc = reportChannel(data, 'C', 'DC');
+      const reports = [
+        { title: '1. Pontos A e C — Acoplamento AC', filename: '01_A_C_AC.png', channels: [A, C] },
+        { title: '2. Pontos B e C — Acoplamento AC', filename: '02_B_C_AC.png', channels: [B, C] },
+        { title: '3. Ponto B — Acoplamento DC', filename: '03_B_DC.png', channels: [Bdc, null] },
+        { title: '4. Ponto C — Acoplamento DC', filename: '04_C_DC.png', channels: [Cdc, null] }
+      ];
+      const artifacts = [];
+      for (const report of reports) artifacts.push({ ...report, blob: await chartBlob(report.channels, report.title) });
+      for (const [index, artifact] of artifacts.entries()) {
+        const url = URL.createObjectURL(artifact.blob); reportObjectUrls.push(url);
+        const link = document.createElement('a'); link.href = url; link.download = artifact.filename; link.textContent = `${index + 1}. Baixar ${artifact.filename}`; link.className = 'report-download';
+        downloads.append(link);
+      }
+      const links = [...downloads.querySelectorAll('a')];
+      for (const link of links) { link.click(); await new Promise(resolve => setTimeout(resolve, 300)); }
+      status.textContent = 'Quatro imagens PNG geradas. Os downloads foram iniciados; os links permanecem disponíveis abaixo.';
+      setStatus('Relatório pronto: quatro PNGs exportados da análise transiente do ngspice.');
+    } catch (error) {
+      status.textContent = `Falha na geração. Nenhuma imagem parcial foi mantida: ${error.message}`;
+      setStatus(`Não gerei as imagens do relatório: ${error.message}`, 'error');
+      downloads.replaceChildren(); releaseReportUrls();
+    } finally { button.disabled = false; }
   }
 
   function updateTbjTools() {
@@ -632,6 +754,7 @@ import voltageAsy from './symbols/voltage.asy?raw';
   };
   $('tbjExample').onclick = loadTbjPreset; $('rectifierExample').onclick = loadRectifier; $('run').onclick = simulate;
   $('adjustV1').onclick = adjustV1; $('adjustVsig').onclick = adjustVsig;
+  $('generateReportImages').onclick = generateReportImages;
   $('deleteSelected').onclick = deleteSelected;
   $('clearWires').onclick = () => { if (!circuit.wires.length) return; checkpoint(); circuit.wires = []; lastRun = null; renderAll(); renderProperties(); };
   $('undo').onclick = () => restoreSnapshot(history, redoHistory); $('redo').onclick = () => restoreSnapshot(redoHistory, history);

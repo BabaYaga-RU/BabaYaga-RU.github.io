@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#101923">
   <title>Simulador analógico | Laboratório</title>
-  <script type="module" crossorigin src="./assets/index-BghStmaY.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-B1SqtvuN.css">
+  <script type="module" crossorigin src="./assets/index-DyKDzY2N.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DcEgtpF3.css">
 </head>
 <body data-mode="analog">
   <header class="topbar">
@@ -75,15 +75,20 @@
         <div class="run-controls"><label>Tempo total <input id="tranStop" value="2m" aria-label="Tempo total da análise transiente"></label><label>Passo máximo <input id="tranStep" value="2u" aria-label="Passo máximo da análise transiente"></label><button id="run" class="primary run-button">▶ Simular</button></div>
       </div>
       <section id="dcPanel" class="analysis-view" role="tabpanel"><div class="result-summary" id="dcSummary">Rode a análise para preencher as medidas deste circuito.</div><div class="table-scroll"><table id="dcTable"><thead><tr><th>Probe</th><th>Nó</th><th>Tensão DC</th></tr></thead><tbody></tbody></table></div></section>
-      <section id="transientPanel" class="analysis-view" role="tabpanel" hidden><canvas id="transientPlot" width="1400" height="520" aria-label="Gráfico de análise transiente"></canvas><button id="exportTransientPng">Exportar PNG do transiente</button></section>
+      <section id="transientPanel" class="analysis-view" role="tabpanel" hidden><canvas id="transientPlot" width="1400" height="880" aria-label="Gráfico de análise transiente"></canvas><button id="exportTransientPng">Exportar PNG do transiente</button></section>
       <section id="scopePanel" class="analysis-view" role="tabpanel" hidden>
         <div class="channel-controls">
           <label class="channel-row channel-one">Canal 1<select id="probe1"></select><select id="coupling1" aria-label="Acoplamento do canal 1"><option>DC</option><option>AC</option></select><span>Escala automática independente</span></label>
           <label class="channel-row channel-two">Canal 2<select id="probe2"></select><select id="coupling2" aria-label="Acoplamento do canal 2"><option>DC</option><option>AC</option></select><span>Escala automática independente</span></label>
           <button id="exportScopePng">Exportar PNG (alta resolução)</button>
         </div>
-        <canvas id="scope" width="1400" height="520" aria-label="Osciloscópio de dois canais"></canvas>
+        <canvas id="scope" width="1400" height="880" aria-label="Osciloscópio de dois canais"></canvas>
         <div id="readings" class="readings"></div>
+        <div class="report-export">
+          <button id="generateReportImages" type="button">Gerar 4 imagens do relatório</button>
+          <p id="reportExportStatus" role="status" aria-live="polite">Usa a última análise transiente válida; se necessário, executa uma antes de exportar.</p>
+          <div id="reportDownloads" class="report-downloads" aria-label="Downloads das imagens do relatório"></div>
+        </div>
       </section>
       <details class="netlist-box"><summary>Netlist SPICE e diagnóstico</summary><div class="netlist-actions"><span id="modelStatus">BC548C interno carregado</span><button id="copyNetlist">Copiar netlist</button></div><pre id="netlistText">Carregue ou monte um circuito; o netlist aparecerá aqui.</pre><details id="technicalDetails"><summary>Saída técnica completa do ngspice</summary><pre id="technicalOutput">Ainda não houve execução.</pre></details></details>
       <details class="local-saves"><summary>Circuitos salvos neste navegador</summary><div id="savedList" class="saved-list"></div></details>
