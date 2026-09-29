@@ -71,3 +71,6 @@ body[data-mode="digital"] .report-output{background:#f2faf5;color:#294d3d;border
 body[data-mode="digital"] .report-downloads a{background:#f5faf7;color:#246145;border-color:#a8cbb7}
 body[data-mode="digital"] svg#circuit #grid path{stroke:#e1e7ec!important;stroke-width:.8!important}
 body[data-mode="digital"] .component .inversion-bubble{fill:#f9fbfc;stroke:#536b79;stroke-width:1.7}
+
+body[data-mode="digital"] .component-body.constant-source{fill:#fff;stroke:#344c5e;stroke-width:2.2}
+body[data-mode="digital"] .constant-value{fill:#203743;font-size:17px;font-weight:800;pointer-events:none}
