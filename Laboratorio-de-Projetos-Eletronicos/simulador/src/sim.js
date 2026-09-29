@@ -14,12 +14,13 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
   const paletteMeta = Object.fromEntries(paletteItems.map(([type, name]) => [type, { name }]));
   const pinNames = { R: ['1', '2'], C: ['1', '2'], D: ['A', 'K'], VDC: ['+', '−'], VSIN: ['+', '−'], NPN: ['C', 'B', 'E'], GND: ['0'], PROBE: ['V'], LABEL: ['nó'], JUNCTION: ['N', 'E', 'S', 'W'] };
   const symbols = {
-    R: 'M0 36H30l8-12 10 24 10-24 10 24 10-24 10 24 8-12h32',
+    // LTspice standard resistor body, normalized to the editor's 128-unit pins.
+    R: 'M0 36H13L26 12 51 60 77 12 102 60 115 36H128',
     C: 'M0 36H54m0-24v48m14-48v48m0-24h60',
     D: 'M0 36h42m0-20 32 20-32 20zm32-20v40m0-20h54',
-    NPN: 'M0 36H48M48 11V61M48 19L86 11H128M48 53L86 61H128M74 55l-7-3 2 8',
+    NPN: 'M0 36H32M32 12V60M32 24L128 0M32 48L128 72M70 47L82 60L69 63',
     VSIN: 'M49 36c6-18 12-18 18 0s12 18 18 0',
-    VDC: 'M64 18v14m-7-7h14m-7 15v14m-7-7h14',
+    VDC: 'M50 29v14M43 36h14M77 36h14',
     GND: 'M64 0v20m-20 0h40m-32 9h24m-16 9h8',
     PROBE: 'M0 36H34L62 8',
     LED: 'M12 36h24m28 0h24m-34-15 20 15-20 15zm20-15v30m11-34 10-10m-4 12 4-12-12 4m12 28 10 10m-2-12 2 12-12-2',
@@ -42,11 +43,15 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
   function pinLocal(part, index) {
     if (part.type === 'GND') return [64, 0];
     if (part.type === 'PROBE' || part.type === 'LABEL') return [0, 36];
-    if (part.type === 'NPN') return index === 0 ? [128, 11] : index === 1 ? [0, 36] : [128, 61];
+    if (part.type === 'NPN') return index === 0 ? [128, 0] : index === 1 ? [0, 36] : [128, 72];
     if (part.type === 'JUNCTION') return [[64, 0], [128, 64], [64, 128], [0, 64]][index];
     return index === 0 ? [0, 36] : [128, 36];
   }
   function componentTransform(part) { const angle = Number(part.rotation) || 0; return `translate(${part.x} ${part.y})${angle ? ` rotate(${angle} 64 36)` : ''}`; }
+  function symbolLabelPoint(x, y, angle) {
+    const radians = -(Number(angle) || 0) * Math.PI / 180, dx = x - 64, dy = y - 36;
+    return [64 + dx * Math.cos(radians) - dy * Math.sin(radians), 36 + dx * Math.sin(radians) + dy * Math.cos(radians)];
+  }
   function pinWorld(part, index) {
     const [x, y] = pinLocal(part, index), angle = (Number(part.rotation) || 0) * Math.PI / 180;
     const dx = x - 64, dy = y - 36;
@@ -82,7 +87,10 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
     } else if (part.type === 'NPN') {
       g.append(svgEl('path', { class: 'symbol-line', d: symbols.NPN }));
     } else if (part.type === 'R' || part.type === 'C' || part.type === 'D' || part.type === 'VSIN' || part.type === 'VDC') {
-      g.append(svgEl('path', { class: 'symbol-line', d: symbols[part.type] }));
+      if (part.type === 'VDC') {
+        g.append(svgEl('path', { class: 'symbol-line source-plus', d: 'M50 29v14M43 36h14' }));
+        g.append(svgEl('path', { class: 'symbol-line source-minus', d: 'M77 36h14' }));
+      } else g.append(svgEl('path', { class: 'symbol-line', d: symbols[part.type] }));
     } else if (part.type === 'LED') {
       g.append(svgEl('path', { class: 'symbol-line', d: symbols.LED }));
       g.append(svgEl('circle', { class: 'led-lens', cx: 50, cy: 36, r: 8, fill: part.level ? '#67e7aa' : '#24333d' }));
@@ -110,10 +118,20 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
     return pins(part)[index] || '';
   }
   function renderPart(part) {
-    const g = svgEl('g', { class: `component${selection === part.id ? ' selected' : ''}`, transform: componentTransform(part), 'data-id': part.id, tabindex: 0 });
+    const g = svgEl('g', { class: `component${Number(part.rotation) ? ' rotated' : ''}${selection === part.id ? ' selected' : ''}`, transform: componentTransform(part), 'data-id': part.id, tabindex: 0 });
     g.append(partSymbol(part));
     const angle = Number(part.rotation) || 0;
+    if (part.type === 'VDC' && angle) {
+      g.querySelector('.source-plus')?.setAttribute('transform', `rotate(${-angle} 50 36)`);
+      g.querySelector('.source-minus')?.setAttribute('transform', `rotate(${-angle} 84 36)`);
+    }
+    if (angle && !['GND', 'JUNCTION'].includes(part.type)) {
+      const [x, y] = symbolLabelPoint(100, 30, angle);
+      const value = part.type === 'R' ? part.resistance : part.type === 'C' ? part.capacitance : part.type === 'VDC' ? `${part.voltage} V` : part.type === 'VSIN' ? `${part.amp} Vp @ ${part.freq} Hz` : part.type === 'NPN' ? part.model : '';
+      g.append(svgEl('text', { class: 'rotated-label', x, y, 'text-anchor': 'start', transform: `rotate(${-angle} ${x} ${y})` }, [part.name, value].filter(Boolean).join('  ')));
+    }
     if (angle) for (const text of g.querySelectorAll('text')) {
+      if (text.classList.contains('rotated-label')) continue;
       const x = text.getAttribute('x') || 0, y = text.getAttribute('y') || 0;
       text.setAttribute('transform', `rotate(${-angle} ${x} ${y})`);
     }
@@ -162,7 +180,22 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
     path.addEventListener('click', event => { event.stopPropagation(); selection = wire.id; renderProperties(); renderWires(); });
     wiresLayer.append(path);
   }
-  function renderWires() { wiresLayer.replaceChildren(); circuit.wires.forEach(renderWire); }
+  function renderWires() {
+    wiresLayer.replaceChildren();
+    circuit.wires.forEach(renderWire);
+    const endpointCounts = new Map(), positions = new Map();
+    for (const wire of circuit.wires) for (const key of [wire.a, wire.b]) {
+      const [id, pinIndex] = key.split(':');
+      const part = circuit.components.find(item => String(item.id) === id);
+      if (!part) continue;
+      const p = pinWorld(part, Number(pinIndex)), coordinate = `${Math.round(p.x * 100) / 100},${Math.round(p.y * 100) / 100}`;
+      endpointCounts.set(coordinate, (endpointCounts.get(coordinate) || 0) + 1); positions.set(coordinate, p);
+    }
+    for (const [coordinate, count] of endpointCounts) if (count >= 3) {
+      const p = positions.get(coordinate);
+      wiresLayer.append(svgEl('circle', { class: 'node-dot', cx: p.x, cy: p.y, r: 4, 'pointer-events': 'none' }));
+    }
+  }
   function renderParts() { partsLayer.replaceChildren(); circuit.components.forEach(renderPart); }
   function renderAll() { renderWires(); renderParts(); populateChannels(); refreshNetlist(); updateTbjTools(); renderProperties(); }
   function worldPoint(event) { const p = svg.createSVGPoint(); p.x = event.clientX; p.y = event.clientY; const ctm = svg.getScreenCTM(); if (!ctm) return { x: 0, y: 0 }; const out = p.matrixTransform(ctm.inverse()); return { x: out.x, y: out.y }; }
@@ -207,7 +240,7 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
   svg.addEventListener('drop', event => { event.preventDefault(); $('canvasWrap').classList.remove('drop-active'); const type = event.dataTransfer.getData('text/plain'); if (paletteMeta[type]) { const p = worldPoint(event); addPart(type, p.x - 64, p.y - 36); } });
   svg.addEventListener('pointerdown', event => {
     const pin = event.target.closest?.('.pin');
-    if (pin) { wireStart = pin.dataset.pin; selection = null; const p = worldPoint(event); previewLayer.replaceChildren(svgEl('path', { class: 'wire-preview', d: `M${p.x} ${p.y}L${p.x} ${p.y}` })); $('canvasTip').textContent = `Ligando terminal ${pin.querySelector('title')?.textContent || ''}… solte no terminal de destino`; event.preventDefault(); return; }
+    if (pin) { wireStart = pin.dataset.pin; selection = null; for (const candidate of partsLayer.querySelectorAll('.pin')) if (candidate.dataset.pin !== wireStart) candidate.classList.add('connectable'); const p = worldPoint(event); previewLayer.replaceChildren(svgEl('path', { class: 'wire-preview', d: `M${p.x} ${p.y}L${p.x} ${p.y}` })); $('canvasTip').textContent = `Ligando terminal ${pin.querySelector('title')?.textContent || ''}… solte no terminal destacado`; event.preventDefault(); return; }
     if (event.button === 1 || spaceDown) { beginPan(event); return; }
     if (event.button === 0 && (event.target === svg || event.target.id === 'gridBackground' || event.target === scene)) { selection = null; renderProperties(); beginPan(event); svg.style.cursor = 'grabbing'; }
   });
@@ -222,11 +255,11 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
       const target = event.target.closest?.('.pin')?.dataset.pin;
       if (target && target !== wireStart) { checkpoint(); circuit.wires.push({ id: `w${Date.now()}${Math.random().toString(16).slice(2, 6)}`, a: wireStart, b: target }); selection = null; lastRun = null; renderAll(); setStatus('Ligação criada. Terminais compartilhados formam o mesmo nó.'); }
       else setStatus('Para concluir, solte sobre um terminal destacado.');
-      wireStart = null; previewLayer.replaceChildren(); $('canvasTip').textContent = 'Arraste de um terminal para outro; espaço + arraste move a folha.';
+      wireStart = null; partsLayer.querySelectorAll('.pin.connectable').forEach(candidate => candidate.classList.remove('connectable')); previewLayer.replaceChildren(); $('canvasTip').textContent = 'Arraste de um terminal para outro; espaço + arraste move a folha.';
     }
     pan = null; svg.style.cursor = spaceDown ? 'grab' : '';
   });
-  svg.addEventListener('pointercancel', () => { activeDrag = null; wireStart = null; pan = null; previewLayer.replaceChildren(); svg.style.cursor = spaceDown ? 'grab' : ''; });
+  svg.addEventListener('pointercancel', () => { activeDrag = null; wireStart = null; partsLayer.querySelectorAll('.pin.connectable').forEach(candidate => candidate.classList.remove('connectable')); pan = null; previewLayer.replaceChildren(); svg.style.cursor = spaceDown ? 'grab' : ''; });
   svg.addEventListener('wheel', event => { event.preventDefault(); zoom(event.deltaY < 0 ? .85 : 1.18, worldPoint(event)); }, { passive: false });
   window.addEventListener('keydown', event => {
     if (event.key === 'Escape' && document.body.classList.contains('canvas-expanded')) { event.preventDefault(); setCanvasExpanded(false); return; }

@@ -4,6 +4,21 @@
 .local-saves{font-size:11px}
 .local-saves summary{cursor:pointer;color:var(--cyan);padding:7px}
 
+/* Schematic symbols: LTspice-like bare bodies, labels and terminal interaction. */
+.component-name{fill:#e5edf1!important;font-size:13px;font-weight:600}
+.component-value{fill:#9fb0bb!important;font-size:12px}
+.component.rotated .component-name,.component.rotated .component-value{display:none}
+.rotated-label{fill:#e5edf1!important;font-size:13px;font-weight:600;pointer-events:none}
+.source-wave{fill:none;stroke:#e8f0f4;stroke-width:2.5;stroke-linecap:round;pointer-events:none}
+.label-flag{fill:none;stroke:#64d8ea;stroke-width:1.7;stroke-linejoin:miter}
+.label-name{fill:#64d8ea;font-size:13px;font-weight:700}
+.probe-tip{fill:#0b151d;stroke:#69dfad;stroke-width:2}
+.pin{fill:transparent;stroke:transparent;stroke-width:1;cursor:crosshair;r:9;pointer-events:all}
+.pin:hover{fill:#f1c66a;stroke:#101923;stroke-width:2;r:7}
+.pin.connectable{fill:#64d8ea;stroke:#10202a;stroke-width:2;r:7}
+.pin.connectable:hover{fill:#fff;stroke:#64d8ea;stroke-width:3;r:9}
+.node-dot{fill:#f1c66a;stroke:#101923;stroke-width:1.5}
+
 /* Desktop: give the workbench the viewport. Results live below it in page flow. */
 body:not(.canvas-expanded){display:block;height:auto;min-height:100vh;overflow-x:hidden;overflow-y:auto}
 body:not(.canvas-expanded)>.toolbar{height:auto;min-height:48px;flex-wrap:wrap;white-space:normal;overflow:visible;row-gap:5px}

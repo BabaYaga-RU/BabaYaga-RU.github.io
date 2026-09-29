@@ -164,19 +164,19 @@ export function createTbjPreset() {
   const probeB = add('PROBE', 'B', 626, 310);
   const probeC = add('PROBE', 'C', 1056, 278);
   const label = (name, x, y) => add('LABEL', name, x, y);
-  const la1 = label('A', 560, 504), la2 = label('A', 386, 564), la3 = label('A', 460, 434);
-  const lb1 = label('B', 526, 310), lb2 = label('B', 676, 310), lb3 = label('B', 386, 310);
-  const lc1 = label('C', 986, 278), lc2 = label('C', 920, 285);
+  const la1 = label('A', 560, 504);
+  const lb1 = label('B', 526, 310);
+  const lc1 = label('C', 986, 278);
   const wires = [];
   const connect = (a, ai, b, bi, points = undefined) => wires.push({ id: `w${wires.length + 1}`, a: `${a.id}:${ai}`, b: `${b.id}:${bi}`, ...(points ? { points } : {}) });
-  connect(v2, 0, rc, 0); connect(rc, 1, q, 0); connect(rc, 1, probeC, 0); connect(rc, 1, lc1, 0); connect(q, 0, lc2, 0);
+  connect(v2, 0, rc, 0); connect(rc, 1, q, 0); connect(rc, 1, probeC, 0); connect(rc, 1, lc1, 0);
   connect(v2, 1, ground, 0, [[1140, 164], [1140, 850]]);
   connect(q, 2, ground, 0, [[920, 371], [920, 850]]);
   connect(v1, 1, ground, 0, [[300, 164], [300, 850]]);
   connect(vsig, 1, ground, 0, [[220, 850]]);
   connect(r2, 1, ground, 0);
-  connect(v1, 0, rb, 0); connect(rb, 1, q, 1); connect(rb, 1, rsig, 0); connect(rb, 1, probeB, 0); connect(rb, 1, lb1, 0); connect(q, 1, lb2, 0); connect(rsig, 0, lb3, 0);
-  connect(rsig, 1, r1, 1); connect(rsig, 1, r2, 0); connect(rsig, 1, probeA, 0); connect(rsig, 1, la3, 0); connect(r1, 1, la1, 0); connect(r2, 0, la2, 0);
+  connect(v1, 0, rb, 0); connect(rb, 1, q, 1); connect(rb, 1, rsig, 0); connect(rb, 1, probeB, 0); connect(rb, 1, lb1, 0);
+  connect(rsig, 1, r1, 1); connect(rsig, 1, r2, 0); connect(rsig, 1, probeA, 0); connect(r1, 1, la1, 0);
   connect(vsig, 0, r1, 0);
   return { version: 3, mode: 'analog', components, wires, models: {}, nextId: id, frequency: 1000, settings: { transient: { stop: '5m', step: '2u' }, channels: [] } };
 }
