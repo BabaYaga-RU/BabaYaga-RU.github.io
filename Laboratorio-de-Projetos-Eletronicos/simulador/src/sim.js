@@ -554,7 +554,7 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
   $('copyNetlist').onclick = async () => { try { await navigator.clipboard.writeText($('netlistText').textContent); setStatus('Netlist copiado.'); } catch { $('technicalDetails').open = true; setStatus('Selecione e copie o netlist manualmente.', 'error'); } };
   $('toggleLibrary').onclick = event => { $('layout').classList.toggle('library-collapsed'); event.currentTarget.setAttribute('aria-expanded', String(!$('layout').classList.contains('library-collapsed'))); };
   $('toggleProperties').onclick = event => { $('layout').classList.toggle('properties-collapsed'); event.currentTarget.setAttribute('aria-expanded', String(!$('layout').classList.contains('properties-collapsed'))); };
-  $('toggleResults').onclick = event => { $('layout').classList.toggle('results-collapsed'); event.currentTarget.setAttribute('aria-expanded', String(!$('layout').classList.contains('results-collapsed'))); };
+  $('toggleResults').onclick = event => { document.body.classList.toggle('results-collapsed'); event.currentTarget.setAttribute('aria-expanded', String(!document.body.classList.contains('results-collapsed'))); };
 
   let enteredNativeFullscreen = false;
   function setCanvasExpanded(expanded, syncFullscreen = true) {
@@ -587,7 +587,7 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
   });
   for (const [id, label, shown] of [['toggleLibrary', 'biblioteca', 'library-collapsed'], ['toggleProperties', 'propriedades', 'properties-collapsed'], ['toggleResults', 'resultados', 'results-collapsed']]) {
     const button = $(id), update = () => {
-      const collapsed = $('layout').classList.contains(shown);
+      const collapsed = label === 'resultados' ? document.body.classList.contains('results-collapsed') : $('layout').classList.contains(shown);
       button.textContent = `${collapsed ? 'Mostrar' : 'Ocultar'} ${label}`;
       button.setAttribute('aria-expanded', String(!collapsed));
     };

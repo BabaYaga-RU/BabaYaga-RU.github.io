@@ -4,14 +4,19 @@
 .local-saves{font-size:11px}
 .local-saves summary{cursor:pointer;color:var(--cyan);padding:7px}
 
-/* Give the schematic the remaining viewport instead of reserving dead grid tracks. */
-.layout{height:calc(100dvh - 114px);min-height:0;grid-template-columns:205px minmax(0,1fr) 250px;grid-template-rows:minmax(0,1fr) minmax(180px,min(30vh,300px));grid-template-areas:"library canvas properties" "results results results"}
-.library{grid-area:library}.canvas-panel{grid-area:canvas;min-height:0}.properties-panel{grid-area:properties}.results-panel{grid-area:results;min-height:0}
-.layout.library-collapsed{grid-template-columns:0 minmax(0,1fr) 250px}
-.layout.properties-collapsed{grid-template-columns:205px minmax(0,1fr) 0}
-.layout.library-collapsed.properties-collapsed{grid-template-columns:minmax(0,1fr);grid-template-areas:"canvas" "results"}
-.layout.results-collapsed{grid-template-rows:minmax(0,1fr) 0}
-.layout.library-collapsed.properties-collapsed.results-collapsed{grid-template-rows:minmax(0,1fr);grid-template-areas:"canvas"}
+/* Desktop: give the workbench the viewport. Results live below it in page flow. */
+body:not(.canvas-expanded){display:block;height:auto;min-height:100vh;overflow-x:hidden;overflow-y:auto}
+body:not(.canvas-expanded)>.toolbar{height:auto;min-height:48px;flex-wrap:wrap;white-space:normal;overflow:visible;row-gap:5px}
+body:not(.canvas-expanded)>.layout{display:flex;width:auto;height:calc(100vh - 130px);min-height:450px;margin:0 8px;padding:8px;gap:8px;overflow:visible;align-items:stretch}
+@supports(height:100dvh){body:not(.canvas-expanded)>.layout{height:calc(100dvh - 130px)}}
+body:not(.canvas-expanded)>.layout>.library{flex:0 0 205px;min-width:0}
+body:not(.canvas-expanded)>.layout>.canvas-panel{flex:1 1 0%;width:auto;min-width:0;min-height:0}
+body:not(.canvas-expanded)>.layout>.properties-panel{flex:0 0 250px;min-width:0}
+body:not(.canvas-expanded)>.layout.library-collapsed>.library,body:not(.canvas-expanded)>.layout.properties-collapsed>.properties-panel{display:none}
+body:not(.canvas-expanded)>.layout.library-collapsed>.canvas-panel,body:not(.canvas-expanded)>.layout.properties-collapsed>.canvas-panel{flex:1 1 0%;width:auto}
+body:not(.canvas-expanded)>.results-panel{display:flex;width:auto;height:auto;min-height:0;margin:8px;border-radius:7px;overflow:visible}
+body:not(.canvas-expanded).results-collapsed>#resultsPanel{display:none}
+
 .canvas-heading{flex:0 0 auto;min-height:46px;height:auto;gap:8px}
 .canvas-heading>div:first-child{flex:1 1 140px}
 .canvas-actions{flex:0 1 auto;flex-wrap:wrap;justify-content:flex-end}
@@ -19,33 +24,41 @@
 .canvas-actions .expand-canvas{background:#174a3c;border-color:#39a982;color:#cffff0;font-weight:750}
 .canvas-tip{max-width:min(90%,850px);font-size:10px;line-height:1.4}
 .expanded-tools{display:none}
+
+/* Expanded mode removes all surrounding UI and uses the physical viewport. */
 body.canvas-expanded{overflow:hidden}
 body.canvas-expanded .topbar,body.canvas-expanded>.toolbar{display:none}
-body.canvas-expanded #layout{position:fixed;z-index:9999;inset:0;width:auto;height:auto;min-height:0;margin:0;padding:0;gap:0;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);grid-template-areas:"canvas"}
+body.canvas-expanded #layout{position:fixed;z-index:9999;inset:0;display:flex;flex-direction:column;width:auto;height:auto;min-height:0;margin:0;padding:0;gap:0;overflow:hidden}
 body.canvas-expanded #libraryPanel,body.canvas-expanded #propertiesPanel,body.canvas-expanded #resultsPanel{display:none!important}
-body.canvas-expanded #canvasPanel{grid-area:canvas;grid-column:1;grid-row:1;min-width:0;min-height:0;border:0;border-radius:0}
+body.canvas-expanded #canvasPanel{flex:1 1 auto;width:100%;min-width:0;min-height:0;border:0;border-radius:0}
 body.canvas-expanded .canvas-heading{min-height:50px;padding:6px 12px;background:#101923}
 body.canvas-expanded .canvas-actions .expand-canvas{background:#70352f;border-color:#e07e70;color:#fff0ec}
 body.canvas-expanded .expanded-tools{position:absolute;z-index:3;top:10px;right:12px;display:flex;align-items:center;gap:6px;max-width:calc(100% - 24px);padding:6px;background:#101c25ed;border:1px solid #405867;border-radius:7px;box-shadow:0 4px 18px #0008}
 .expanded-tools button{border:1px solid #506675;background:#1a2a35;color:var(--text);border-radius:5px;padding:7px 10px;font:650 12px system-ui;cursor:pointer}
 .expanded-tools button:hover{border-color:var(--cyan);color:var(--cyan)}
 .expanded-tools span{padding:0 5px;color:#d0dce2;font-size:11px}
+
 @media(max-width:1000px) and (min-width:681px){
-  .layout{height:calc(100dvh - 114px);grid-template-columns:minmax(145px,18vw) minmax(0,1fr) minmax(175px,21vw);grid-template-rows:minmax(0,1fr) minmax(170px,28vh);grid-template-areas:"library canvas properties" "results results results"}
-  .layout.properties-collapsed{grid-template-columns:minmax(145px,18vw) minmax(0,1fr) 0}
-  .layout.library-collapsed{grid-template-columns:0 minmax(0,1fr) minmax(175px,21vw)}
-  .layout.library-collapsed.properties-collapsed{grid-template-columns:minmax(0,1fr);grid-template-areas:"canvas" "results"}
+  body:not(.canvas-expanded)>.layout{height:calc(100vh - 130px)}
+  @supports(height:100dvh){body:not(.canvas-expanded)>.layout{height:calc(100dvh - 130px)}}
+  body:not(.canvas-expanded)>.layout>.library{flex-basis:clamp(140px,18vw,180px)}
+  body:not(.canvas-expanded)>.layout>.properties-panel{flex-basis:clamp(170px,21vw,220px)}
 }
+
 @media(max-width:680px){
-  body{display:flex;flex-direction:column;width:100%;height:100dvh;min-height:0;overflow:hidden}
-  .topbar{flex:none;min-height:54px;padding:5px 9px;gap:5px 9px}
-  .toolbar{flex:none;max-height:86px;min-height:42px;padding:4px 7px;gap:4px}
-  .toolbar button{padding:6px 7px;font-size:10px}
-  .layout{display:flex;flex:1 1 auto;flex-direction:column;width:100%;height:auto;min-height:0;gap:5px;padding:5px;overflow:hidden}
-  .library{order:1;flex:0 1 20vh;max-height:22vh;min-height:0}
-  .canvas-panel{order:2;flex:1 1 0%;width:100%;height:auto;min-height:140px}
-  .properties-panel{order:3;flex:0 1 19vh;max-height:20vh;min-height:0}
-  .results-panel{order:4;flex:0 1 32vh;max-height:33vh;min-height:0}
+  body:not(.canvas-expanded){display:block;width:100%;height:auto;min-height:100vh;overflow-x:hidden;overflow-y:auto}
+  body:not(.canvas-expanded)>.topbar{height:auto;min-height:54px;padding:5px 9px;gap:5px 9px}
+  body:not(.canvas-expanded)>.toolbar{max-height:none;min-height:42px;padding:4px 7px;gap:4px}
+  body:not(.canvas-expanded)>.toolbar button{padding:6px 7px;font-size:10px}
+  body:not(.canvas-expanded)>.layout{display:grid;width:auto;height:auto;min-height:0;margin:0 5px;padding:5px;gap:5px;overflow:visible;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(65vh,1fr) auto;grid-template-areas:"library" "canvas" "properties";align-content:start}
+  body:not(.canvas-expanded)>.layout>.library{grid-area:library;max-height:24vh}
+  body:not(.canvas-expanded)>.layout>.canvas-panel{grid-area:canvas;width:auto;height:auto;min-height:65vh}
+  body:not(.canvas-expanded)>.layout>.properties-panel{grid-area:properties;max-height:34vh}
+  body:not(.canvas-expanded)>.layout.library-collapsed{grid-template-rows:0 minmax(65vh,1fr) auto}
+  body:not(.canvas-expanded)>.layout.properties-collapsed{grid-template-rows:auto minmax(65vh,1fr) 0}
+  body:not(.canvas-expanded)>.layout.library-collapsed.properties-collapsed{grid-template-rows:minmax(65vh,1fr);grid-template-areas:"canvas"}
+  body:not(.canvas-expanded)>.layout.library-collapsed>.library,body:not(.canvas-expanded)>.layout.properties-collapsed>.properties-panel{display:none}
+  body:not(.canvas-expanded)>.results-panel{margin:5px}
   .palette{grid-template-columns:repeat(2,minmax(0,1fr))}
   .results-top{align-items:flex-start;flex-direction:column}
   .run-controls{width:100%;justify-content:space-between}
@@ -57,7 +70,6 @@ body.canvas-expanded .expanded-tools{position:absolute;z-index:3;top:10px;right:
   .channel-controls{flex-wrap:wrap}
   .channel-row{flex:1 1 100%;grid-template-columns:45px minmax(50px,1fr) 50px}
   .channel-row span{grid-column:2/-1}
-  .layout.library-collapsed,.layout.properties-collapsed,.layout.results-collapsed{grid-template-columns:minmax(0,1fr);grid-template-rows:none}
   body.canvas-expanded .canvas-heading{align-items:center;flex-wrap:nowrap}
   body.canvas-expanded .canvas-actions{justify-content:flex-end}
   body.canvas-expanded .expanded-tools{right:8px;top:8px;flex-wrap:wrap;gap:4px;max-width:calc(100% - 16px)}
