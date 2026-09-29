@@ -1,4 +1,9 @@
 import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetlist, measureWave, parseModelCards, parseSpiceNumber } from './spice-core.js';
+import resAsy from './symbols/res.asy?raw';
+import capAsy from './symbols/cap.asy?raw';
+import diodeAsy from './symbols/diode.asy?raw';
+import npnAsy from './symbols/npn.asy?raw';
+import voltageAsy from './symbols/voltage.asy?raw';
 
 (() => {
   'use strict';
@@ -30,6 +35,34 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
     NOT: 'M25 12L87 36 25 60Z',
     JUNCTION: 'M64 0v64m-64 0h128m-64 0v64'
   };
+  const asySources = { R: resAsy, C: capAsy, D: diodeAsy, NPN: npnAsy, VDC: voltageAsy, VSIN: voltageAsy };
+  function asyPoint(type, x, y) {
+    if (type === 'R') return [22 + .75 * y, 48 - .75 * x];
+    if (type === 'C' || type === 'D') return [40 + .75 * y, 48 - .75 * x];
+    if (type === 'VDC' || type === 'VSIN') return [22 + .75 * y, 36 - .75 * x];
+    return [40 + .75 * x, .75 * y];
+  }
+  function drawAsy(type, host) {
+    const source = asySources[type];
+    if (!source) return;
+    for (const line of source.split(/\r?\n/)) {
+      let match = line.match(/^LINE\s+\S+\s+(-?\d+)\s+(-?\d+)\s+(-?\d+)\s+(-?\d+)/);
+      if (match) {
+        if (type === 'VSIN' && (line.includes(' -8 36 ') || line.includes(' -8 76 ') || line.includes(' 0 28 '))) continue;
+        const [, x1, y1, x2, y2] = match.map(Number);
+        const [ax, ay] = asyPoint(type, x1, y1), [bx, by] = asyPoint(type, x2, y2);
+        host.append(svgEl('line', { class: 'symbol-line ltspice-symbol', x1: ax, y1: ay, x2: bx, y2: by }));
+        continue;
+      }
+      match = line.match(/^CIRCLE\s+\S+\s+(-?\d+)\s+(-?\d+)\s+(-?\d+)\s+(-?\d+)/);
+      if (match) {
+        const [, x1, y1, x2, y2] = match.map(Number);
+        const [ax, ay] = asyPoint(type, x1, y1), [bx, by] = asyPoint(type, x2, y2);
+        host.append(svgEl('ellipse', { class: 'symbol-line ltspice-symbol', cx: (ax + bx) / 2, cy: (ay + by) / 2, rx: Math.abs(bx - ax) / 2, ry: Math.abs(by - ay) / 2 }));
+      }
+    }
+    if (type === 'VSIN') host.append(svgEl('path', { class: 'source-wave', d: 'M52 36c4-10 8-10 12 0s8 10 12 0' }));
+  }
 
   let circuit = emptyCircuit(), selection = null, activeDrag = null, wireStart = null, pan = null, spaceDown = false, suppressPaletteClick = false;
   let view = { x: 0, y: 0, w: 1600, h: 1000 }, history = [], redoHistory = [], sim = null, lastRun = null, lastGraph = null, selectedModel = null;
@@ -43,7 +76,10 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
   function pinLocal(part, index) {
     if (part.type === 'GND') return [64, 0];
     if (part.type === 'PROBE' || part.type === 'LABEL') return [0, 36];
-    if (part.type === 'NPN') return index === 0 ? [128, 0] : index === 1 ? [0, 36] : [128, 72];
+    if (part.type === 'R') return index === 0 ? [34, 36] : [94, 36];
+    if (part.type === 'C' || part.type === 'D') return index === 0 ? [40, 36] : [88, 36];
+    if (part.type === 'VDC' || part.type === 'VSIN') return index === 0 ? [34, 36] : [94, 36];
+    if (part.type === 'NPN') return index === 0 ? [88, 0] : index === 1 ? [40, 36] : [88, 72];
     if (part.type === 'JUNCTION') return [[64, 0], [128, 64], [64, 128], [0, 64]][index];
     return index === 0 ? [0, 36] : [128, 36];
   }
@@ -70,12 +106,8 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
   }
   function partSymbol(part, mini = false) {
     const g = svgEl('g', { class: 'component-symbol' });
-    const yOffset = mini ? 0 : 0;
-    const circle = ['VDC', 'VSIN'].includes(part.type);
-    if (circle) {
-      g.append(svgEl('circle', { class: 'component-body', cx: 64, cy: 36, r: 24 }));
-      g.append(svgEl('path', { class: 'symbol-line source-leads', d: 'M0 36H40M88 36H128' }));
-    }
+    const nativeSymbol = Object.prototype.hasOwnProperty.call(asySources, part.type);
+    if (nativeSymbol) drawAsy(part.type, g);
     if (part.type === 'SW') g.append(svgEl('rect', { class: 'component-body', x: 30, y: 22, width: 68, height: 28, rx: 4 }));
     if (part.type === 'AND' || part.type === 'OR' || part.type === 'NOT') g.append(svgEl('path', { class: 'component-body', d: symbols[part.type] }));
     if (part.type === 'JUNCTION') g.append(svgEl('circle', { class: 'component-body', cx: 64, cy: 64, r: 7 }));
@@ -87,13 +119,7 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
       g.append(svgEl('circle', { class: 'probe-tip', cx: 65, cy: 7, r: 5 }));
     } else if (part.type === 'GND') {
       g.append(svgEl('path', { class: 'symbol-line', d: symbols.GND }));
-    } else if (part.type === 'NPN') {
-      g.append(svgEl('path', { class: 'symbol-line', d: symbols.NPN }));
-    } else if (part.type === 'R' || part.type === 'C' || part.type === 'D' || part.type === 'VSIN' || part.type === 'VDC') {
-      if (part.type === 'VDC') {
-        g.append(svgEl('path', { class: 'symbol-line source-plus', d: 'M50 29v14M43 36h14' }));
-        g.append(svgEl('path', { class: 'symbol-line source-minus', d: 'M77 36h14' }));
-      } else g.append(svgEl('path', { class: 'symbol-line', d: symbols[part.type] }));
+    } else if (nativeSymbol) {
     } else if (part.type === 'LED') {
       g.append(svgEl('path', { class: 'symbol-line', d: symbols.LED }));
       g.append(svgEl('circle', { class: 'led-lens', cx: 50, cy: 36, r: 8, fill: part.level ? '#67e7aa' : '#24333d' }));
@@ -102,8 +128,6 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
       g.append(svgEl('circle', { class: 'switch-contact', cx: 42, cy: 36, r: 4 }));
       g.append(svgEl('circle', { class: 'switch-contact', cx: 82, cy: 12, r: 4 }));
     }
-    if (part.type === 'VSIN') g.append(svgEl('path', { class: 'source-wave', d: 'M49 36c6-15 12-15 18 0s12 15 18 0' }));
-    if (part.type === 'VDC') g.append(svgEl('g', {}, null));
     if (part.type === 'AND' || part.type === 'OR' || part.type === 'NOT') {
       const label = part.type;
       g.append(svgEl('text', { class: 'gate-label', x: 62, y: 40, 'text-anchor': 'middle' }, label));
@@ -124,10 +148,6 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
     const g = svgEl('g', { class: `component${Number(part.rotation) ? ' rotated' : ''}${selection === part.id ? ' selected' : ''}`, transform: componentTransform(part), 'data-id': part.id, tabindex: 0 });
     g.append(partSymbol(part));
     const angle = Number(part.rotation) || 0;
-    if (part.type === 'VDC' && angle) {
-      g.querySelector('.source-plus')?.setAttribute('transform', `rotate(${-angle} 50 36)`);
-      g.querySelector('.source-minus')?.setAttribute('transform', `rotate(${-angle} 84 36)`);
-    }
     if (angle && !['GND', 'JUNCTION'].includes(part.type)) {
       const [x, y] = symbolLabelPoint(100, 30, angle);
       const value = part.type === 'R' ? part.resistance : part.type === 'C' ? part.capacitance : part.type === 'VDC' ? `${part.voltage} V` : part.type === 'VSIN' ? `${part.amp} Vp @ ${part.freq} Hz` : part.type === 'NPN' ? part.model : '';
@@ -209,10 +229,9 @@ import { applyCoupling, BUILTIN_MODELS, buildNetGraph, createTbjPreset, makeNetl
     for (const [type, label, hint] of paletteItems) {
       const button = document.createElement('button'); button.className = 'part'; button.draggable = true; button.title = hint;
       const icon = document.createElementNS(NS, 'svg'); icon.setAttribute('viewBox', '0 0 128 72'); icon.classList.add('part-icon');
-      if (['VDC', 'VSIN'].includes(type)) icon.append(svgEl('circle', { class: 'component-body', cx: 64, cy: 36, r: 24 }));
+      if (Object.prototype.hasOwnProperty.call(asySources, type)) drawAsy(type, icon);
       if (['AND', 'OR', 'NOT'].includes(type)) icon.append(svgEl('path', { class: 'component-body', d: symbols[type] }));
-      if (type === 'R' || type === 'C' || type === 'D' || type === 'NPN' || type === 'GND' || type === 'PROBE' || type === 'VSIN') icon.append(svgEl('path', { class: 'symbol-line', d: symbols[type] }));
-      if (type === 'VDC') icon.append(svgEl('path', { class: 'symbol-line', d: symbols.VDC }));
+      if (type === 'GND' || type === 'PROBE') icon.append(svgEl('path', { class: 'symbol-line', d: symbols[type] }));
       if (type === 'LABEL') { icon.append(svgEl('path', { class: 'label-flag', d: 'M0 36H28V20H78L92 36 78 52H28V36' })); icon.append(svgEl('text', { class: 'label-name', x: 55, y: 40, 'text-anchor': 'middle' }, 'Nó')); }
       if (type === 'JUNCTION') icon.append(svgEl('path', { class: 'symbol-line', d: symbols.JUNCTION }));
       if (type === 'PROBE') icon.append(svgEl('circle', { class: 'probe-tip', cx: 65, cy: 7, r: 5 }));
