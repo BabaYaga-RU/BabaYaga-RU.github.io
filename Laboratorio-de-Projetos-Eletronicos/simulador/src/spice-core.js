@@ -150,8 +150,8 @@ export function createTbjPreset() {
   // Match the lab drawing: vertical bias/load resistors, a horizontal input
   // resistor, collector above the NPN, and one shared ground rail at the bottom.
   const vertical = { rotation: 90 };
-  const v1 = add('VDC', 'V1', 406, 64, { voltage: 0, rotation: 180 });
-  const v2 = add('VDC', 'V2', 766, 64, { voltage: 10 });
+  const v1 = add('VDC', 'V1', 406, 64, { voltage: 0, rotation: 180, symbolStyle: 'supply' });
+  const v2 = add('VDC', 'V2', 766, 64, { voltage: 10, symbolStyle: 'supply' });
   const rb = add('R', 'RB', 436, 139, { resistance: '100k', ...vertical });
   const rc = add('R', 'RC', 736, 139, { resistance: '10k', ...vertical });
   const q = add('NPN', 'Q1', 660, 284, { model: 'BC548C' });
@@ -170,9 +170,9 @@ export function createTbjPreset() {
   const wires = [];
   const connect = (a, ai, b, bi, points = undefined) => wires.push({ id: `w${wires.length + 1}`, a: `${a.id}:${ai}`, b: `${b.id}:${bi}`, ...(points ? { points } : {}) });
   connect(v2, 0, rc, 0); connect(rc, 1, q, 0, [[800, 284]]); connect(rc, 1, probeC, 0, [[800, 284]]); connect(rc, 1, lc1, 0, [[800, 284]]);
-  connect(v2, 1, ground, 0, [[930, 100], [930, 800], [500, 800]]);
+  connect(v2, 1, ground, 0, [[930, 100], [930, 800], [500, 800]]); wires[wires.length - 1].hidden = true;
   connect(q, 2, ground, 0, [[800, 356], [800, 800], [500, 800]]);
-  connect(v1, 1, ground, 0, [[330, 100], [330, 800], [500, 800]]);
+  connect(v1, 1, ground, 0, [[330, 100], [330, 800], [500, 800]]); wires[wires.length - 1].hidden = true;
   connect(vsig, 1, ground, 0, [[250, 800], [500, 800]]);
   connect(r2, 1, ground, 0);
   connect(v1, 0, rb, 0, [[500, 100]]);

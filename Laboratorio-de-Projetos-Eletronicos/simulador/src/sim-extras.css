@@ -3,6 +3,8 @@
 .saved-list button:hover{border-color:var(--cyan);color:var(--cyan)}
 .local-saves{font-size:11px}
 .local-saves summary{cursor:pointer;color:var(--cyan);padding:7px}
+.supply-dot{fill:#f1c66a;stroke:#101923;stroke-width:1.5;pointer-events:none}
+.supply-label{fill:#e5edf1!important;font-size:12px;font-weight:650}
 
 /* Side panels collapse completely; the canvas remains the expanding center. */
 .panel-heading>div{min-width:0}

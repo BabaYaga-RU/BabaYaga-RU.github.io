@@ -74,6 +74,9 @@ test('preset BC548C executes with correct Q C/B/E order and collector responds t
   for (const [name, rotation] of Object.entries({ V1: 180, V2: 0, RB: 90, RSIG: 90, R1: 0, R2: 90, VSIG: 90, RC: 90 })) {
     assert.equal(Number(circuit.components.find(part => part.name === name).rotation) || 0, rotation, `${name} orientation should match the lab layout`);
   }
+  assert.equal(circuit.components.find(part => part.name === 'V1').symbolStyle, 'supply');
+  assert.equal(circuit.components.find(part => part.name === 'V2').symbolStyle, 'supply');
+  assert.equal(circuit.wires.filter(wire => wire.hidden).length, 2, 'the DC supply return is implicit in the reference view');
   assert.match(BUILTIN_MODELS.BC548C, /^\.MODEL BC548C NPN\(/i);
   const { built: offNet, result: off } = await run(circuit);
   assert.match(offNet.netlist, /Q1 C B 0 BC548C/i);

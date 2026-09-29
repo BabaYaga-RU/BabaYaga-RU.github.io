@@ -107,7 +107,11 @@ import voltageAsy from './symbols/voltage.asy?raw';
   function partSymbol(part, mini = false) {
     const g = svgEl('g', { class: 'component-symbol' });
     const nativeSymbol = Object.prototype.hasOwnProperty.call(asySources, part.type);
-    if (nativeSymbol) drawAsy(part.type, g);
+    const supplySymbol = part.type === 'VDC' && part.symbolStyle === 'supply';
+    if (supplySymbol) {
+      const [x, y] = pinLocal(part, 0);
+      g.append(svgEl('circle', { class: 'supply-dot', cx: x, cy: y, r: 4.5 }));
+    } else if (nativeSymbol) drawAsy(part.type, g);
     if (part.type === 'SW') g.append(svgEl('rect', { class: 'component-body', x: 30, y: 22, width: 68, height: 28, rx: 4 }));
     if (part.type === 'AND' || part.type === 'OR' || part.type === 'NOT') g.append(svgEl('path', { class: 'component-body', d: symbols[part.type] }));
     if (part.type === 'JUNCTION') g.append(svgEl('circle', { class: 'component-body', cx: 64, cy: 64, r: 7 }));
@@ -147,7 +151,13 @@ import voltageAsy from './symbols/voltage.asy?raw';
     const g = svgEl('g', { class: `component${Number(part.rotation) ? ' rotated' : ''}${selection === part.id ? ' selected' : ''}`, transform: componentTransform(part), 'data-id': part.id, tabindex: 0 });
     g.append(partSymbol(part));
     const angle = Number(part.rotation) || 0;
-    if (['VDC', 'VSIN'].includes(part.type)) {
+    if (part.type === 'VDC' && part.symbolStyle === 'supply') {
+      const [x, y, anchor] = part.name === 'V1' ? [78, 20, 'end'] : [48, 20, 'start'];
+      const [labelX, labelY] = symbolLabelPoint(x, y, angle);
+      const transform = angle ? `rotate(${-angle} ${labelX} ${labelY})` : undefined;
+      const label = part.name === 'V2' ? `${part.name} = ${part.voltage} V` : part.name;
+      g.append(svgEl('text', { class: 'rotated-label supply-label', x: labelX, y: labelY, 'text-anchor': anchor, ...(transform ? { transform } : {}) }, label));
+    } else if (['VDC', 'VSIN'].includes(part.type)) {
       let [x, y, anchor] = [100, 25, 'start'];
       if (angle === 180) [x, y, anchor] = [64, -5, 'middle'];
       else if (angle === 90) [x, y, anchor] = [-5, 36, 'end'];
@@ -191,6 +201,7 @@ import voltageAsy from './symbols/voltage.asy?raw';
     partsLayer.append(g);
   }
   function renderWire(wire) {
+    if (wire.hidden) return;
     const startPart = circuit.components.find(part => String(part.id) === String(wire.a).split(':')[0]);
     const endPart = circuit.components.find(part => String(part.id) === String(wire.b).split(':')[0]);
     if (!startPart || !endPart) return;
