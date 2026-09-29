@@ -4,6 +4,19 @@
 .local-saves{font-size:11px}
 .local-saves summary{cursor:pointer;color:var(--cyan);padding:7px}
 
+/* Side panels collapse completely; the canvas remains the expanding center. */
+.panel-heading>div{min-width:0}
+.panel-close{flex:none;border:1px solid #3a4c5a;background:#192630;color:var(--text);border-radius:5px;width:30px;height:28px;font:700 19px/1 system-ui;cursor:pointer}
+.panel-close:hover,.canvas-panel-tab:hover{border-color:var(--cyan);color:var(--cyan)}
+.canvas-wrap{flex:1 1 auto;min-width:0;min-height:0}
+.canvas-panel-tab{display:none;position:absolute;z-index:4;top:50%;transform:translateY(-50%);border:1px solid #49606e;background:#101c25ee;color:#e8eff4;padding:10px 8px;font:600 11px system-ui;cursor:pointer;box-shadow:0 2px 10px #0006}
+.panel-tab-left{left:0;border-radius:0 6px 6px 0}
+.panel-tab-right{right:0;border-radius:6px 0 0 6px}
+.layout.library-collapsed #reopenLibrary,.layout.properties-collapsed #reopenProperties{display:block}
+.canvas-actions #rotateSelected{border-color:#59616a;background:#252a30;color:#f2d28d}
+.canvas-actions #rotateSelected:disabled{opacity:.5;cursor:not-allowed}
+.rotation-field select{width:100%;border:1px solid #354957;border-radius:4px;padding:7px;background:#0b141c;color:var(--text);font:12px system-ui}
+
 /* Schematic symbols: LTspice-like bare bodies, labels and terminal interaction. */
 .component-name{fill:#e5edf1!important;font-size:13px;font-weight:600}
 .component-value{fill:#9fb0bb!important;font-size:12px}
@@ -45,6 +58,7 @@ body.canvas-expanded{overflow:hidden}
 body.canvas-expanded .topbar,body.canvas-expanded>.toolbar{display:none}
 body.canvas-expanded #layout{position:fixed;z-index:9999;inset:0;display:flex;flex-direction:column;width:auto;height:auto;min-height:0;margin:0;padding:0;gap:0;overflow:hidden}
 body.canvas-expanded #libraryPanel,body.canvas-expanded #propertiesPanel,body.canvas-expanded #resultsPanel{display:none!important}
+body.canvas-expanded .canvas-panel-tab{display:none!important}
 body.canvas-expanded #canvasPanel{flex:1 1 auto;width:100%;min-width:0;min-height:0;border:0;border-radius:0}
 body.canvas-expanded .canvas-heading{min-height:50px;padding:6px 12px;background:#101923}
 body.canvas-expanded .canvas-actions .expand-canvas{background:#70352f;border-color:#e07e70;color:#fff0ec}
@@ -85,6 +99,7 @@ body.canvas-expanded .expanded-tools{position:absolute;z-index:3;top:10px;right:
   .channel-controls{flex-wrap:wrap}
   .channel-row{flex:1 1 100%;grid-template-columns:45px minmax(50px,1fr) 50px}
   .channel-row span{grid-column:2/-1}
+  .canvas-panel-tab{top:46px;transform:none;padding:8px 6px;font-size:10px}
   body.canvas-expanded .canvas-heading{align-items:center;flex-wrap:nowrap}
   body.canvas-expanded .canvas-actions{justify-content:flex-end}
   body.canvas-expanded .expanded-tools{right:8px;top:8px;flex-wrap:wrap;gap:4px;max-width:calc(100% - 16px)}

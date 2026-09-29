@@ -18,7 +18,7 @@
     <button id="tbjExample" class="primary" title="Carrega o circuito da prática de transistor bipolar">Preset TBJ</button>
     <button id="rectifierExample" title="Carrega o exemplo de retificador">Retificador</button>
     <span class="separator"></span>
-    <button id="toggleLibrary" aria-expanded="true" aria-controls="libraryPanel">Ocultar biblioteca</button>
+    <button id="toggleLibrary" aria-expanded="true" aria-controls="libraryPanel">Ocultar componentes</button>
     <button id="toggleProperties" aria-expanded="true" aria-controls="propertiesPanel">Ocultar propriedades</button>
     <button id="toggleResults" aria-expanded="true" aria-controls="resultsPanel">Ocultar resultados</button>
     <span class="separator"></span>
@@ -33,13 +33,13 @@
 
   <main class="layout" id="layout">
     <aside class="library panel" id="libraryPanel">
-      <div class="panel-heading"><h2>Componentes</h2><span>Arraste para a folha</span></div>
+      <div class="panel-heading"><div><h2>Componentes</h2><span>Arraste para a folha</span></div><button class="panel-close" id="closeLibrary" type="button" aria-label="Recolher componentes" title="Recolher painel de componentes">‹</button></div>
       <div id="palette" class="palette"></div>
       <div class="quick-help"><b>Montagem</b><ol><li>Arraste um componente para a folha.</li><li>Arraste um terminal até outro terminal ou etiqueta.</li><li>Selecione uma peça para editar os valores.</li><li>Roda do mouse aproxima; espaço + arraste move a folha.</li></ol></div>
     </aside>
 
     <section class="canvas-panel panel" id="canvasPanel">
-      <div class="canvas-heading"><div><h2>Esquema</h2><span id="selectionHint">Solte componentes na grade ou clique na biblioteca</span></div><div class="canvas-actions"><button id="toggleCanvasExpanded" class="expand-canvas" aria-pressed="false" title="Expandir esquema para ocupar a viewport">⛶ Expandir esquema</button><button id="undo" title="Desfazer">↶</button><button id="redo" title="Refazer">↷</button><button id="clearWires">Apagar ligações</button><button id="deleteSelected">Excluir selecionado</button></div></div>
+      <div class="canvas-heading"><div><h2>Esquema</h2><span id="selectionHint">Solte componentes na grade ou clique na biblioteca</span></div><div class="canvas-actions"><button id="toggleCanvasExpanded" class="expand-canvas" aria-pressed="false" title="Expandir esquema para ocupar a viewport">⛶ Expandir esquema</button><button id="rotateSelected" type="button" aria-keyshortcuts="R" title="Girar componente selecionado em 90° (tecla R)">Girar 90° ↻</button><button id="undo" title="Desfazer">↶</button><button id="redo" title="Refazer">↷</button><button id="clearWires">Apagar ligações</button><button id="deleteSelected">Excluir selecionado</button></div></div>
       <div class="canvas-wrap" id="canvasWrap">
         <svg id="circuit" viewBox="0 0 1600 1000" role="application" aria-label="Canvas de montagem do circuito">
           <defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#273744" stroke-width="1"/></pattern></defs>
@@ -47,12 +47,14 @@
           <g id="scene"><g id="wires"></g><g id="parts"></g><g id="wirePreview"></g></g>
         </svg>
         <div class="expanded-tools" id="expandedTools" aria-label="Navegação do esquema"><button type="button" data-view="out" title="Diminuir zoom">−</button><button type="button" data-view="in" title="Aumentar zoom">+</button><button type="button" data-view="fit">Ajustar à tela</button><button type="button" data-view="reset">Resetar vista</button><span>Espaço + arraste move · roda do mouse dá zoom · Esc sai</span></div>
+        <button type="button" class="canvas-panel-tab panel-tab-left" id="reopenLibrary" aria-controls="libraryPanel" aria-label="Mostrar componentes">› Componentes</button>
+        <button type="button" class="canvas-panel-tab panel-tab-right" id="reopenProperties" aria-controls="propertiesPanel" aria-label="Mostrar propriedades">Propriedades ‹</button>
         <div id="canvasTip" class="canvas-tip">Arraste entre terminais para ligar · arraste no fundo para mover · roda do mouse dá zoom · use “Expandir esquema” para ocupar a tela</div>
       </div>
     </section>
 
     <aside class="properties-panel panel" id="propertiesPanel">
-      <div class="panel-heading"><h2>Propriedades</h2><span>Editar componente</span></div>
+      <div class="panel-heading"><div><h2>Propriedades</h2><span>Editar componente</span></div><button class="panel-close" id="closeProperties" type="button" aria-label="Recolher propriedades" title="Recolher painel de propriedades">›</button></div>
       <div id="properties" class="properties"><p class="empty-state">Selecione um componente ou uma ligação.</p></div>
       <div class="preset-tools" id="tbjTools" hidden>
         <h3>Prática TBJ · ajuste SPICE</h3>

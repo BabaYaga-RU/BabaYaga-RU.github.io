@@ -147,37 +147,38 @@ export function createTbjPreset() {
     components.push(part);
     return part;
   };
-  // Coordinates and 90-degree rotations follow the vertical resistor/source layout
-  // in the TBJ common-emitter laboratory diagram.
+  // Match the lab drawing: vertical bias/load resistors, a horizontal input
+  // resistor, collector above the NPN, and one shared ground rail at the bottom.
   const vertical = { rotation: 90 };
-  const v2 = add('VDC', 'V2', 986, 64, { voltage: 10, ...vertical });
-  const rc = add('R', 'RC', 986, 214, { resistance: '10k', ...vertical });
-  const q = add('NPN', 'Q1', 740, 310, { model: 'BC548C' });
-  const v1 = add('VDC', 'V1', 386, 64, { voltage: 0, ...vertical });
-  const rb = add('R', 'RB', 386, 214, { resistance: '100k', ...vertical });
-  const rsig = add('R', 'RSIG', 386, 374, { resistance: '10k', ...vertical });
-  const r2 = add('R', 'R2', 386, 634, { resistance: '100', ...vertical });
-  const vsig = add('VSIN', 'VSIG', 156, 634, { amp: 0, freq: 1000, offset: 0, ...vertical });
-  const r1 = add('R', 'R1', 271, 504, { resistance: '1k' });
-  const ground = add('GND', 'GND', 386, 850);
-  const probeA = add('PROBE', 'A', 486, 504);
-  const probeB = add('PROBE', 'B', 626, 310);
-  const probeC = add('PROBE', 'C', 1056, 278);
+  const v1 = add('VDC', 'V1', 406, 64, { voltage: 0, rotation: 180 });
+  const v2 = add('VDC', 'V2', 766, 64, { voltage: 10 });
+  const rb = add('R', 'RB', 436, 139, { resistance: '100k', ...vertical });
+  const rc = add('R', 'RC', 736, 139, { resistance: '10k', ...vertical });
+  const q = add('NPN', 'Q1', 660, 284, { model: 'BC548C' });
+  const rsig = add('R', 'RSIG', 436, 374, { resistance: '10k', ...vertical });
+  const r1 = add('R', 'R1', 286, 504, { resistance: '1k' });
+  const r2 = add('R', 'R2', 436, 574, { resistance: '100', ...vertical });
+  const vsig = add('VSIN', 'VSIG', 186, 584, { amp: 0, freq: 1000, offset: 0, ...vertical });
+  const ground = add('GND', 'GND', 436, 800);
+  const probeA = add('PROBE', 'A', 500, 504);
+  const probeB = add('PROBE', 'B', 500, 284);
+  const probeC = add('PROBE', 'C', 800, 248);
   const label = (name, x, y) => add('LABEL', name, x, y);
-  const la1 = label('A', 560, 504);
-  const lb1 = label('B', 526, 310);
-  const lc1 = label('C', 986, 278);
+  const la1 = label('A', 500, 504);
+  const lb1 = label('B', 500, 284);
+  const lc1 = label('C', 800, 248);
   const wires = [];
   const connect = (a, ai, b, bi, points = undefined) => wires.push({ id: `w${wires.length + 1}`, a: `${a.id}:${ai}`, b: `${b.id}:${bi}`, ...(points ? { points } : {}) });
-  connect(v2, 0, rc, 0); connect(rc, 1, q, 0); connect(rc, 1, probeC, 0); connect(rc, 1, lc1, 0);
-  connect(v2, 1, ground, 0, [[1140, 164], [1140, 850]]);
-  connect(q, 2, ground, 0, [[920, 371], [920, 850]]);
-  connect(v1, 1, ground, 0, [[300, 164], [300, 850]]);
-  connect(vsig, 1, ground, 0, [[220, 850]]);
+  connect(v2, 0, rc, 0); connect(rc, 1, q, 0, [[800, 284]]); connect(rc, 1, probeC, 0, [[800, 284]]); connect(rc, 1, lc1, 0, [[800, 284]]);
+  connect(v2, 1, ground, 0, [[930, 100], [930, 800], [500, 800]]);
+  connect(q, 2, ground, 0, [[800, 356], [800, 800], [500, 800]]);
+  connect(v1, 1, ground, 0, [[330, 100], [330, 800], [500, 800]]);
+  connect(vsig, 1, ground, 0, [[250, 800], [500, 800]]);
   connect(r2, 1, ground, 0);
-  connect(v1, 0, rb, 0); connect(rb, 1, q, 1); connect(rb, 1, rsig, 0); connect(rb, 1, probeB, 0); connect(rb, 1, lb1, 0);
-  connect(rsig, 1, r1, 1); connect(rsig, 1, r2, 0); connect(rsig, 1, probeA, 0); connect(r1, 1, la1, 0);
-  connect(vsig, 0, r1, 0);
+  connect(v1, 0, rb, 0, [[500, 100]]);
+  connect(rb, 1, q, 1, [[500, 320]]); connect(rb, 1, rsig, 0, [[500, 320]]); connect(rb, 1, probeB, 0, [[500, 320]]); connect(rb, 1, lb1, 0, [[500, 320]]);
+  connect(rsig, 1, r1, 1, [[500, 540]]); connect(rsig, 1, r2, 0, [[500, 540]]); connect(rsig, 1, probeA, 0, [[500, 540]]); connect(r1, 1, la1, 0, [[500, 540]]);
+  connect(vsig, 0, r1, 0, [[250, 540]]);
   return { version: 3, mode: 'analog', components, wires, models: {}, nextId: id, frequency: 1000, settings: { transient: { stop: '5m', step: '2u' }, channels: [] } };
 }
 

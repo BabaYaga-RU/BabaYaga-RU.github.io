@@ -112,8 +112,7 @@ import voltageAsy from './symbols/voltage.asy?raw';
     if (part.type === 'AND' || part.type === 'OR' || part.type === 'NOT') g.append(svgEl('path', { class: 'component-body', d: symbols[part.type] }));
     if (part.type === 'JUNCTION') g.append(svgEl('circle', { class: 'component-body', cx: 64, cy: 64, r: 7 }));
     if (part.type === 'LABEL') {
-      g.append(svgEl('path', { class: 'label-flag', d: 'M0 36H28V20H78L92 36 78 52H28V36' }));
-      g.append(svgEl('text', { class: 'label-name', x: 55, y: 40, 'text-anchor': 'middle' }, part.name || 'Nó'));
+      g.append(svgEl('text', { class: 'label-name', x: 8, y: 30, 'text-anchor': 'start' }, part.name || 'Nó'));
     } else if (part.type === 'PROBE') {
       g.append(svgEl('path', { class: 'symbol-line', d: 'M0 36H34L62 8' }));
       g.append(svgEl('circle', { class: 'probe-tip', cx: 65, cy: 7, r: 5 }));
@@ -133,7 +132,7 @@ import voltageAsy from './symbols/voltage.asy?raw';
       g.append(svgEl('text', { class: 'gate-label', x: 62, y: 40, 'text-anchor': 'middle' }, label));
       if (['NAND', 'NOR', 'XNOR'].includes(part.type)) g.append(svgEl('circle', { cx: 118, cy: 36, r: 5, fill: '#101923', stroke: '#e8f0f4', 'stroke-width': 2 }));
     }
-    if (!mini && part.type !== 'GND' && part.type !== 'JUNCTION') {
+    if (!mini && !['GND', 'JUNCTION', 'LABEL', 'PROBE', 'VDC', 'VSIN'].includes(part.type)) {
       const value = part.type === 'R' ? part.resistance : part.type === 'C' ? part.capacitance : part.type === 'VDC' ? `${part.voltage} V` : part.type === 'VSIN' ? `${part.amp} Vp · ${part.freq} Hz` : part.type === 'NPN' ? part.model : '';
       g.append(svgEl('text', { class: 'component-name', x: 64, y: part.type === 'LABEL' ? 71 : 86, 'text-anchor': 'middle' }, part.type === 'LABEL' ? '' : (part.name || '')));
       if (value) g.append(svgEl('text', { class: 'component-value', x: 64, y: 101, 'text-anchor': 'middle' }, String(value)));
@@ -148,7 +147,18 @@ import voltageAsy from './symbols/voltage.asy?raw';
     const g = svgEl('g', { class: `component${Number(part.rotation) ? ' rotated' : ''}${selection === part.id ? ' selected' : ''}`, transform: componentTransform(part), 'data-id': part.id, tabindex: 0 });
     g.append(partSymbol(part));
     const angle = Number(part.rotation) || 0;
-    if (angle && !['GND', 'JUNCTION'].includes(part.type)) {
+    if (['VDC', 'VSIN'].includes(part.type)) {
+      let [x, y, anchor] = [100, 25, 'start'];
+      if (angle === 180) [x, y, anchor] = [64, -5, 'middle'];
+      else if (angle === 90) [x, y, anchor] = [-5, 36, 'end'];
+      const [nameX, nameY] = symbolLabelPoint(x, y, angle);
+      const [valueX, valueY] = symbolLabelPoint(x, y + 14, angle);
+      const counterRotate = angle ? `rotate(${-angle} ${nameX} ${nameY})` : undefined;
+      g.append(svgEl('text', { class: 'rotated-label source-label', x: nameX, y: nameY, 'text-anchor': anchor, ...(counterRotate ? { transform: counterRotate } : {}) }, part.name || 'V'));
+      const value = part.type === 'VDC' ? `${part.voltage} V` : `${part.amp} Vp @ ${part.freq} Hz`;
+      const valueCounterRotate = angle ? `rotate(${-angle} ${valueX} ${valueY})` : undefined;
+      g.append(svgEl('text', { class: 'rotated-label source-label-value', x: valueX, y: valueY, 'text-anchor': anchor, ...(valueCounterRotate ? { transform: valueCounterRotate } : {}) }, value));
+    } else if (angle && !['GND', 'JUNCTION'].includes(part.type)) {
       const [x, y] = symbolLabelPoint(100, 30, angle);
       const value = part.type === 'R' ? part.resistance : part.type === 'C' ? part.capacitance : part.type === 'VDC' ? `${part.voltage} V` : part.type === 'VSIN' ? `${part.amp} Vp @ ${part.freq} Hz` : part.type === 'NPN' ? part.model : '';
       g.append(svgEl('text', { class: 'rotated-label', x, y, 'text-anchor': 'start', transform: `rotate(${-angle} ${x} ${y})` }, [part.name, value].filter(Boolean).join('  ')));
@@ -232,7 +242,7 @@ import voltageAsy from './symbols/voltage.asy?raw';
       if (Object.prototype.hasOwnProperty.call(asySources, type)) drawAsy(type, icon);
       if (['AND', 'OR', 'NOT'].includes(type)) icon.append(svgEl('path', { class: 'component-body', d: symbols[type] }));
       if (type === 'GND' || type === 'PROBE') icon.append(svgEl('path', { class: 'symbol-line', d: symbols[type] }));
-      if (type === 'LABEL') { icon.append(svgEl('path', { class: 'label-flag', d: 'M0 36H28V20H78L92 36 78 52H28V36' })); icon.append(svgEl('text', { class: 'label-name', x: 55, y: 40, 'text-anchor': 'middle' }, 'Nó')); }
+      if (type === 'LABEL') icon.append(svgEl('text', { class: 'label-name', x: 8, y: 30 }, 'A'));
       if (type === 'JUNCTION') icon.append(svgEl('path', { class: 'symbol-line', d: symbols.JUNCTION }));
       if (type === 'PROBE') icon.append(svgEl('circle', { class: 'probe-tip', cx: 65, cy: 7, r: 5 }));
       if (type === 'GND') icon.append(svgEl('path', { class: 'symbol-line', d: symbols.GND }));
@@ -286,6 +296,7 @@ import voltageAsy from './symbols/voltage.asy?raw';
   window.addEventListener('keydown', event => {
     if (event.key === 'Escape' && document.body.classList.contains('canvas-expanded')) { event.preventDefault(); setCanvasExpanded(false); return; }
     if (event.code === 'Space' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { spaceDown = true; svg.style.cursor = 'grab'; event.preventDefault(); }
+    if (event.key.toLowerCase() === 'r' && selection && !event.ctrlKey && !event.metaKey && !/INPUT|TEXTAREA|SELECT|BUTTON/.test(document.activeElement.tagName)) { event.preventDefault(); rotateSelected(); }
     if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z') { event.preventDefault(); restoreSnapshot(event.shiftKey ? redoHistory : history, event.shiftKey ? history : redoHistory); }
     else if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'y') { event.preventDefault(); restoreSnapshot(redoHistory, history); }
     else if (['Delete', 'Backspace'].includes(event.key) && selection && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { event.preventDefault(); deleteSelected(); }
@@ -293,6 +304,14 @@ import voltageAsy from './symbols/voltage.asy?raw';
   window.addEventListener('keyup', event => { if (event.code === 'Space') { spaceDown = false; svg.style.cursor = ''; } });
   window.addEventListener('blur', () => { spaceDown = false; pan = null; });
   $('zoomIn').onclick = () => zoom(.8); $('zoomOut').onclick = () => zoom(1.25); $('fitView').onclick = () => fitView(); $('resetView').onclick = () => fitView(true);
+
+  function rotateSelected() {
+    const part = circuit.components.find(item => item.id === selection);
+    if (!part) { setStatus('Selecione um componente para girar.'); return; }
+    checkpoint(); part.rotation = ((Number(part.rotation) || 0) + 90) % 360; lastRun = null; renderAll();
+    setStatus(`${part.name} girado para ${part.rotation}°. Os fios continuam conectados aos terminais.`);
+  }
+  $('rotateSelected').onclick = rotateSelected;
 
   function deleteSelected() {
     if (!selection) return; checkpoint();
@@ -303,6 +322,7 @@ import voltageAsy from './symbols/voltage.asy?raw';
   function renderProperties() {
     const host = $('properties'); host.replaceChildren();
     const part = circuit.components.find(item => item.id === selection);
+    $('rotateSelected').disabled = !part;
     if (!part) {
       const wire = circuit.wires.find(item => item.id === selection);
       host.innerHTML = wire ? '<p>Ligação selecionada · Delete remove somente este fio.</p>' : '<p class="empty-state">Selecione um componente ou uma ligação.</p>';
@@ -311,6 +331,12 @@ import voltageAsy from './symbols/voltage.asy?raw';
     }
     $('selectionHint').textContent = `${part.name} · ${paletteMeta[part.type]?.name || part.type}`;
     const title = document.createElement('p'); title.textContent = `${part.name} · ${paletteMeta[part.type]?.name || part.type}`; host.append(title);
+    const rotation = document.createElement('label'); rotation.className = 'rotation-field'; rotation.textContent = 'Orientação';
+    const orientation = document.createElement('select');
+    for (const degrees of [0, 90, 180, 270]) { const option = document.createElement('option'); option.value = String(degrees); option.textContent = `${degrees}°`; option.selected = (Number(part.rotation) || 0) % 360 === degrees; orientation.append(option); }
+    orientation.addEventListener('focus', checkpoint, { once: true });
+    orientation.addEventListener('change', () => { part.rotation = Number(orientation.value); lastRun = null; renderAll(); setStatus(`${part.name} orientado a ${part.rotation}°. Ligações preservadas.`); });
+    rotation.append(orientation); host.append(rotation);
     propertyField(host, 'Referência / nome', part.name, 'text', value => { part.name = value; lastRun = null; renderParts(); populateChannels(); refreshNetlist(); });
     if (part.type === 'R') propertyField(host, 'Resistência (Ω)', part.resistance, 'text', value => { part.resistance = value; changedPart(); });
     if (part.type === 'C') propertyField(host, 'Capacitância (F)', part.capacitance, 'text', value => { part.capacitance = value; changedPart(); });
@@ -607,8 +633,29 @@ import voltageAsy from './symbols/voltage.asy?raw';
   $('tranStep').addEventListener('change', () => { circuit.settings.transient.step = $('tranStep').value; refreshNetlist(); });
   $('exportScopePng').onclick = () => exportPng('scope'); $('exportTransientPng').onclick = () => exportPng('transient');
   $('copyNetlist').onclick = async () => { try { await navigator.clipboard.writeText($('netlistText').textContent); setStatus('Netlist copiado.'); } catch { $('technicalDetails').open = true; setStatus('Selecione e copie o netlist manualmente.', 'error'); } };
-  $('toggleLibrary').onclick = event => { $('layout').classList.toggle('library-collapsed'); event.currentTarget.setAttribute('aria-expanded', String(!$('layout').classList.contains('library-collapsed'))); };
-  $('toggleProperties').onclick = event => { $('layout').classList.toggle('properties-collapsed'); event.currentTarget.setAttribute('aria-expanded', String(!$('layout').classList.contains('properties-collapsed'))); };
+  function setPanelCollapsed(panel, collapsed) {
+    $('layout').classList.toggle(`${panel}-collapsed`, collapsed);
+    updatePanelControls();
+  }
+  function updatePanelControls() {
+    const states = [
+      ['library', 'componentes', 'toggleLibrary', 'closeLibrary', 'reopenLibrary'],
+      ['properties', 'propriedades', 'toggleProperties', 'closeProperties', 'reopenProperties']
+    ];
+    for (const [key, label, toolbarId, closeId, reopenId] of states) {
+      const collapsed = $('layout').classList.contains(`${key}-collapsed`);
+      $(toolbarId).textContent = `${collapsed ? 'Mostrar' : 'Ocultar'} ${label}`;
+      $(toolbarId).setAttribute('aria-expanded', String(!collapsed));
+      $(closeId).setAttribute('aria-expanded', String(!collapsed));
+      $(reopenId).setAttribute('aria-expanded', String(!collapsed));
+    }
+  }
+  $('toggleLibrary').onclick = () => setPanelCollapsed('library', !$('layout').classList.contains('library-collapsed'));
+  $('toggleProperties').onclick = () => setPanelCollapsed('properties', !$('layout').classList.contains('properties-collapsed'));
+  $('closeLibrary').onclick = () => setPanelCollapsed('library', true);
+  $('reopenLibrary').onclick = () => setPanelCollapsed('library', false);
+  $('closeProperties').onclick = () => setPanelCollapsed('properties', true);
+  $('reopenProperties').onclick = () => setPanelCollapsed('properties', false);
   $('toggleResults').onclick = event => { document.body.classList.toggle('results-collapsed'); event.currentTarget.setAttribute('aria-expanded', String(!document.body.classList.contains('results-collapsed'))); };
 
   let enteredNativeFullscreen = false;
@@ -640,14 +687,12 @@ import voltageAsy from './symbols/voltage.asy?raw';
     const action = event.target.closest('[data-view]')?.dataset.view;
     if (action === 'in') zoom(.8); else if (action === 'out') zoom(1.25); else if (action === 'fit') fitView(); else if (action === 'reset') fitView(true);
   });
-  for (const [id, label, shown] of [['toggleLibrary', 'biblioteca', 'library-collapsed'], ['toggleProperties', 'propriedades', 'properties-collapsed'], ['toggleResults', 'resultados', 'results-collapsed']]) {
-    const button = $(id), update = () => {
-      const collapsed = label === 'resultados' ? document.body.classList.contains('results-collapsed') : $('layout').classList.contains(shown);
-      button.textContent = `${collapsed ? 'Mostrar' : 'Ocultar'} ${label}`;
-      button.setAttribute('aria-expanded', String(!collapsed));
-    };
-    button.addEventListener('click', update); update();
-  }
+  const updateResultsButton = () => {
+    const collapsed = document.body.classList.contains('results-collapsed');
+    $('toggleResults').textContent = `${collapsed ? 'Mostrar' : 'Ocultar'} resultados`;
+    $('toggleResults').setAttribute('aria-expanded', String(!collapsed));
+  };
+  $('toggleResults').onclick = () => { document.body.classList.toggle('results-collapsed'); updateResultsButton(); };
 
-  renderPalette(); renderSaved(); renderAll(); renderProperties(); applyView(); updateHistoryButtons();
+  renderPalette(); renderSaved(); renderAll(); renderProperties(); applyView(); updateHistoryButtons(); updatePanelControls(); updateResultsButton();
 })();
