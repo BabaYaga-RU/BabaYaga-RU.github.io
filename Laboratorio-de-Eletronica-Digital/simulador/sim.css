@@ -30,3 +30,44 @@ svg#circuit #grid path{stroke:#e5ebf0!important}
 svg#circuit>rect:first-of-type{fill:#fbfcfd!important}
 .led-halo{fill:#ffc857;opacity:.38}.led-lamp.on{fill:#f04438;stroke:#b42318;stroke-width:3;filter:drop-shadow(0 0 7px #ef4444)}.led-lamp.off{fill:#cbd5df;stroke:#64748b;stroke-width:3}.led-base{stroke:#526879;stroke-width:3;stroke-linecap:round}
 .component-lead{fill:none;stroke:#344c5e;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* Componentes da bancada: linguagem leve de simulador didático, compartilhada pelo canvas e exportação. */
+body[data-mode="digital"]{--bg:#edf2f5;--panel:#fff;--line:#cbd6df;--text:#263746;--muted:#687c8b;--green:#248557;--cyan:#357fa8;--yellow:#edaa38;color:var(--text);background:#edf2f5}
+body[data-mode="digital"] header a{color:#2478a3}
+body[data-mode="digital"] .toolbar,body[data-mode="digital"] .panel{background:#fff;border-color:#d1dce4;box-shadow:0 1px 3px #1c334010}
+body[data-mode="digital"] .toolbar button,body[data-mode="digital"] button{background:#f8fafb;color:#314655;border-color:#c4d1da}
+body[data-mode="digital"] button.primary{background:#247c56;color:#fff;border-color:#1c704b}
+body[data-mode="digital"] .canvaswrap{background:#f6f9fb;border-color:#dae2e8}
+body[data-mode="digital"] svg#circuit{background:#f6f9fb}
+body[data-mode="digital"] svg#circuit #grid path{stroke:#e5ebef!important}
+body[data-mode="digital"] svg#circuit>rect:first-of-type{fill:#f9fbfc!important}
+body[data-mode="digital"] .component{cursor:move}
+body[data-mode="digital"] .component-body{fill:#fff;stroke:#536b79;stroke-width:1.8;stroke-linejoin:round}
+body[data-mode="digital"] .component.selected .component-body{stroke:#d9972b;stroke-width:2.5}
+body[data-mode="digital"] .component text{pointer-events:none;font-family:Arial,Helvetica,sans-serif;fill:#334956}
+body[data-mode="digital"] .component .sym{font-size:13px;font-weight:650;fill:#293e4b}
+body[data-mode="digital"] .component .ref{fill:#405c6d;font-size:10px;font-weight:600}
+body[data-mode="digital"] .component .value{fill:#405c6d;font-size:10px;font-weight:600}
+body[data-mode="digital"] .component .gate-kind{display:none}
+body[data-mode="digital"] .component-lead{fill:none;stroke:#586f7d;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+body[data-mode="digital"] .pin{fill:#566d7a;stroke:#fff;stroke-width:1; r:2.7;cursor:crosshair}
+body[data-mode="digital"] .pin:hover{fill:#edae42;stroke:#fff;stroke-width:1.5}
+body[data-mode="digital"] .wire{stroke:#8b9ca6;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+body[data-mode="digital"] .wire.logic-high{stroke:#2585cc;stroke-width:2.3}
+body[data-mode="digital"] .wire.selected{stroke:#e0a33c;stroke-width:3}
+body[data-mode="digital"] .wire-preview{stroke:#4389b2;stroke-width:1.8}
+body[data-mode="digital"] .switch-contact{fill:#fff;stroke:#556c79;stroke-width:1.5}
+body[data-mode="digital"] .switch-lever{fill:none;stroke:#607886;stroke-width:3;stroke-linecap:round}
+body[data-mode="digital"] .switch-lever.on{stroke:#2385c4}
+body[data-mode="digital"] .switch-lever.off{stroke:#778b97}
+body[data-mode="digital"] .lamp-body{stroke:#586f7c;stroke-width:1.9}
+body[data-mode="digital"] .lamp-body.off{fill:#f2f5f6}
+body[data-mode="digital"] .lamp-body.on{fill:#ffe99c;stroke:#c18a23;filter:drop-shadow(0 0 5px #f0c75c)}
+body[data-mode="digital"] .lamp-glow{fill:#f6d36d;opacity:.28}
+body[data-mode="digital"] .lamp-filament{fill:none;stroke:#7c8b91;stroke-width:1.8;stroke-linecap:round}
+body[data-mode="digital"] .lamp-filament.on{stroke:#b77a11}
+body[data-mode="digital"] .lamp-base{fill:none;stroke:#586f7c;stroke-width:1.8;stroke-linecap:round}
+body[data-mode="digital"] .report-output{background:#f2faf5;color:#294d3d;border-color:#99c9ad}
+body[data-mode="digital"] .report-downloads a{background:#f5faf7;color:#246145;border-color:#a8cbb7}
+body[data-mode="digital"] svg#circuit #grid path{stroke:#e1e7ec!important;stroke-width:.8!important}
+body[data-mode="digital"] .component .inversion-bubble{fill:#f9fbfc;stroke:#536b79;stroke-width:1.7}
